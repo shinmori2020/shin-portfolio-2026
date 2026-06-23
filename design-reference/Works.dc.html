@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f3ef; --surface:#ffffff; --surface-2:#fbfaf6;
+    --ink:#191b18; --muted:#6b6e66; --faint:#9b9d94;
+    --line:rgba(20,24,18,0.10); --line-strong:rgba(20,24,18,0.20);
+    --accent:#214034; --accent-2:#2c5446; --accent-soft:#e7efe9;
+    --shadow:0 1px 2px rgba(20,30,20,.04), 0 14px 40px -18px rgba(20,30,20,.16);
+  }
+  [data-theme="dark"]{
+    --bg:#0d100e; --surface:#141815; --surface-2:#191e1a;
+    --ink:#edf0ea; --muted:#9aa09a; --faint:#6c726b;
+    --line:rgba(255,255,255,0.10); --line-strong:rgba(255,255,255,0.18);
+    --accent:#74b491; --accent-2:#8cc6a6; --accent-soft:#19241e;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 18px 50px -22px rgba(0,0,0,.7);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  ::selection{background:var(--accent);color:#fff}
+</style>
+</helmet>
+
+<div data-theme="{{ theme }}" style="background:var(--bg);color:var(--ink);font-family:'Geist','Zen Kaku Gothic New',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;transition:background .4s ease,color .4s ease;font-feature-settings:'palt'">
+
+  <header style="position:sticky;top:0;z-index:50;backdrop-filter:saturate(160%) blur(12px);-webkit-backdrop-filter:saturate(160%) blur(12px);background:color-mix(in srgb, var(--bg) 80%, transparent);border-bottom:1px solid var(--line)">
+    <div style="max-width:1180px;margin:0 auto;padding:16px clamp(20px,4vw,40px);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+      <a href="Home.dc.html" style="display:flex;align-items:baseline;gap:10px;text-decoration:none;color:var(--ink)">
+        <span style="font-weight:600;letter-spacing:-0.01em;font-size:16px">シン</span>
+        <span style="font-family:'Geist Mono',monospace;font-size:10.5px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase">Web / Coding</span>
+      </a>
+      <nav style="display:flex;align-items:center;gap:clamp(16px,2.4vw,30px)">
+        <a href="Works.dc.html" style="text-decoration:none;color:var(--ink);font-size:13.5px;letter-spacing:0.02em">Works</a>
+        <a href="Profile.dc.html" style="text-decoration:none;color:var(--muted);font-size:13.5px;letter-spacing:0.02em;transition:color .25s" style-hover="color:var(--ink)">Profile</a>
+        <a href="Home.dc.html#contact" style="text-decoration:none;color:var(--muted);font-size:13.5px;letter-spacing:0.02em;transition:color .25s" style-hover="color:var(--ink)">Contact</a>
+        <button onClick="{{ toggleTheme }}" aria-label="theme" style="cursor:pointer;width:34px;height:34px;border-radius:999px;border:1px solid var(--line-strong);background:transparent;color:var(--ink);display:grid;place-items:center;font-size:14px;transition:border-color .25s,transform .25s" style-hover="border-color:var(--accent);transform:rotate(18deg)">{{ themeIcon }}</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- PAGE HEADER -->
+  <section style="max-width:1180px;margin:0 auto;padding:clamp(56px,9vw,120px) clamp(20px,4vw,40px) clamp(40px,6vw,72px)">
+    <div data-reveal style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin-bottom:24px">Selected works — 04</div>
+    <h1 data-reveal style="margin:0;font-weight:500;font-size:clamp(32px,5.4vw,64px);letter-spacing:-0.025em;line-height:1.2">制作物</h1>
+    <p data-reveal data-reveal-delay="80" style="margin:24px 0 0;color:var(--muted);font-size:clamp(14px,1.4vw,17px);line-height:1.9;max-width:52ch">制作（WordPress）と開発（モダンフロント）、そして業務効率化ツールまで。領域をまたいだ4つの仕事を紹介します。</p>
+  </section>
+
+  <!-- WORKS GRID -->
+  <section style="max-width:1180px;margin:0 auto;padding:0 clamp(20px,4vw,40px) clamp(72px,10vw,140px)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(24px,3.4vw,52px)">
+      <sc-for list="{{ works }}" as="w" hint-placeholder-count="4">
+        <a href="WorkDetail.dc.html" data-reveal data-reveal-delay="{{ w.delay }}" style="text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:20px;transition:transform .4s cubic-bezier(.22,.61,.36,1)" style-hover="transform:translateY(-6px)">
+          <div style="border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);box-shadow:var(--shadow)">
+            <div style="display:flex;align-items:center;gap:6px;padding:11px 14px;border-bottom:1px solid var(--line);background:var(--surface-2)">
+              <span style="width:9px;height:9px;border-radius:99px;background:var(--line-strong)"></span>
+              <span style="width:9px;height:9px;border-radius:99px;background:var(--line-strong)"></span>
+              <span style="width:9px;height:9px;border-radius:99px;background:var(--line-strong)"></span>
+              <span style="margin-left:10px;font-family:'Geist Mono',monospace;font-size:10.5px;color:var(--faint)">{{ w.url }}</span>
+            </div>
+            <div style="aspect-ratio:16/10;overflow:hidden">
+              <div style="width:100%;height:100%;background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2) 12px,transparent 12px,transparent 24px);display:grid;place-items:center;transition:transform .6s cubic-bezier(.22,.61,.36,1)" style-hover="transform:scale(1.04)">
+                <span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:0.08em">screenshot</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:14px">
+            <span style="font-family:'Geist Mono',monospace;font-size:13px;color:var(--accent)">{{ w.no }}</span>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <span style="font-family:'Geist Mono',monospace;font-size:10.5px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase">{{ w.kind }}</span>
+              <h3 style="margin:0;font-size:clamp(18px,1.8vw,21px);font-weight:600;letter-spacing:-0.015em;line-height:1.5">{{ w.title }}</h3>
+            </div>
+          </div>
+          <p style="margin:0;color:var(--muted);font-size:14px;line-height:1.85;padding-left:30px">{{ w.desc }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;padding-left:30px">
+            <sc-for list="{{ w.tags }}" as="t" hint-placeholder-count="3">
+              <span style="font-family:'Geist Mono',monospace;font-size:10.5px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:4px 9px">{{ t }}</span>
+            </sc-for>
+          </div>
+          <span style="padding-left:30px;font-size:13px;color:var(--accent);display:inline-flex;align-items:center;gap:8px;margin-top:2px">詳細を見る <span style="font-family:'Geist Mono',monospace">→</span></span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- CONTACT STRIP -->
+  <section style="border-top:1px solid var(--line);background:var(--surface-2)">
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(56px,8vw,96px) clamp(20px,4vw,40px);display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap">
+      <div data-reveal>
+        <h2 style="margin:0;font-weight:500;font-size:clamp(22px,3vw,34px);letter-spacing:-0.02em;line-height:1.4">継続パートナーをお探しなら。</h2>
+        <p style="margin:16px 0 0;color:var(--muted);font-size:14.5px;line-height:1.8">制作会社からの委託・モダン技術での開発のご相談を歓迎します。</p>
+      </div>
+      <a data-reveal data-reveal-delay="80" href="Home.dc.html#contact" style="text-decoration:none;display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#fff;padding:15px 30px;border-radius:999px;font-size:14.5px;white-space:nowrap;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-2px);box-shadow:0 14px 30px -12px var(--accent)">相談する <span style="font-family:'Geist Mono',monospace">→</span></a>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid var(--line)">
+    <div style="max-width:1180px;margin:0 auto;padding:36px clamp(20px,4vw,40px);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
+      <a href="Home.dc.html" style="text-decoration:none;font-size:13px;color:var(--muted)">シン｜WEB制作・コーディング</a>
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:0.06em">© 2026 — Next.js · Tailwind · Vercel</span>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;}}">
+class Component extends DCLogic {
+  state = { theme: 'light' };
+
+  componentDidMount() {
+    try {
+      const t = localStorage.getItem('shin-theme');
+      if (t === 'dark' || t === 'light') this.setState({ theme: t });
+    } catch (e) {}
+    this.initReveal();
+  }
+  componentDidUpdate() { this.initReveal(); }
+
+  initReveal() {
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
+    const els = document.querySelectorAll('[data-reveal]:not([data-revealed])');
+    if (!els.length) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'none';
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -7% 0px' });
+    const vh = window.innerHeight || 800;
+    els.forEach((el) => {
+      el.setAttribute('data-revealed', '1');
+      if (el.getBoundingClientRect().top < vh * 0.92) return;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transitionProperty = 'opacity, transform';
+      el.style.transitionDuration = '0.75s';
+      el.style.transitionTimingFunction = 'cubic-bezier(.22,.61,.36,1)';
+      el.style.transitionDelay = (el.dataset.revealDelay || '0') + 'ms';
+      io.observe(el);
+    });
+  }
+
+  renderVals() {
+    const theme = this.state.theme;
+    return {
+      theme,
+      themeIcon: theme === 'dark' ? '☀' : '☾',
+      toggleTheme: () => this.setState((s) => {
+        const nt = s.theme === 'dark' ? 'light' : 'dark';
+        try { localStorage.setItem('shin-theme', nt); } catch (e) {}
+        return { theme: nt };
+      }),
+      works: [
+        { no: '01', delay: '0', kind: 'Headless WordPress', title: 'ヘッドレスWP構成のメディア＋コーポレートサイト', desc: 'B2B SaaS企業向け。WordPressをCMSとして残しつつ、フロントをNext.jsで再構築。編集体験を変えずに表示速度とSEOを底上げ。', url: 'saas-media.example.com', tags: ['Headless WP', 'Next.js', 'Tailwind', 'Vercel'] },
+        { no: '02', delay: '80', kind: 'E-Commerce / i18n', title: '多言語対応のECサイト', desc: '国・言語ごとのコンテンツ出し分けと、軽快な商品閲覧体験を両立。ルーティングと文言管理を保守しやすい構成に。', url: 'shop.example.com', tags: ['Next.js', 'i18n', 'TypeScript', 'Vercel'] },
+        { no: '03', delay: '160', kind: 'Internal Tool', title: 'コーディング見積もりシミュレーター', desc: '条件入力から概算金額を即時算出。制作現場の見積もり業務を効率化する社内ツール。', url: 'estimate.example.com', tags: ['React', 'TypeScript', 'Tool'] },
+        { no: '04', delay: '240', kind: 'Internal Tool / PDF', title: 'Web制作提案書ビルダー', desc: '入力内容から体裁の整った提案書PDFを出力。提案業務の時間を大幅に短縮するツール。', url: 'proposal.example.com', tags: ['Next.js', 'PDF', 'Tool'] },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

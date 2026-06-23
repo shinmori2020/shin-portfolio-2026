@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/* next-themes は <html data-theme="dark"> を切り替えるので、Tailwind v4 の
+   dark: バリアントを prefers-color-scheme 連動から data-theme 連動へ上書きする。
+   :where() で詳細度を 0 に保ち、last-wins を壊さない。 */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ===== デザイントークン（design-reference の定義をそのまま移植）===== */
+/* ライト（既定） */
+:root {
+  --bg: #f4f3ef;
+  --surface: #ffffff;
+  --surface-2: #fbfaf6;
+  --ink: #191b18;
+  --muted: #6b6e66;
+  --faint: #9b9d94;
+  --line: rgba(20, 24, 18, 0.1);
+  --line-strong: rgba(20, 24, 18, 0.2);
+  --accent: #214034;
+  --accent-2: #2c5446;
+  --accent-soft: #e7efe9;
+  --shadow: 0 1px 2px rgba(20, 30, 20, 0.04), 0 14px 40px -18px rgba(20, 30, 20, 0.16);
+}
+
+/* ダーク */
+[data-theme="dark"] {
+  --bg: #0d100e;
+  --surface: #141815;
+  --surface-2: #191e1a;
+  --ink: #edf0ea;
+  --muted: #9aa09a;
+  --faint: #6c726b;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --accent: #74b491;
+  --accent-2: #8cc6a6;
+  --accent-soft: #19241e;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 18px 50px -22px rgba(0, 0, 0, 0.7);
+}
+
+/* ===== トークンを Tailwind ユーティリティへ公開 ===== */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-soft: var(--accent-soft);
+
+  /* フォント（next/font が注入する CSS 変数を束ねる） */
+  --font-sans: var(--font-geist), var(--font-zen), sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --shadow-token: var(--shadow);
+}
+
+/* ===== ベース ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  /* design-reference 踏襲: 和欧混植の詰めを最適化 */
+  font-feature-settings: "palt";
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  /* テーマ切替時のクロスフェード（design-reference 踏襲） */
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* 動きを嫌うユーザーにはテーマのトランジションも無効化 */
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
+}
+
+/* キーボードフォーカスの可視化（design-reference には無いが a11y 必須・accent で統一） */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
