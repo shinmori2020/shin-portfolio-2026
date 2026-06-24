@@ -1,6 +1,8 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
+import { ContactCTA, Phrase } from "@/components/common/ContactCTA";
+import { ServiceIcon } from "@/components/common/ServiceIcon";
 import { works } from "@/data/works";
 import { services } from "@/data/services";
 import { processSteps } from "@/data/process";
@@ -99,7 +101,12 @@ export default function HomePage() {
           {services.map((s) => (
             <Reveal key={s.key} delayMs={s.delayMs} className="h-full">
               <div className="flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-[clamp(28px,3vw,40px)] transition-[transform,border-color,box-shadow] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[6px] hover:border-accent hover:shadow-[var(--shadow)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-                <span className="font-mono text-[11px] tracking-[0.1em] text-accent">{s.key}</span>
+                <div className="flex items-center justify-between">
+                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent-soft text-accent">
+                    <ServiceIcon id={s.icon} />
+                  </span>
+                  <span className="font-mono text-[11px] tracking-[0.1em] text-faint">{s.key}</span>
+                </div>
                 <h3 className="m-0 text-[19px] font-semibold tracking-[-0.01em]">{s.title}</h3>
                 <p className="m-0 text-[14px] leading-[1.85] text-muted">{s.desc}</p>
               </div>
@@ -107,15 +114,13 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* 契約の幅（料金は出さず、相談に寄せる）＋ 第二CTA */}
-        <Reveal className="mt-[clamp(28px,4vw,44px)] flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-line bg-surface-2 p-[clamp(24px,3vw,36px)]">
-          <p className="m-0 max-w-[44ch] text-[clamp(15px,1.6vw,18px)] leading-[1.7] tracking-[-0.01em]">
-            継続パートナー委託・スポット開発・機能実装、いずれも対応します。
-            <span className="text-muted">まずは内容をお聞かせください。</span>
-          </p>
-          <Link href="/#contact" className={`${btnPrimary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
-            相談する<span className="font-mono">→</span>
-          </Link>
+        {/* 契約の幅（料金は出さず、相談に寄せる）＋ 第二CTA。再利用可能な ContactCTA を使用。 */}
+        <Reveal className="mt-[clamp(28px,4vw,44px)]">
+          <ContactCTA>
+            <Phrase>継続パートナー委託・スポット開発・機能実装、</Phrase>
+            <Phrase>いずれも対応します。</Phrase>{" "}
+            <Phrase className="text-muted">まずは内容をお聞かせください。</Phrase>
+          </ContactCTA>
         </Reveal>
       </section>
 
