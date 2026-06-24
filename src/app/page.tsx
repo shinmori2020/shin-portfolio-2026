@@ -101,14 +101,14 @@ export default function HomePage() {
           {services.map((s) => (
             <Reveal key={s.key} delayMs={s.delayMs} className="h-full">
               <div className="flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-[clamp(28px,3vw,40px)] transition-[transform,border-color,box-shadow] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[6px] hover:border-accent hover:shadow-[var(--shadow)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-                <div className="flex items-center justify-between">
-                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent-soft text-accent">
+                {/* PC: アイコン左＋タイトル右。スマホ: 左右中央の縦並び。 */}
+                <div className="flex flex-col items-center gap-3 text-center md:flex-row md:gap-4 md:text-left">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent">
                     <ServiceIcon id={s.icon} />
                   </span>
-                  <span className="font-mono text-[11px] tracking-[0.1em] text-faint">{s.key}</span>
+                  <h3 className="m-0 text-[19px] font-semibold tracking-[-0.01em]">{s.title}</h3>
                 </div>
-                <h3 className="m-0 text-[19px] font-semibold tracking-[-0.01em]">{s.title}</h3>
-                <p className="m-0 text-[14px] leading-[1.85] text-muted">{s.desc}</p>
+                <p className="m-0 text-center text-[14px] leading-[1.85] text-muted md:text-left">{s.desc}</p>
               </div>
             </Reveal>
           ))}
@@ -205,9 +205,9 @@ export default function HomePage() {
                 </div>
               </Reveal>
 
-              {/* コネクター（最後のステップ以外）*/}
+              {/* コネクター（最後のステップ以外）。カードと同様にスクロール連動でフェードイン。 */}
               {i < processSteps.length - 1 && (
-                <div aria-hidden className="flex justify-center py-[clamp(6px,1.4vw,12px)]">
+                <Reveal as="div" delayMs={120} aria-hidden className="flex justify-center py-[clamp(6px,1.4vw,12px)]">
                   <svg
                     width="22"
                     height="30"
@@ -222,7 +222,7 @@ export default function HomePage() {
                     <path d="M11 3 V22" />
                     <path d="M5 16 L11 24 L17 16" />
                   </svg>
-                </div>
+                </Reveal>
               )}
             </Fragment>
           ))}
