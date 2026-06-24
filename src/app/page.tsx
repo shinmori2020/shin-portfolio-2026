@@ -232,7 +232,7 @@ export default function HomePage() {
 
         <Reveal className="mt-[clamp(28px,4vw,44px)]">
           <Link href="/#contact" className={`${btnSecondary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
-            まずは相談する
+            相談する
           </Link>
         </Reveal>
       </section>
@@ -266,7 +266,7 @@ export default function HomePage() {
           </Reveal>
           <Reveal delayMs={150} className="mt-[44px] flex flex-wrap justify-center gap-[14px]">
             <a href="mailto:hello@example.com" className={`${btnPrimary} px-[30px] py-[15px] text-[14.5px]`}>
-              メールで相談する <span className="font-mono">→</span>
+              相談する <span className="font-mono">→</span>
             </a>
             <Link href="/profile" className={`${btnSecondary} px-[30px] py-[15px] text-[14.5px]`}>
               プロフィールを見る
