@@ -94,16 +94,14 @@ export default function HomePage() {
           <h2 className="m-0 text-[clamp(22px,3vw,34px)] font-medium tracking-[-0.02em]">頼めること</h2>
         </Reveal>
 
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-px overflow-hidden rounded-2xl border border-line bg-line">
+        <div className="grid grid-cols-1 gap-[clamp(16px,2vw,24px)] md:grid-cols-3">
           {services.map((s) => (
-            <Reveal
-              key={s.key}
-              delayMs={s.delayMs}
-              className="flex flex-col gap-4 bg-surface p-[clamp(28px,3vw,40px)]"
-            >
-              <span className="font-mono text-[11px] tracking-[0.1em] text-accent">{s.key}</span>
-              <h3 className="m-0 text-[19px] font-semibold tracking-[-0.01em]">{s.title}</h3>
-              <p className="m-0 text-[14px] leading-[1.85] text-muted">{s.desc}</p>
+            <Reveal key={s.key} delayMs={s.delayMs} className="h-full">
+              <div className="flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-[clamp(28px,3vw,40px)] transition-[transform,border-color,box-shadow] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[6px] hover:border-accent hover:shadow-[var(--shadow)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                <span className="font-mono text-[11px] tracking-[0.1em] text-accent">{s.key}</span>
+                <h3 className="m-0 text-[19px] font-semibold tracking-[-0.01em]">{s.title}</h3>
+                <p className="m-0 text-[14px] leading-[1.85] text-muted">{s.desc}</p>
+              </div>
             </Reveal>
           ))}
         </div>
@@ -187,16 +185,14 @@ export default function HomePage() {
           <h2 className="m-0 text-[clamp(22px,3vw,34px)] font-medium tracking-[-0.02em]">進め方</h2>
         </Reveal>
 
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-px overflow-hidden rounded-2xl border border-line bg-line">
+        <div className="grid grid-cols-1 gap-[clamp(16px,2vw,24px)] sm:grid-cols-2 lg:grid-cols-4">
           {processSteps.map((p) => (
-            <Reveal
-              key={p.no}
-              delayMs={p.delayMs}
-              className="flex flex-col gap-3 bg-surface p-[clamp(24px,2.6vw,34px)]"
-            >
-              <span className="font-mono text-[22px] font-medium leading-none text-accent">{p.no}</span>
-              <h3 className="m-0 mt-1 text-[16px] font-semibold tracking-[-0.01em]">{p.title}</h3>
-              <p className="m-0 text-[13.5px] leading-[1.8] text-muted">{p.desc}</p>
+            <Reveal key={p.no} delayMs={p.delayMs} className="h-full">
+              <div className="flex h-full flex-col gap-3 rounded-2xl border border-line bg-surface p-[clamp(24px,2.6vw,34px)] transition-[transform,border-color,box-shadow] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[6px] hover:border-accent hover:shadow-[var(--shadow)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                <span className="font-mono text-[22px] font-medium leading-none text-accent">{p.no}</span>
+                <h3 className="m-0 mt-1 text-[16px] font-semibold tracking-[-0.01em]">{p.title}</h3>
+                <p className="m-0 text-[13.5px] leading-[1.8] text-muted">{p.desc}</p>
+              </div>
             </Reveal>
           ))}
         </div>
