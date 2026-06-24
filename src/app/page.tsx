@@ -249,7 +249,7 @@ export default function HomePage() {
           {/* 見出しは block で2行を固定（語の途中で切れない）。狭い画面でのみ内部で折り返す。 */}
           <Reveal
             as="h2"
-            className="mx-auto m-0 max-w-[22em] text-[clamp(28px,5vw,56px)] font-medium leading-[1.3] tracking-[-0.025em]"
+            className="mx-auto m-0 max-w-[22em] text-[clamp(24px,4vw,44px)] font-medium leading-[1.35] tracking-[-0.025em]"
           >
             <span className="block">継続的に任せられる、</span>
             <span className="block">技術パートナーを探していますか。</span>
@@ -263,8 +263,6 @@ export default function HomePage() {
             <Phrase>制作会社からの委託・モダン技術での開発・機能実装の</Phrase>
             <wbr />
             <Phrase>ご相談を歓迎します。</Phrase>
-            <wbr />
-            <Phrase>お気軽にどうぞ。</Phrase>
           </Reveal>
           <Reveal delayMs={150} className="mt-[44px] flex flex-wrap justify-center gap-[14px]">
             <a href="mailto:hello@example.com" className={`${btnPrimary} px-[30px] py-[15px] text-[14.5px]`}>
