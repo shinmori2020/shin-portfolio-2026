@@ -186,12 +186,12 @@ export default function HomePage() {
           <h2 className="m-0 text-[clamp(22px,3vw,34px)] font-medium tracking-[-0.02em]">進め方</h2>
         </Reveal>
 
-        {/* 上から順に並ぶ縦フロー。ステップ間に下向き矢印で視線誘導。 */}
-        <div className="mx-auto max-w-[780px]">
+        {/* 上から順に並ぶ縦フロー。ステップ間に下向き矢印で視線誘導。横幅は他セクションと同じ（〜1180px）。 */}
+        <div>
           {processSteps.map((p, i) => (
             <Fragment key={p.no}>
               <Reveal delayMs={p.delayMs}>
-                <div className="flex items-start gap-[clamp(16px,3vw,28px)] rounded-2xl border border-line bg-surface p-[clamp(22px,3vw,34px)] transition-[transform,border-color,box-shadow] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[4px] hover:border-accent hover:shadow-[var(--shadow)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                <div className="flex items-center gap-[clamp(16px,3vw,28px)] rounded-2xl border border-line bg-surface p-[clamp(22px,3vw,34px)] transition-[transform,border-color,box-shadow] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[4px] hover:border-accent hover:shadow-[var(--shadow)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
                   <span className="font-mono text-[clamp(26px,4vw,38px)] font-medium leading-none text-accent">{p.no}</span>
                   <div className="flex flex-col gap-2">
                     <h3 className="m-0 text-[clamp(16px,2vw,19px)] font-semibold tracking-[-0.01em]">{p.title}</h3>
