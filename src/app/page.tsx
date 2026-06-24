@@ -69,21 +69,11 @@ export default function HomePage() {
               制作の現場を知る、開発者。
             </h2>
             <p className="mt-[clamp(20px,3vw,28px)] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
-              WordPress制作の保守・構築から始まり、Next.js を中心としたモダンな実装、そして
-              RAG やエージェントといった AI 実装まで。制作会社の進行・納品・運用を理解したうえで、技術で品質と速度を引き上げます。
+              ホームページ制作の保守・運用から、Next.js を使ったモダンなサイトづくり、そして AI を活用した機能の開発まで対応します。「RAG」（社内の資料をもとに AI が答えるしくみ）や「AIエージェント」（人の代わりに作業を進める AI）といった実装も手がけます。
             </p>
             <p className="mt-[18px] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
-              派手な演出より、余白と速度。情報を詰め込まず、タイポグラフィの階層で伝える。「安心して任せられる」状態を、技術でつくります。
+              制作会社の進め方や、納品・運用の事情を理解しているので、現場に無理なく入れます。派手な演出より、読みやすさと表示の速さを大切に。情報を詰め込みすぎず、文字の大きさと余白で伝える。発注する側が「安心して任せられる」と感じられる状態を、技術でつくります。
             </p>
-            <div className="mt-[clamp(24px,3vw,32px)] rounded-2xl border border-line bg-surface p-[clamp(20px,2.5vw,28px)]">
-              <span className="font-mono text-[12px] tracking-[0.06em] text-accent">Rare combination</span>
-              <p className="m-0 mt-3 text-[clamp(15px,1.6vw,19px)] leading-[1.7] tracking-[-0.01em]">
-                <strong className="font-semibold">WordPress制作経験</strong> ×{" "}
-                <strong className="font-semibold">Next.js</strong> ×{" "}
-                <strong className="font-semibold">AI実装</strong>。
-                <span className="text-muted">この3つを併せ持つ人材は、市場にほとんどいません。</span>
-              </p>
-            </div>
           </Reveal>
 
           {/* ポートレート（任意・未用意なら斜線プレースホルダー）*/}
@@ -146,7 +136,7 @@ export default function HomePage() {
             </Link>
           </Reveal>
 
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-[clamp(20px,3vw,40px)]">
+          <div className="grid grid-cols-1 gap-[clamp(20px,3vw,40px)] md:grid-cols-2">
             {works.map((w) => (
               <Reveal key={w.slug} delayMs={w.delayMs}>
                 <Link
