@@ -118,7 +118,9 @@ export default function HomePage() {
         <Reveal className="mt-[clamp(28px,4vw,44px)]">
           <ContactCTA>
             <Phrase>継続パートナー委託・スポット開発・機能実装、</Phrase>
-            <Phrase>いずれも対応します。</Phrase>{" "}
+            <wbr />
+            <Phrase>いずれも対応します。</Phrase>
+            <wbr />
             <Phrase className="text-muted">まずは内容をお聞かせください。</Phrase>
           </ContactCTA>
         </Reveal>
@@ -244,20 +246,25 @@ export default function HomePage() {
           <Reveal className="mb-[28px] font-mono text-[12px] uppercase tracking-[0.14em] text-accent">
             Let&apos;s talk
           </Reveal>
+          {/* 見出しは block で2行を固定（語の途中で切れない）。狭い画面でのみ内部で折り返す。 */}
           <Reveal
             as="h2"
-            className="mx-auto m-0 max-w-[18ch] text-[clamp(28px,5vw,56px)] font-medium leading-[1.3] tracking-[-0.025em] [text-wrap:balance]"
+            className="mx-auto m-0 max-w-[22em] text-[clamp(28px,5vw,56px)] font-medium leading-[1.3] tracking-[-0.025em]"
           >
-            継続的に任せられる、
-            <br />
-            技術パートナーを探していますか。
+            <span className="block">継続的に任せられる、</span>
+            <span className="block">技術パートナーを探していますか。</span>
           </Reveal>
+          {/* 本文はフレーズ単位で折り返す（区切りを入れて語の途中で切れないように）。 */}
           <Reveal
             as="p"
             delayMs={80}
-            className="mx-auto mt-[28px] max-w-[46ch] text-[15px] leading-[1.9] text-muted"
+            className="mx-auto mt-[28px] max-w-[42em] text-[15px] leading-[1.9] text-muted [text-wrap:pretty]"
           >
-            制作会社からの委託・モダン技術での開発・機能実装のご相談を歓迎します。お気軽にどうぞ。
+            <Phrase>制作会社からの委託・モダン技術での開発・機能実装の</Phrase>
+            <wbr />
+            <Phrase>ご相談を歓迎します。</Phrase>
+            <wbr />
+            <Phrase>お気軽にどうぞ。</Phrase>
           </Reveal>
           <Reveal delayMs={150} className="mt-[44px] flex flex-wrap justify-center gap-[14px]">
             <a href="mailto:hello@example.com" className={`${btnPrimary} px-[30px] py-[15px] text-[14.5px]`}>
