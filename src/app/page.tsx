@@ -40,9 +40,9 @@ export default function HomePage() {
           as="h1"
           className="m-0 max-w-[16ch] text-[clamp(34px,6.4vw,76px)] font-medium leading-[1.18] tracking-[-0.025em] [text-wrap:balance]"
         >
-          制作会社の<span className="text-accent">“つくる”</span>を、
+          <span className="text-accent">“つくる”</span>を、
           <br />
-          技術で前に進める。
+          技術で支える。
         </Reveal>
         <Reveal
           as="p"
@@ -83,7 +83,7 @@ export default function HomePage() {
               ホームページ制作の保守・運用から、Next.js を使ったモダンなサイトづくり、そして AI を活用した機能の開発まで対応します。「RAG」（社内の資料をもとに AI が答えるしくみ）や「AIエージェント」（人の代わりに作業を進める AI）といった実装も手がけます。
             </p>
             <p className="mt-[18px] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
-              制作会社の進め方や、納品・運用の事情を理解しているので、現場に無理なく入れます。派手な演出より、読みやすさと表示の速さを大切に。情報を詰め込みすぎず、文字の大きさと余白で伝える。発注する側が「安心して任せられる」と感じられる状態を、技術でつくります。
+              制作の現場を知っているので、進め方や納品・運用までスムーズです。派手な演出より、読みやすさと表示の速さを大切に。情報を詰め込みすぎず、文字の大きさと余白で伝える。発注する側が「安心して任せられる」と感じられる状態を、技術でつくります。
             </p>
           </Reveal>
 
@@ -249,8 +249,8 @@ export default function HomePage() {
             as="h2"
             className="mx-auto m-0 max-w-[22em] text-[clamp(24px,4vw,44px)] font-medium leading-[1.35] tracking-[-0.025em]"
           >
-            <span className="block">継続的に任せられる、</span>
-            <span className="block">技術パートナーを探していますか。</span>
+            <span className="block">Webのこと、</span>
+            <span className="block">技術で頼れる人を探していますか。</span>
           </Reveal>
           {/* 本文はフレーズ単位で折り返す（区切りを入れて語の途中で切れないように）。 */}
           <Reveal
@@ -258,7 +258,9 @@ export default function HomePage() {
             delayMs={80}
             className="mx-auto mt-[28px] max-w-[42em] text-[15px] leading-[1.9] text-muted [text-wrap:pretty]"
           >
-            <Phrase>制作会社からの委託・モダン技術での開発・機能実装の</Phrase>
+            <Phrase>制作会社や事業者の方からの、</Phrase>
+            <wbr />
+            <Phrase>Web制作・開発・機能実装の</Phrase>
             <wbr />
             <Phrase>ご相談を歓迎します。</Phrase>
           </Reveal>
