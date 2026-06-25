@@ -47,11 +47,19 @@ export default function HomePage() {
         <Reveal
           as="p"
           delayMs={90}
-          className="mt-[clamp(28px,4vw,42px)] max-w-[54ch] text-[clamp(15px,1.5vw,19px)] leading-[1.95] text-muted"
+          className="mt-[clamp(28px,4vw,42px)] max-w-[44em] text-[clamp(14px,1.4vw,18px)] leading-[1.9] text-muted [text-wrap:pretty]"
         >
-          WordPress制作の現場を知り、Next.jsでモダンに作り直し、AI実装まで踏み込む。
+          <Phrase>WordPress制作の現場を知り、</Phrase>
+          <wbr />
+          <Phrase>Next.jsでモダンに作り直し、</Phrase>
+          <wbr />
+          <Phrase>AI実装まで踏み込む。</Phrase>
           <br />
-          制作と開発、その両方をひとりで完結できる数少ないフロントエンドエンジニアです。
+          <Phrase>制作と開発、</Phrase>
+          <wbr />
+          <Phrase>その両方をひとりで完結できる</Phrase>
+          <wbr />
+          <Phrase>数少ないフロントエンドエンジニアです。</Phrase>
         </Reveal>
         <Reveal delayMs={170} className="mt-[clamp(36px,5vw,52px)] flex flex-wrap gap-[14px]">
           <Link href="/#contact" className={`${btnPrimary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
