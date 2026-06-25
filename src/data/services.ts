@@ -33,14 +33,14 @@ export const services: Service[] = [
     key: "C",
     icon: "ai",
     title: "AIを使った実装",
-    desc: "RAG・エージェント・AIコーディングの実践経験。どこに使い、どこは人が判断するかを設計します。",
+    desc: "RAG・エージェント・AIコーディングの実践経験。どこに使いどこは人が判断するかを設計します。",
     delayMs: 180,
   },
   {
     key: "D",
     icon: "speed",
     title: "表示速度・パフォーマンス改善",
-    desc: "Core Web Vitals を意識し、画像・フォント・JS を最適化。体感速度と検索評価を引き上げます。",
+    desc: "Core Web Vitals を意識して画像・フォント・JS を最適化。体感速度と検索評価を引き上げます。",
     delayMs: 0,
   },
   {

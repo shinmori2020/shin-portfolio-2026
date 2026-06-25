@@ -40,26 +40,24 @@ export default function HomePage() {
           as="h1"
           className="m-0 max-w-[18em] text-[clamp(30px,5.2vw,60px)] font-medium leading-[1.22] tracking-[-0.025em]"
         >
-          <Phrase>デザインの現場と、</Phrase>
+          <Phrase>デザインの現場と</Phrase>
           <wbr />
           <Phrase>開発の最前線。</Phrase>
           <br />
-          その<span className="text-accent">“あいだ”</span>を、つなぐ。
+          その<span className="text-accent">“あいだ”</span>をつなぐ。
         </Reveal>
         <Reveal
           as="p"
           delayMs={90}
           className="mt-[clamp(28px,4vw,42px)] max-w-[44em] text-[clamp(14px,1.4vw,18px)] leading-[1.9] text-muted [text-wrap:pretty]"
         >
-          <Phrase>WordPress制作の現場を知り、</Phrase>
+          <Phrase>WordPress制作の現場を知る。</Phrase>
           <wbr />
-          <Phrase>Next.jsでモダンに作り直し、</Phrase>
+          <Phrase>Next.jsでモダンに作り直す。</Phrase>
           <wbr />
           <Phrase>AI実装まで踏み込む。</Phrase>
           <br />
-          <Phrase>制作と開発、</Phrase>
-          <wbr />
-          <Phrase>その“あいだ”をつなぐ</Phrase>
+          <Phrase>制作と開発の“あいだ”をつなぐ</Phrase>
           <wbr />
           <Phrase>フロントエンドエンジニアです。</Phrase>
         </Reveal>
@@ -79,13 +77,13 @@ export default function HomePage() {
           <Reveal className="flex flex-[1.4_1_360px] flex-col">
             <SectionLabel>01 / About</SectionLabel>
             <h2 className="mb-0 mt-[18px] text-[clamp(22px,3vw,34px)] font-medium leading-[1.4] tracking-[-0.02em]">
-              制作と開発、その<span className="text-accent">“あいだ”</span>に立つ。
+              制作と開発の<span className="text-accent">“あいだ”</span>に立つ。
             </h2>
             <p className="mt-[clamp(20px,3vw,28px)] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
-              ホームページ制作の保守・運用から、Next.js を使ったモダンなサイトづくり、そして AI を活用した機能の開発まで対応します。「RAG」（社内の資料をもとに AI が答えるしくみ）や「AIエージェント」（人の代わりに作業を進める AI）といった実装も手がけます。
+              ホームページ制作の保守・運用からモダンなサイトづくりまで対応します。Next.js での実装や AI を活用した機能開発も手がけます。「RAG」（社内の資料をもとに AI が答えるしくみ）や「AIエージェント」（人の代わりに作業を進める AI）といった実装にも踏み込みます。
             </p>
             <p className="mt-[18px] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
-              制作の現場を知っているので、進め方や納品・運用までスムーズです。派手な演出より、読みやすさと表示の速さを大切に。情報を詰め込みすぎず、文字の大きさと余白で伝える。発注する側が「安心して任せられる」と感じられる状態を、技術でつくります。
+              制作の現場を知っているので進め方や納品・運用までスムーズです。派手な演出より読みやすさと表示の速さを大切にします。情報を詰め込みすぎず文字の大きさと余白で伝える。発注する側が「安心して任せられる」と感じられる状態を技術でつくります。
             </p>
           </Reveal>
 
@@ -251,7 +249,7 @@ export default function HomePage() {
             as="h2"
             className="mx-auto m-0 max-w-[22em] text-[clamp(24px,4vw,44px)] font-medium leading-[1.35] tracking-[-0.025em]"
           >
-            <span className="block">Webのこと、</span>
+            <span className="block">Webのこと</span>
             <span className="block">技術で頼れる人を探していますか。</span>
           </Reveal>
           {/* 本文はフレーズ単位で折り返す（区切りを入れて語の途中で切れないように）。 */}
@@ -260,11 +258,9 @@ export default function HomePage() {
             delayMs={80}
             className="mx-auto mt-[28px] max-w-[42em] text-[15px] leading-[1.9] text-muted [text-wrap:pretty]"
           >
-            <Phrase>制作会社や事業者の方からの、</Phrase>
+            <Phrase>制作会社や事業者の方からのご相談を歓迎します。</Phrase>
             <wbr />
-            <Phrase>Web制作・開発・機能実装の</Phrase>
-            <wbr />
-            <Phrase>ご相談を歓迎します。</Phrase>
+            <Phrase>Web制作・開発・機能実装まで対応します。</Phrase>
           </Reveal>
           <Reveal delayMs={150} className="mt-[44px] flex flex-wrap justify-center gap-[14px]">
             <a href="mailto:hello@example.com" className={`${btnPrimary} px-[30px] py-[15px] text-[14.5px]`}>
