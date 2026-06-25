@@ -25,6 +25,22 @@ const paths: Record<ServiceIconId, React.ReactNode> = {
       <path d="M18.5 4.5 l0.5 1.6 1.6 0.5 -1.6 0.5 -0.5 1.6 -0.5 -1.6 -1.6 -0.5 1.6 -0.5 Z" />
     </>
   ),
+  // 表示速度・パフォーマンス（稲妻）
+  speed: <path d="M13 2 L4.5 13.5 H11 l-1 8.5 L19 10.5 H12 l1-8.5 Z" />,
+  // アクセシビリティ・SEO（シールド＋チェック）
+  quality: (
+    <>
+      <path d="M12 3 L19 6 V11 c0 4.6-3.1 7.2-7 9 -3.9-1.8-7-4.4-7-9 V6 Z" />
+      <path d="M9 11.8 l2.1 2.1 4-4.2" />
+    </>
+  ),
+  // 保守・運用サポート（吹き出し）
+  support: (
+    <>
+      <path d="M4.5 5 h15 a1.5 1.5 0 0 1 1.5 1.5 v8 a1.5 1.5 0 0 1-1.5 1.5 H11 l-4 3.5 V16 H4.5 a1.5 1.5 0 0 1-1.5-1.5 v-8 A1.5 1.5 0 0 1 4.5 5 Z" />
+      <path d="M8.5 10.5 h0.01 M12 10.5 h0.01 M15.5 10.5 h0.01" />
+    </>
+  ),
 };
 
 export function ServiceIcon({ id, className }: { id: ServiceIconId; className?: string }) {

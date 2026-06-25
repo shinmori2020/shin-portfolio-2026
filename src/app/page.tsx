@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
-import { ContactCTA, Phrase } from "@/components/common/ContactCTA";
+import { Phrase } from "@/components/common/ContactCTA";
 import { ServiceIcon } from "@/components/common/ServiceIcon";
 import { works } from "@/data/works";
 import { services } from "@/data/services";
@@ -97,7 +97,7 @@ export default function HomePage() {
           <h2 className="m-0 text-[clamp(22px,3vw,34px)] font-medium tracking-[-0.02em]">頼めること</h2>
         </Reveal>
 
-        <div className="grid grid-cols-1 gap-[clamp(16px,2vw,24px)] md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-[clamp(16px,2vw,24px)] sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
             <Reveal key={s.key} delayMs={s.delayMs} className="h-full">
               <div className="flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-[clamp(28px,3vw,40px)] transition-[transform,border-color,box-shadow] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[6px] hover:border-accent hover:shadow-[var(--shadow)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
@@ -114,16 +114,6 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* 契約の幅（料金は出さず、相談に寄せる）＋ 第二CTA。再利用可能な ContactCTA を使用。 */}
-        <Reveal className="mt-[clamp(28px,4vw,44px)]">
-          <ContactCTA>
-            <Phrase>継続パートナー委託・スポット開発・機能実装、</Phrase>
-            <wbr />
-            <Phrase>いずれも対応します。</Phrase>
-            <wbr />
-            <Phrase className="text-muted">まずは内容をお聞かせください。</Phrase>
-          </ContactCTA>
-        </Reveal>
       </section>
 
       {/* ===== 03 / WORKS ===== */}

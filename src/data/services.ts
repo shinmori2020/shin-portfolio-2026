@@ -2,10 +2,10 @@
 // 旧 Home の「3領域（What I do）」を Services として発展させたもの。
 
 /** カード上部に出すアイコンの種類 */
-export type ServiceIconId = "site" | "code" | "ai";
+export type ServiceIconId = "site" | "code" | "ai" | "speed" | "quality" | "support";
 
 export interface Service {
-  /** 記号ラベル（A/B/C） */
+  /** 記号ラベル（A/B/C…） */
   key: string;
   /** 上部アイコン */
   icon: ServiceIconId;
@@ -34,6 +34,27 @@ export const services: Service[] = [
     icon: "ai",
     title: "AIを使った実装",
     desc: "RAG・エージェント・AIコーディングの実践経験。どこに使い、どこは人が判断するかを設計します。",
+    delayMs: 180,
+  },
+  {
+    key: "D",
+    icon: "speed",
+    title: "表示速度・パフォーマンス改善",
+    desc: "Core Web Vitals を意識し、画像・フォント・JS を最適化。体感速度と検索評価を引き上げます。",
+    delayMs: 0,
+  },
+  {
+    key: "E",
+    icon: "quality",
+    title: "アクセシビリティ・SEO対応",
+    desc: "キーボード操作・コントラスト・見出し階層・メタ情報まで。検索とユーザー双方に配慮します。",
+    delayMs: 90,
+  },
+  {
+    key: "F",
+    icon: "support",
+    title: "保守・運用サポート",
+    desc: "公開後の更新・改善・不具合対応まで。継続的なパートナーとして伴走します。",
     delayMs: 180,
   },
 ];
