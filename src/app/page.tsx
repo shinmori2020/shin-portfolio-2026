@@ -38,11 +38,13 @@ export default function HomePage() {
         </Reveal>
         <Reveal
           as="h1"
-          className="m-0 max-w-[16ch] text-[clamp(34px,6.4vw,76px)] font-medium leading-[1.18] tracking-[-0.025em] [text-wrap:balance]"
+          className="m-0 max-w-[18em] text-[clamp(30px,5.2vw,60px)] font-medium leading-[1.22] tracking-[-0.025em]"
         >
-          <span className="text-accent">“つくる”</span>を、
+          <Phrase>デザインの現場と、</Phrase>
+          <wbr />
+          <Phrase>開発の最前線。</Phrase>
           <br />
-          技術で支える。
+          その<span className="text-accent">“あいだ”</span>を、つなぐ。
         </Reveal>
         <Reveal
           as="p"
@@ -57,9 +59,9 @@ export default function HomePage() {
           <br />
           <Phrase>制作と開発、</Phrase>
           <wbr />
-          <Phrase>その両方をひとりで完結できる</Phrase>
+          <Phrase>その“あいだ”をつなぐ</Phrase>
           <wbr />
-          <Phrase>数少ないフロントエンドエンジニアです。</Phrase>
+          <Phrase>フロントエンドエンジニアです。</Phrase>
         </Reveal>
         <Reveal delayMs={170} className="mt-[clamp(36px,5vw,52px)] flex flex-wrap gap-[14px]">
           <Link href="/#contact" className={`${btnPrimary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
