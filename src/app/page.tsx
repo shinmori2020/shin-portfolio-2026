@@ -79,7 +79,7 @@ export default function HomePage() {
           <Reveal className="flex flex-[1.4_1_360px] flex-col">
             <SectionLabel>01 / About</SectionLabel>
             <h2 className="mb-0 mt-[18px] text-[clamp(22px,3vw,34px)] font-medium leading-[1.4] tracking-[-0.02em]">
-              制作の現場を知る、開発者。
+              制作と開発、その<span className="text-accent">“あいだ”</span>に立つ。
             </h2>
             <p className="mt-[clamp(20px,3vw,28px)] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
               ホームページ制作の保守・運用から、Next.js を使ったモダンなサイトづくり、そして AI を活用した機能の開発まで対応します。「RAG」（社内の資料をもとに AI が答えるしくみ）や「AIエージェント」（人の代わりに作業を進める AI）といった実装も手がけます。
