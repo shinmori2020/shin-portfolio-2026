@@ -28,6 +28,18 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
+// セクション見出し（ラベルを上、タイトルを下に縦積み）。全セクション共通の構成。
+function SectionHeading({ label, children }: { label: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <div>
+      <SectionLabel>{label}</SectionLabel>
+      <h2 className="mt-[18px] text-[clamp(22px,3vw,34px)] font-medium leading-[1.4] tracking-[-0.02em]">
+        {children}
+      </h2>
+    </div>
+  );
+}
+
 export default function HomePage() {
   return (
     <>
@@ -100,9 +112,8 @@ export default function HomePage() {
 
       {/* ===== 02 / SERVICES ===== */}
       <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
-        <Reveal className="mb-[clamp(32px,5vw,56px)] flex flex-wrap items-baseline gap-4">
-          <SectionLabel>02 / Services</SectionLabel>
-          <h2 className="m-0 text-[clamp(22px,3vw,34px)] font-medium tracking-[-0.02em]">頼めること</h2>
+        <Reveal className="mb-[clamp(32px,5vw,56px)]">
+          <SectionHeading label="02 / Services">頼めること</SectionHeading>
         </Reveal>
 
         <div className="grid grid-cols-1 gap-[clamp(16px,2vw,24px)] sm:grid-cols-2 lg:grid-cols-3">
@@ -128,10 +139,7 @@ export default function HomePage() {
       <section className="border-t border-line bg-surface-2">
         <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
           <Reveal className="mb-[clamp(36px,5vw,60px)] flex flex-wrap items-end justify-between gap-6">
-            <div className="flex flex-wrap items-baseline gap-4">
-              <SectionLabel>03 / Selected works</SectionLabel>
-              <h2 className="m-0 text-[clamp(22px,3vw,34px)] font-medium tracking-[-0.02em]">制作物</h2>
-            </div>
+            <SectionHeading label="03 / Selected works">制作物</SectionHeading>
             <Link
               href="/works"
               className="border-b border-line-strong pb-[3px] text-[13.5px] text-ink no-underline transition-colors duration-[250ms] hover:border-accent hover:text-accent"
@@ -186,9 +194,8 @@ export default function HomePage() {
 
       {/* ===== 04 / PROCESS ===== */}
       <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
-        <Reveal className="mb-[clamp(36px,5vw,60px)] flex flex-wrap items-baseline gap-4">
-          <SectionLabel>04 / Process</SectionLabel>
-          <h2 className="m-0 text-[clamp(22px,3vw,34px)] font-medium tracking-[-0.02em]">進め方</h2>
+        <Reveal className="mb-[clamp(36px,5vw,60px)]">
+          <SectionHeading label="04 / Process">進め方</SectionHeading>
         </Reveal>
 
         {/* 上から順に並ぶ縦フロー。ステップ間に下向き矢印で視線誘導。横幅は他セクションと同じ（〜1180px）。 */}
