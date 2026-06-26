@@ -2,12 +2,12 @@ import { Fragment } from "react";
 import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
 import { Phrase } from "@/components/common/ContactCTA";
-import { ServiceIcon } from "@/components/common/ServiceIcon";
+import { ServicesSwitcher } from "@/components/common/ServicesSwitcher";
 import { Underlined } from "@/components/common/Underlined";
 import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
 import { works } from "@/data/works";
-import { coreServices, otherServices } from "@/data/services";
+import { defaultCards, serviceTopics } from "@/data/services";
 import { processSteps } from "@/data/process";
 
 // 案件獲得ファネル型の TOP:
@@ -135,46 +135,9 @@ export default function HomePage() {
           </p>
         </Reveal>
 
-        {/* 主役: 制作・開発の2本柱 */}
-        <div className="mt-[clamp(32px,5vw,56px)] grid grid-cols-1 gap-[clamp(16px,2vw,24px)] md:grid-cols-2">
-          {coreServices.map((s) => (
-            <Reveal key={s.key} delayMs={s.delayMs} className="h-full">
-              <div className="group flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-[clamp(28px,3vw,40px)] transition-[border-color] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:border-accent">
-                {/* PC: アイコン左＋タイトル右。スマホ: 左右中央の縦並び。 */}
-                <div className="flex flex-col items-center gap-3 text-center md:flex-row md:gap-4 md:text-left">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-110 motion-reduce:transform-none">
-                    <ServiceIcon id={s.icon} />
-                  </span>
-                  <h3 className="m-0 text-[clamp(19px,2.2vw,22px)] font-semibold tracking-[-0.01em]">{s.title}</h3>
-                </div>
-                <p className="m-0 text-center text-[clamp(14px,1.5vw,15px)] leading-[1.85] text-muted md:text-left">{s.desc}</p>
-                <ul className="m-0 mt-1 flex list-none flex-col gap-[10px] p-0 text-left">
-                  {s.points.map((pt) => (
-                    <li key={pt} className="flex items-start gap-[10px] text-[13px] leading-[1.7] text-muted">
-                      <span aria-hidden className="mt-[7px] h-[5px] w-[5px] shrink-0 rounded-full bg-accent" />
-                      {pt}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-
-        {/* 併記: ほかにも対応できること（控えめ）*/}
-        <Reveal delayMs={120} className="mt-[clamp(28px,4vw,40px)]">
-          <p className="m-0 text-[12px] tracking-[0.04em] text-faint">ほかにも対応できること</p>
-          <div className="mt-4 flex flex-wrap gap-[10px]">
-            {otherServices.map((o) => (
-              <span
-                key={o.label}
-                className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-[14px] py-[8px] text-[13px] text-muted transition-[border-color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] hover:border-accent"
-              >
-                <ServiceIcon id={o.icon} className="h-4 w-4 text-accent" />
-                {o.label}
-              </span>
-            ))}
-          </div>
+        {/* ピルで上の2カードが切り替わるインタラクティブ表示 */}
+        <Reveal delayMs={60}>
+          <ServicesSwitcher defaultCards={defaultCards} topics={serviceTopics} />
         </Reveal>
       </section>
 
