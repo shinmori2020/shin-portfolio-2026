@@ -64,10 +64,12 @@ export default function HomePage() {
           className="mt-[clamp(28px,4vw,42px)] max-w-[44em] text-[clamp(14px,1.4vw,18px)] leading-[1.9] text-muted [text-wrap:pretty]"
         >
           <Phrase>制作と開発の両方がわかります。</Phrase>
-          <br />
-          <Phrase>だからデザインの意図やこだわりを</Phrase>
           <wbr />
-          <Phrase>最後まで落とさずにかたちにします。</Phrase>
+          <Phrase>だからデザインの意図や細かなこだわりをくずさないまま</Phrase>
+          <wbr />
+          <Phrase>実際に動くサイトへ落とし込めます。</Phrase>
+          <wbr />
+          <Phrase>表示の速さや公開後の運用のしやすさまで考えて作ります。</Phrase>
         </Reveal>
         <Reveal delayMs={170} className="mt-[clamp(36px,5vw,52px)] flex flex-wrap gap-[14px]">
           <Link href="/#contact" className={`${btnPrimary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
@@ -88,10 +90,10 @@ export default function HomePage() {
               制作と開発の<span className="text-accent">“あいだ”</span>に立つ。
             </h2>
             <p className="mt-[clamp(20px,3vw,28px)] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
-              もともとはホームページ制作の現場で保守・運用や新規構築を担当してきました。そこからNext.jsを中心としたモダンな開発へと領域を広げました。いまは制作から開発まで一貫して対応しています。ご希望に応じてAIを使った機能の実装もご相談いただけます。
+              もともとはホームページ制作の現場にいました。サイトの保守や運用から新規の構築までずっとやってきたんです。そこからもっと作れるようになりたくてNext.jsを中心としたモダンな開発まで手を広げました。いまは制作から開発まで通して見られるようになっています。AIについても「取り入れたほうがいいのか」「どこに使えるのか」みたいなところから気軽に相談してもらえます。
             </p>
             <p className="mt-[18px] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
-              制作の現場を知っているので進め方や納品・運用までスムーズです。派手な演出より読みやすさと表示の速さを大切にします。情報を詰め込みすぎず文字の大きさと余白で伝える。発注する側が「安心して任せられる」と感じられる状態を技術でつくります。
+              制作の現場を知っているぶん進め方や納品や運用のイメージがつきやすいと思います。派手な演出をたくさん盛り込むよりも読みやすさと表示の速さを大事にしています。情報を詰め込みすぎないで文字の大きさと余白で伝えたいんです。発注する側が「安心して任せられる」と感じられる状態をつくれたらと思っています。
             </p>
           </Reveal>
 
