@@ -15,7 +15,8 @@ function Card({ card }: { card: ServiceCard }) {
         </span>
         <h3 className="m-0 text-[clamp(19px,2.2vw,22px)] font-semibold tracking-[-0.01em]">{card.title}</h3>
       </div>
-      <p className="m-0 text-center text-[clamp(14px,1.5vw,15px)] leading-[1.85] text-muted md:text-left">
+      {/* 2行分の高さを確保し、1行/2行でカード高さが変わらないようにする */}
+      <p className="m-0 min-h-[3.7em] text-center text-[clamp(14px,1.5vw,15px)] leading-[1.85] text-muted md:text-left">
         {card.desc}
       </p>
       <ul className="m-0 mt-1 flex list-none flex-col gap-[10px] p-0 text-left">
