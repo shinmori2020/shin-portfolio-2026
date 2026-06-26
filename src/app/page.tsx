@@ -16,13 +16,13 @@ import { processSteps } from "@/data/process";
 
 // --- CTA ボタンの共通スタイル ---
 const btnBase =
-  "group inline-flex items-center gap-[10px] rounded-full no-underline transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none motion-reduce:hover:translate-y-0";
+  "group inline-flex items-center gap-[10px] rounded-full no-underline transition-[border-color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none";
 
 // ボタン内の矢印（ホバーで右に滑る）
 const btnArrow =
   "font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-x-[3px] motion-reduce:transform-none";
-const btnPrimary = `${btnBase} bg-accent text-white hover:-translate-y-[2px] hover:shadow-[0_14px_30px_-12px_var(--accent)]`;
-const btnSecondary = `${btnBase} border border-line-strong text-ink hover:-translate-y-[2px] hover:border-accent`;
+const btnPrimary = `${btnBase} bg-accent text-white`;
+const btnSecondary = `${btnBase} border border-line-strong text-ink hover:border-accent`;
 
 // 斜線プレースホルダー背景（実画像未用意の箇所で使用）
 const hatch =
@@ -139,7 +139,7 @@ export default function HomePage() {
         <div className="mt-[clamp(32px,5vw,56px)] grid grid-cols-1 gap-[clamp(16px,2vw,24px)] md:grid-cols-2">
           {coreServices.map((s) => (
             <Reveal key={s.key} delayMs={s.delayMs} className="h-full">
-              <div className="group flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-[clamp(28px,3vw,40px)] transition-[transform,border-color,box-shadow] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[6px] hover:border-accent hover:shadow-[var(--shadow)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+              <div className="group flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-[clamp(28px,3vw,40px)] transition-[border-color] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:border-accent">
                 {/* PC: アイコン左＋タイトル右。スマホ: 左右中央の縦並び。 */}
                 <div className="flex flex-col items-center gap-3 text-center md:flex-row md:gap-4 md:text-left">
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-110 motion-reduce:transform-none">
@@ -168,7 +168,7 @@ export default function HomePage() {
             {otherServices.map((o) => (
               <span
                 key={o.label}
-                className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-[14px] py-[8px] text-[13px] text-muted transition-[transform,border-color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[2px] hover:border-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-[14px] py-[8px] text-[13px] text-muted transition-[border-color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] hover:border-accent"
               >
                 <ServiceIcon id={o.icon} className="h-4 w-4 text-accent" />
                 {o.label}
@@ -199,7 +199,7 @@ export default function HomePage() {
               <Reveal key={w.slug} delayMs={w.delayMs}>
                 <Link
                   href={`/works/${w.slug}`}
-                  className="group flex flex-col gap-[18px] text-ink no-underline transition-transform duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[6px] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                  className="group flex flex-col gap-[18px] text-ink no-underline"
                 >
                   <div className="overflow-hidden rounded-[14px] border border-line bg-surface shadow-[var(--shadow)]">
                     <div className="flex items-center gap-[6px] border-b border-line bg-surface-2 px-[14px] py-[11px]">
@@ -255,7 +255,7 @@ export default function HomePage() {
           {processSteps.map((p, i) => (
             <Fragment key={p.no}>
               <Reveal delayMs={p.delayMs}>
-                <div className="flex items-center gap-[clamp(16px,3vw,28px)] rounded-2xl border border-line bg-surface p-[clamp(22px,3vw,34px)] transition-[transform,border-color,box-shadow] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[4px] hover:border-accent hover:shadow-[var(--shadow)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                <div className="flex items-center gap-[clamp(16px,3vw,28px)] rounded-2xl border border-line bg-surface p-[clamp(22px,3vw,34px)] transition-[border-color] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:border-accent">
                   <span className="font-mono text-[clamp(26px,4vw,38px)] font-medium leading-none text-accent">{p.no}</span>
                   <div className="flex flex-col gap-2">
                     <h3 className="m-0 text-[clamp(16px,2vw,19px)] font-semibold tracking-[-0.01em]">{p.title}</h3>
