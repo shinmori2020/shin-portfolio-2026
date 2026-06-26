@@ -10,6 +10,8 @@ export interface Service {
   icon: ServiceIconId;
   title: string;
   desc: string;
+  /** 対応範囲の箇条書き（説明補強） */
+  points: string[];
   delayMs: number;
 }
 
@@ -20,6 +22,11 @@ export const coreServices: Service[] = [
     icon: "site",
     title: "制作の実務",
     desc: "WordPressサイトの保守や運用から新規構築まで。制作現場の進行や納品の事情まで理解しています。",
+    points: [
+      "既存サイトの改修・リニューアル",
+      "公開後の更新や運用の代行",
+      "制作会社との協業・一部受託",
+    ],
     delayMs: 0,
   },
   {
@@ -27,6 +34,11 @@ export const coreServices: Service[] = [
     icon: "code",
     title: "モダンな開発",
     desc: "Next.jsなどで速くて壊れにくいサイトへ。制作で固めた見た目をそのまま動くかたちにします。",
+    points: [
+      "Next.js / TypeScript での実装",
+      "速度とアクセシビリティを意識した設計",
+      "コンポーネント設計と保守のしやすさ",
+    ],
     delayMs: 90,
   },
 ];

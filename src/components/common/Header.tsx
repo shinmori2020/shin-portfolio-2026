@@ -26,7 +26,7 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-[13.5px] tracking-[0.02em] text-muted no-underline transition-colors duration-[250ms] hover:text-ink"
+              className="relative text-[13.5px] tracking-[0.02em] text-muted no-underline transition-colors duration-[250ms] after:absolute after:-bottom-[3px] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-300 after:ease-[cubic-bezier(.22,.61,.36,1)] hover:text-ink hover:after:scale-x-100 motion-reduce:after:transition-none"
             >
               {link.label}
             </Link>

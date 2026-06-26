@@ -3,6 +3,9 @@ import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
 import { Phrase } from "@/components/common/ContactCTA";
 import { ServiceIcon } from "@/components/common/ServiceIcon";
+import { Underlined } from "@/components/common/Underlined";
+import { DrawLine } from "@/components/common/DrawLine";
+import { Parallax } from "@/components/common/Parallax";
 import { works } from "@/data/works";
 import { coreServices, otherServices } from "@/data/services";
 import { processSteps } from "@/data/process";
@@ -13,7 +16,11 @@ import { processSteps } from "@/data/process";
 
 // --- CTA ボタンの共通スタイル ---
 const btnBase =
-  "inline-flex items-center gap-[10px] rounded-full no-underline transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none motion-reduce:hover:translate-y-0";
+  "group inline-flex items-center gap-[10px] rounded-full no-underline transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none motion-reduce:hover:translate-y-0";
+
+// ボタン内の矢印（ホバーで右に滑る）
+const btnArrow =
+  "font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-x-[3px] motion-reduce:transform-none";
 const btnPrimary = `${btnBase} bg-accent text-white hover:-translate-y-[2px] hover:shadow-[0_14px_30px_-12px_var(--accent)]`;
 const btnSecondary = `${btnBase} border border-line-strong text-ink hover:-translate-y-[2px] hover:border-accent`;
 
@@ -33,7 +40,8 @@ function SectionHeading({ label, children }: { label: React.ReactNode; children:
   return (
     <div>
       <SectionLabel>{label}</SectionLabel>
-      <h2 className="mt-[18px] text-[clamp(22px,3vw,34px)] font-medium leading-[1.4] tracking-[-0.02em]">
+      <DrawLine className="mt-[14px] w-10" />
+      <h2 className="mt-[14px] text-[clamp(22px,3vw,34px)] font-medium leading-[1.4] tracking-[-0.02em]">
         {children}
       </h2>
     </div>
@@ -56,7 +64,7 @@ export default function HomePage() {
           <wbr />
           <Phrase>開発の最前線。</Phrase>
           <br />
-          その<span className="text-accent">“あいだ”</span>をつなぐ。
+          その<Underlined>“あいだ”</Underlined>をつなぐ。
         </Reveal>
         <Reveal
           as="p"
@@ -73,7 +81,7 @@ export default function HomePage() {
         </Reveal>
         <Reveal delayMs={170} className="mt-[clamp(36px,5vw,52px)] flex flex-wrap gap-[14px]">
           <Link href="/#contact" className={`${btnPrimary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
-            相談する<span className="font-mono">→</span>
+            相談する<span className={btnArrow}>→</span>
           </Link>
           <Link href="/works" className={`${btnSecondary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
             制作物を見る
@@ -87,7 +95,7 @@ export default function HomePage() {
           <Reveal className="flex flex-[1.4_1_360px] flex-col">
             <SectionLabel>01 / About</SectionLabel>
             <h2 className="mb-0 mt-[18px] text-[clamp(22px,3vw,34px)] font-medium leading-[1.4] tracking-[-0.02em]">
-              制作と開発の<span className="text-accent">“あいだ”</span>に立つ。
+              制作と開発の<Underlined>“あいだ”</Underlined>に立つ。
             </h2>
             <p className="mt-[clamp(20px,3vw,28px)] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
               スタートはホームページ制作の現場。保守や運用から新規構築まで一通り手がけてきました。そこからNext.jsを中心にしたモダンな開発へと領域を広げています。制作から開発までをまとめて引き受けられるのが軸です。AIについては「取り入れるべきか」「どこに活かせるか」という段階からご相談いただけます。
@@ -98,10 +106,16 @@ export default function HomePage() {
           </Reveal>
 
           {/* ポートレート（任意・未用意なら斜線プレースホルダー）*/}
-          <Reveal delayMs={90} className="flex flex-[1_1_260px]">
+          <Reveal delayMs={90} from="right" className="flex flex-[1_1_260px]">
             <div className="w-full overflow-hidden rounded-2xl border border-line bg-surface shadow-[var(--shadow)]">
-              <div className={`grid aspect-[4/5] w-full place-items-center ${hatch}`}>
-                <span className="font-mono text-[11px] tracking-[0.08em] text-faint">portrait</span>
+              <div className="relative aspect-[4/5] w-full overflow-hidden">
+                {/* 軽いパララックス。中身を大きめに置いて端の隙間を防ぐ。 */}
+                <Parallax range={16} className="absolute inset-x-0 -top-[8%] h-[116%]">
+                  <div className={`h-full w-full ${hatch}`} />
+                </Parallax>
+                <span className="absolute inset-0 grid place-items-center font-mono text-[11px] tracking-[0.08em] text-faint">
+                  portrait
+                </span>
               </div>
             </div>
           </Reveal>
@@ -125,15 +139,23 @@ export default function HomePage() {
         <div className="mt-[clamp(32px,5vw,56px)] grid grid-cols-1 gap-[clamp(16px,2vw,24px)] md:grid-cols-2">
           {coreServices.map((s) => (
             <Reveal key={s.key} delayMs={s.delayMs} className="h-full">
-              <div className="flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-[clamp(28px,3vw,40px)] transition-[transform,border-color,box-shadow] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[6px] hover:border-accent hover:shadow-[var(--shadow)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+              <div className="group flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-[clamp(28px,3vw,40px)] transition-[transform,border-color,box-shadow] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[6px] hover:border-accent hover:shadow-[var(--shadow)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
                 {/* PC: アイコン左＋タイトル右。スマホ: 左右中央の縦並び。 */}
                 <div className="flex flex-col items-center gap-3 text-center md:flex-row md:gap-4 md:text-left">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-110 motion-reduce:transform-none">
                     <ServiceIcon id={s.icon} />
                   </span>
                   <h3 className="m-0 text-[clamp(19px,2.2vw,22px)] font-semibold tracking-[-0.01em]">{s.title}</h3>
                 </div>
                 <p className="m-0 text-center text-[clamp(14px,1.5vw,15px)] leading-[1.85] text-muted md:text-left">{s.desc}</p>
+                <ul className="m-0 mt-1 flex list-none flex-col gap-[10px] p-0 text-left">
+                  {s.points.map((pt) => (
+                    <li key={pt} className="flex items-start gap-[10px] text-[13px] leading-[1.7] text-muted">
+                      <span aria-hidden className="mt-[7px] h-[5px] w-[5px] shrink-0 rounded-full bg-accent" />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </Reveal>
           ))}
@@ -146,7 +168,7 @@ export default function HomePage() {
             {otherServices.map((o) => (
               <span
                 key={o.label}
-                className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-[14px] py-[8px] text-[13px] text-muted"
+                className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-[14px] py-[8px] text-[13px] text-muted transition-[transform,border-color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[2px] hover:border-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
                 <ServiceIcon id={o.icon} className="h-4 w-4 text-accent" />
                 {o.label}
@@ -163,9 +185,12 @@ export default function HomePage() {
             <SectionHeading label="03 / Selected works">制作物</SectionHeading>
             <Link
               href="/works"
-              className="border-b border-line-strong pb-[3px] text-[13.5px] text-ink no-underline transition-colors duration-[250ms] hover:border-accent hover:text-accent"
+              className="group border-b border-line-strong pb-[3px] text-[13.5px] text-ink no-underline transition-colors duration-[250ms] hover:border-accent hover:text-accent"
             >
-              すべて見る →
+              すべて見る{" "}
+              <span className="inline-block font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-x-[3px] motion-reduce:transform-none">
+                →
+              </span>
             </Link>
           </Reveal>
 
@@ -183,11 +208,17 @@ export default function HomePage() {
                       <span className="h-[9px] w-[9px] rounded-full bg-line-strong" />
                       <span className="ml-[10px] font-mono text-[10.5px] text-faint">{w.url}</span>
                     </div>
-                    <div className="aspect-[16/10] overflow-hidden">
+                    <div className="relative aspect-[16/10] overflow-hidden">
                       <div
                         className={`grid h-full w-full place-items-center ${hatch} transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.04] motion-reduce:group-hover:scale-100`}
                       >
                         <span className="font-mono text-[11px] tracking-[0.08em] text-faint">screenshot</span>
+                      </div>
+                      {/* ホバーで View → が浮かぶ */}
+                      <div className="pointer-events-none absolute inset-0 grid place-items-center opacity-0 transition-opacity duration-300 [background:rgba(15,18,14,0.45)] group-hover:opacity-100 motion-reduce:transition-none">
+                        <span className="inline-flex items-center gap-2 rounded-full border border-white/60 px-4 py-2 font-mono text-[12px] text-white">
+                          View →
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -292,7 +323,7 @@ export default function HomePage() {
           </Reveal>
           <Reveal delayMs={150} className="mt-[44px] flex flex-wrap justify-center gap-[14px]">
             <a href="mailto:hello@example.com" className={`${btnPrimary} px-[30px] py-[15px] text-[14.5px]`}>
-              相談する <span className="font-mono">→</span>
+              相談する <span className={btnArrow}>→</span>
             </a>
             <Link href="/profile" className={`${btnSecondary} px-[30px] py-[15px] text-[14.5px]`}>
               プロフィールを見る
