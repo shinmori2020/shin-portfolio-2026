@@ -32,8 +32,8 @@ export const services: Service[] = [
   {
     key: "C",
     icon: "ai",
-    title: "AIを使った実装",
-    desc: "RAG・エージェント・AIコーディングの実践経験。どこに使いどこは人が判断するかを設計します。",
+    title: "AIを活用した実装",
+    desc: "ご希望に応じてRAG・チャットなどAIを使った機能の実装もご相談いただけます。どこで使いどこは人が判断するかまで設計します。",
     delayMs: 180,
   },
   {

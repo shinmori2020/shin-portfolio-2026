@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: "%s｜シン",
   },
   description:
-    "WordPress制作の現場を知る。Next.jsでモダンに作り直す。AI実装まで踏み込む。制作と開発の“あいだ”をつなぐフロントエンドエンジニア。",
+    "WordPress制作の現場を知る。Next.jsでモダンに作り直す。AIを使った実装にも対応。制作と開発の“あいだ”をつなぐフロントエンドエンジニア。",
 };
 
 export default function RootLayout({

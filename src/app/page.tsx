@@ -67,7 +67,7 @@ export default function HomePage() {
           <wbr />
           <Phrase>Next.jsでモダンに作り直す。</Phrase>
           <wbr />
-          <Phrase>AI実装まで踏み込む。</Phrase>
+          <Phrase>AIを使った実装にも対応します。</Phrase>
           <br />
           <Phrase>制作と開発の“あいだ”をつなぐ</Phrase>
           <wbr />
@@ -92,7 +92,7 @@ export default function HomePage() {
               制作と開発の<span className="text-accent">“あいだ”</span>に立つ。
             </h2>
             <p className="mt-[clamp(20px,3vw,28px)] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
-              ホームページ制作の保守・運用からモダンなサイトづくりまで対応します。Next.js での実装や AI を活用した機能開発も手がけます。「RAG」（社内の資料をもとに AI が答えるしくみ）や「AIエージェント」（人の代わりに作業を進める AI）といった実装にも踏み込みます。
+              ホームページ制作の保守・運用からモダンなサイトづくりまで対応します。Next.js を使ったモダンな実装が得意です。ご希望に応じてAIを使った機能の実装もご相談いただけます。
             </p>
             <p className="mt-[18px] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
               制作の現場を知っているので進め方や納品・運用までスムーズです。派手な演出より読みやすさと表示の速さを大切にします。情報を詰め込みすぎず文字の大きさと余白で伝える。発注する側が「安心して任せられる」と感じられる状態を技術でつくります。
