@@ -37,6 +37,11 @@ interface Props {
 
 const GRID = "grid grid-cols-1 gap-[clamp(16px,2vw,24px)] md:grid-cols-2";
 
+const pillClass = (on: boolean) =>
+  `inline-flex cursor-pointer items-center gap-2 rounded-full border px-[14px] py-[8px] text-[13px] transition-[border-color,background-color,color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] ${
+    on ? "border-accent bg-accent-soft text-accent" : "border-line bg-surface text-muted hover:border-accent"
+  }`;
+
 // 下のピルで上の2カードを切り替える。アクティブなピルを再度押すと既定（制作/開発）に戻る。
 export function ServicesSwitcher({ defaultCards, topics }: Props) {
   const [active, setActive] = useState<string | null>(null);
@@ -74,31 +79,32 @@ export function ServicesSwitcher({ defaultCards, topics }: Props) {
         )}
       </div>
 
-      {/* 切り替えピル */}
+      {/* 切り替えピル（先頭は既定の制作・開発に戻るボタン）*/}
       <div className="mt-[clamp(28px,4vw,40px)]">
         <p className="m-0 text-[12px] tracking-[0.04em] text-faint">
-          ほかにも対応できること（押すと上のカードが切り替わります）
+          分野で切り替える（押すと上のカードが変わります）
         </p>
         <div className="mt-4 flex flex-wrap gap-[10px]">
-          {topics.map((t) => {
-            const on = active === t.key;
-            return (
-              <button
-                key={t.key}
-                type="button"
-                aria-pressed={on}
-                onClick={() => setActive(on ? null : t.key)}
-                className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-[14px] py-[8px] text-[13px] transition-[border-color,background-color,color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] ${
-                  on
-                    ? "border-accent bg-accent-soft text-accent"
-                    : "border-line bg-surface text-muted hover:border-accent"
-                }`}
-              >
-                <ServiceIcon id={t.icon} className="h-4 w-4 text-accent" />
-                {t.label}
-              </button>
-            );
-          })}
+          <button
+            type="button"
+            aria-pressed={active === null}
+            onClick={() => setActive(null)}
+            className={pillClass(active === null)}
+          >
+            制作・開発
+          </button>
+          {topics.map((t) => (
+            <button
+              key={t.key}
+              type="button"
+              aria-pressed={active === t.key}
+              onClick={() => setActive(t.key)}
+              className={pillClass(active === t.key)}
+            >
+              <ServiceIcon id={t.icon} className="h-4 w-4 text-accent" />
+              {t.label}
+            </button>
+          ))}
         </div>
       </div>
     </div>
