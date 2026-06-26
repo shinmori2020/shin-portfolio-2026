@@ -4,7 +4,7 @@ import { Reveal } from "@/components/common/Reveal";
 import { Phrase } from "@/components/common/ContactCTA";
 import { ServiceIcon } from "@/components/common/ServiceIcon";
 import { works } from "@/data/works";
-import { services } from "@/data/services";
+import { coreServices, otherServices } from "@/data/services";
 import { processSteps } from "@/data/process";
 
 // 案件獲得ファネル型の TOP:
@@ -110,12 +110,20 @@ export default function HomePage() {
 
       {/* ===== 02 / SERVICES ===== */}
       <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
-        <Reveal className="mb-[clamp(32px,5vw,56px)]">
+        <Reveal>
           <SectionHeading label="02 / Services">頼めること</SectionHeading>
         </Reveal>
 
-        <div className="grid grid-cols-1 gap-[clamp(16px,2vw,24px)] sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s) => (
+        {/* 導入: 制作と開発の両方＝あいだをつなぐ強み */}
+        <Reveal delayMs={60} className="mt-[clamp(20px,3vw,28px)]">
+          <p className="m-0 max-w-[44em] text-[clamp(15px,1.6vw,18px)] leading-[1.8] tracking-[-0.01em] [text-wrap:pretty]">
+            強みは制作と開発の両方を扱えること。だから境目で品質を落とさず仕上げられます。
+          </p>
+        </Reveal>
+
+        {/* 主役: 制作・開発の2本柱 */}
+        <div className="mt-[clamp(32px,5vw,56px)] grid grid-cols-1 gap-[clamp(16px,2vw,24px)] md:grid-cols-2">
+          {coreServices.map((s) => (
             <Reveal key={s.key} delayMs={s.delayMs} className="h-full">
               <div className="flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-[clamp(28px,3vw,40px)] transition-[transform,border-color,box-shadow] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:-translate-y-[6px] hover:border-accent hover:shadow-[var(--shadow)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
                 {/* PC: アイコン左＋タイトル右。スマホ: 左右中央の縦並び。 */}
@@ -123,14 +131,29 @@ export default function HomePage() {
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent">
                     <ServiceIcon id={s.icon} />
                   </span>
-                  <h3 className="m-0 text-[19px] font-semibold tracking-[-0.01em]">{s.title}</h3>
+                  <h3 className="m-0 text-[clamp(19px,2.2vw,22px)] font-semibold tracking-[-0.01em]">{s.title}</h3>
                 </div>
-                <p className="m-0 text-center text-[14px] leading-[1.85] text-muted md:text-left">{s.desc}</p>
+                <p className="m-0 text-center text-[clamp(14px,1.5vw,15px)] leading-[1.85] text-muted md:text-left">{s.desc}</p>
               </div>
             </Reveal>
           ))}
         </div>
 
+        {/* 併記: ほかにも対応できること（控えめ）*/}
+        <Reveal delayMs={120} className="mt-[clamp(28px,4vw,40px)]">
+          <p className="m-0 text-[12px] tracking-[0.04em] text-faint">ほかにも対応できること</p>
+          <div className="mt-4 flex flex-wrap gap-[10px]">
+            {otherServices.map((o) => (
+              <span
+                key={o.label}
+                className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-[14px] py-[8px] text-[13px] text-muted"
+              >
+                <ServiceIcon id={o.icon} className="h-4 w-4 text-accent" />
+                {o.label}
+              </span>
+            ))}
+          </div>
+        </Reveal>
       </section>
 
       {/* ===== 03 / WORKS ===== */}
