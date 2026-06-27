@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
 import { Phrase } from "@/components/common/ContactCTA";
 import { ServicesSwitcher } from "@/components/common/ServicesSwitcher";
+import { KeywordReveal } from "@/components/common/KeywordReveal";
 import { Underlined } from "@/components/common/Underlined";
 import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
@@ -231,18 +232,18 @@ export default function HomePage() {
                 )}
               </div>
 
-              {/* 内容：左に読みやすい幅の本文、右の空きに薄い英語キーワードを置く（PCのみ）*/}
-              <div className="flex flex-1 flex-col gap-3 pt-[10px] pb-[clamp(28px,5vw,48px)] md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,56px)]">
-                <div className="max-w-[48ch]">
+              {/* 内容：左に本文（約70%）、右の空きに薄い英語キーワード（PCのみ・出現ギミック付き）*/}
+              <div className="flex flex-1 flex-col gap-3 pt-[10px] pb-[clamp(28px,5vw,48px)] md:flex-row md:items-center md:gap-[clamp(24px,4vw,48px)]">
+                <div className="md:basis-[70%] md:shrink-0">
                   <h3 className="m-0 text-[clamp(18px,2.2vw,22px)] font-semibold tracking-[-0.01em]">{p.title}</h3>
                   <p className="m-0 mt-2 text-[clamp(14px,1.6vw,16px)] leading-[1.85] text-muted">{p.desc}</p>
                 </div>
-                <span
-                  aria-hidden
-                  className="hidden shrink-0 font-mono text-[clamp(28px,4.5vw,52px)] font-medium uppercase tracking-[0.04em] text-faint md:block"
-                >
-                  {p.en}
-                </span>
+                <div className="hidden md:flex md:min-w-0 md:flex-1 md:justify-end">
+                  <KeywordReveal
+                    text={p.en}
+                    className="whitespace-nowrap font-mono text-[clamp(20px,3vw,38px)] font-medium uppercase tracking-[0.04em] text-faint"
+                  />
+                </div>
               </div>
             </Reveal>
           ))}
