@@ -231,10 +231,18 @@ export default function HomePage() {
                 )}
               </div>
 
-              {/* 内容 */}
-              <div className="pt-[10px] pb-[clamp(28px,5vw,48px)]">
-                <h3 className="m-0 text-[clamp(18px,2.2vw,22px)] font-semibold tracking-[-0.01em]">{p.title}</h3>
-                <p className="m-0 mt-2 max-w-[60ch] text-[clamp(14px,1.6vw,16px)] leading-[1.85] text-muted">{p.desc}</p>
+              {/* 内容：左に読みやすい幅の本文、右の空きに薄い英語キーワードを置く（PCのみ）*/}
+              <div className="flex flex-1 flex-col gap-3 pt-[10px] pb-[clamp(28px,5vw,48px)] md:flex-row md:items-center md:justify-between md:gap-[clamp(24px,4vw,56px)]">
+                <div className="max-w-[48ch]">
+                  <h3 className="m-0 text-[clamp(18px,2.2vw,22px)] font-semibold tracking-[-0.01em]">{p.title}</h3>
+                  <p className="m-0 mt-2 text-[clamp(14px,1.6vw,16px)] leading-[1.85] text-muted">{p.desc}</p>
+                </div>
+                <span
+                  aria-hidden
+                  className="hidden shrink-0 font-mono text-[clamp(28px,4.5vw,52px)] font-medium uppercase tracking-[0.04em] text-faint md:block"
+                >
+                  {p.en}
+                </span>
               </div>
             </Reveal>
           ))}
