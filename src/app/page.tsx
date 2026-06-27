@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
 import { Phrase } from "@/components/common/ContactCTA";
@@ -213,42 +212,33 @@ export default function HomePage() {
           <SectionHeading label="04 / Process">進め方</SectionHeading>
         </Reveal>
 
-        {/* 上から順に並ぶ縦フロー。ステップ間に下向き矢印で視線誘導。横幅は他セクションと同じ（〜1180px）。 */}
-        <div>
+        {/* 縦タイムライン：左の縦線＋番号バッジで上から順の流れを示す（枠なし・軽量）*/}
+        <ol className="relative m-0 list-none p-0">
           {processSteps.map((p, i) => (
-            <Fragment key={p.no}>
-              <Reveal delayMs={p.delayMs}>
-                <div className="flex items-center gap-[clamp(16px,3vw,28px)] rounded-2xl border border-line bg-surface p-[clamp(22px,3vw,34px)] transition-[border-color] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:border-accent">
-                  <span className="font-mono text-[clamp(26px,4vw,38px)] font-medium leading-none text-accent">{p.no}</span>
-                  <div className="flex flex-col gap-2">
-                    <h3 className="m-0 text-[clamp(16px,2vw,19px)] font-semibold tracking-[-0.01em]">{p.title}</h3>
-                    <p className="m-0 text-[14px] leading-[1.85] text-muted">{p.desc}</p>
-                  </div>
-                </div>
-              </Reveal>
+            <Reveal
+              as="li"
+              key={p.no}
+              delayMs={p.delayMs}
+              className="group flex gap-[clamp(16px,3vw,24px)]"
+            >
+              {/* 番号バッジ＋つなぎの縦線 */}
+              <div className="flex flex-col items-center">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-surface font-mono text-[14px] text-accent transition-colors duration-300 group-hover:border-accent">
+                  {p.no}
+                </span>
+                {i < processSteps.length - 1 && (
+                  <span aria-hidden className="mt-2 w-px grow bg-line" />
+                )}
+              </div>
 
-              {/* コネクター（最後のステップ以外）。カードと同様にスクロール連動でフェードイン。 */}
-              {i < processSteps.length - 1 && (
-                <Reveal as="div" delayMs={120} aria-hidden className="flex justify-center py-[clamp(6px,1.4vw,12px)]">
-                  <svg
-                    width="22"
-                    height="30"
-                    viewBox="0 0 22 30"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="text-accent"
-                  >
-                    <path d="M11 3 V22" />
-                    <path d="M5 16 L11 24 L17 16" />
-                  </svg>
-                </Reveal>
-              )}
-            </Fragment>
+              {/* 内容 */}
+              <div className="pt-[6px] pb-[clamp(28px,5vw,48px)]">
+                <h3 className="m-0 text-[clamp(16px,2vw,19px)] font-semibold tracking-[-0.01em]">{p.title}</h3>
+                <p className="m-0 mt-2 max-w-[60ch] text-[14px] leading-[1.85] text-muted">{p.desc}</p>
+              </div>
+            </Reveal>
           ))}
-        </div>
+        </ol>
 
         <Reveal className="mt-[clamp(28px,4vw,44px)]">
           <Link href="/#contact" className={`${btnSecondary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
