@@ -223,7 +223,7 @@ export default function HomePage() {
             >
               {/* 番号バッジ＋つなぎの縦線 */}
               <div className="flex flex-col items-center">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-surface font-mono text-[14px] text-accent transition-colors duration-300 group-hover:border-accent">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-line bg-surface font-mono text-[clamp(16px,1.8vw,19px)] text-accent transition-colors duration-300 group-hover:border-accent">
                   {p.no}
                 </span>
                 {i < processSteps.length - 1 && (
@@ -232,9 +232,9 @@ export default function HomePage() {
               </div>
 
               {/* 内容 */}
-              <div className="pt-[6px] pb-[clamp(28px,5vw,48px)]">
-                <h3 className="m-0 text-[clamp(16px,2vw,19px)] font-semibold tracking-[-0.01em]">{p.title}</h3>
-                <p className="m-0 mt-2 max-w-[60ch] text-[14px] leading-[1.85] text-muted">{p.desc}</p>
+              <div className="pt-[10px] pb-[clamp(28px,5vw,48px)]">
+                <h3 className="m-0 text-[clamp(18px,2.2vw,22px)] font-semibold tracking-[-0.01em]">{p.title}</h3>
+                <p className="m-0 mt-2 max-w-[60ch] text-[clamp(14px,1.6vw,16px)] leading-[1.85] text-muted">{p.desc}</p>
               </div>
             </Reveal>
           ))}
