@@ -241,7 +241,7 @@ export default function HomePage() {
                 <div className="hidden md:flex md:min-w-0 md:flex-1 md:justify-end">
                   <KeywordReveal
                     text={p.en}
-                    className="whitespace-nowrap font-mono text-[clamp(20px,3vw,38px)] font-medium uppercase tracking-[0.04em] text-faint"
+                    className="whitespace-nowrap font-mono text-[clamp(12px,1.4vw,15px)] uppercase tracking-[0.14em] text-faint"
                   />
                 </div>
               </div>
