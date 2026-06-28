@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
 import { Phrase } from "@/components/common/ContactCTA";
 import { ServicesSwitcher } from "@/components/common/ServicesSwitcher";
-import { KeywordReveal } from "@/components/common/KeywordReveal";
+import { ProcessTimeline } from "@/components/common/ProcessTimeline";
 import { Underlined } from "@/components/common/Underlined";
 import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
@@ -213,41 +213,8 @@ export default function HomePage() {
           <SectionHeading label="04 / Process">進め方</SectionHeading>
         </Reveal>
 
-        {/* 縦タイムライン：左の縦線＋番号バッジで上から順の流れを示す（枠なし・軽量）*/}
-        <ol className="relative m-0 list-none p-0">
-          {processSteps.map((p, i) => (
-            <Reveal
-              as="li"
-              key={p.no}
-              delayMs={p.delayMs}
-              className="group flex gap-[clamp(16px,3vw,24px)]"
-            >
-              {/* 番号バッジ＋つなぎの縦線 */}
-              <div className="flex flex-col items-center">
-                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-line bg-surface font-mono text-[clamp(16px,1.8vw,19px)] text-accent transition-colors duration-300 group-hover:border-accent">
-                  {p.no}
-                </span>
-                {i < processSteps.length - 1 && (
-                  <span aria-hidden className="mt-2 w-px grow bg-line" />
-                )}
-              </div>
-
-              {/* 内容：左に本文（約70%）、右の空きに薄い英語キーワード（PCのみ・出現ギミック付き）*/}
-              <div className="flex flex-1 flex-col gap-3 pt-[10px] pb-[clamp(28px,5vw,48px)] md:flex-row md:items-center md:gap-[clamp(24px,4vw,48px)]">
-                <div className="md:basis-[70%] md:shrink-0">
-                  <h3 className="m-0 text-[clamp(18px,2.2vw,22px)] font-semibold tracking-[-0.01em]">{p.title}</h3>
-                  <p className="m-0 mt-2 text-[clamp(14px,1.6vw,16px)] leading-[1.85] text-muted">{p.desc}</p>
-                </div>
-                <div className="hidden md:flex md:min-w-0 md:flex-1 md:justify-end">
-                  <KeywordReveal
-                    text={p.en}
-                    className="whitespace-nowrap font-mono text-[clamp(16px,2.2vw,26px)] uppercase tracking-[0.1em] [color:color-mix(in_srgb,var(--faint)_50%,transparent)]"
-                  />
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </ol>
+        {/* 縦タイムライン：各フェーズはクリックで詳細モーダルを開く（ProcessTimeline）*/}
+        <ProcessTimeline steps={processSteps} />
 
         <Reveal className="mt-[clamp(28px,4vw,44px)]">
           <Link href="/#contact" className={`${btnSecondary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
