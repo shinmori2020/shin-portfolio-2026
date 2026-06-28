@@ -28,7 +28,8 @@ function PhaseContent({ p }: { p: ProcessStep }) {
         {p.title}
       </h2>
 
-      <p className="m-0 mt-4 text-[15px] leading-[1.95] text-muted">{p.detail.summary}</p>
+      {/* 3行分の高さを確保し、フェーズごとに本文行数が違ってもモーダル高さを一定にする */}
+      <p className="m-0 mt-4 min-h-[5.85em] text-[15px] leading-[1.95] text-muted">{p.detail.summary}</p>
 
       <p className="m-0 mt-7 text-[12px] tracking-[0.08em] text-faint">やること</p>
       <ul className="m-0 mt-3 flex list-none flex-col gap-[10px] p-0">
