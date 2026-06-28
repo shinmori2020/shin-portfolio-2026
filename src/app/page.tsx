@@ -215,12 +215,6 @@ export default function HomePage() {
 
         {/* 縦タイムライン：各フェーズはクリックで詳細モーダルを開く（ProcessTimeline）*/}
         <ProcessTimeline steps={processSteps} />
-
-        <Reveal className="mt-[clamp(28px,4vw,44px)]">
-          <Link href="/#contact" className={`${btnSecondary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
-            相談する
-          </Link>
-        </Reveal>
       </section>
 
       {/* ===== CONTACT ===== */}
