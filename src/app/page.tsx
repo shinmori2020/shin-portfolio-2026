@@ -3,7 +3,6 @@ import { Reveal } from "@/components/common/Reveal";
 import { Phrase } from "@/components/common/ContactCTA";
 import { ServicesSwitcher } from "@/components/common/ServicesSwitcher";
 import { ProcessTimeline } from "@/components/common/ProcessTimeline";
-import { ContactForm } from "@/components/forms/ContactForm";
 import { Underlined } from "@/components/common/Underlined";
 import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
@@ -256,19 +255,13 @@ export default function HomePage() {
             <span aria-hidden className="text-faint">/</span>
             <span>返信は1〜2営業日が目安</span>
           </Reveal>
-          {/* 問い合わせフォーム（Server Action + Resend。未設定時はスタブ動作） */}
-          <Reveal delayMs={150} className="mx-auto mt-[48px] max-w-[560px]">
-            <ContactForm />
-          </Reveal>
-          <Reveal delayMs={200} className="mt-[34px]">
-            <Link
-              href="/profile"
-              className="group inline-flex items-center gap-2 text-[13.5px] text-muted transition-colors hover:text-ink"
-            >
-              先にプロフィールを見る
-              <span aria-hidden className="font-mono transition-transform group-hover:translate-x-[3px]">
-                →
-              </span>
+          {/* お問い合わせページ（フォーム）への誘導 */}
+          <Reveal delayMs={160} className="mt-[44px] flex flex-wrap justify-center gap-[14px]">
+            <Link href="/contact" className={`${btnPrimary} px-[30px] py-[15px] text-[14.5px]`}>
+              お問い合わせへ <span className={btnArrow}>→</span>
+            </Link>
+            <Link href="/profile" className={`${btnSecondary} px-[30px] py-[15px] text-[14.5px]`}>
+              プロフィールを見る
             </Link>
           </Reveal>
         </div>
