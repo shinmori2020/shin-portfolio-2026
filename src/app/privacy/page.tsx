@@ -21,7 +21,7 @@ const listClass = "mt-2 list-disc space-y-1 pl-5 marker:text-faint";
 export default function PrivacyPage() {
   return (
     <article className="border-t border-line bg-surface-2">
-      <div className="mx-auto max-w-[760px] px-[clamp(20px,4vw,40px)] py-[clamp(60px,9vw,120px)]">
+      <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(60px,9vw,120px)]">
         <Reveal className="mb-[18px] font-mono text-[12px] uppercase tracking-[0.14em] text-accent">
           Privacy
         </Reveal>
