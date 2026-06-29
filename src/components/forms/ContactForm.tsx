@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState, useId } from "react";
 import { submitContact, type ContactFormState } from "@/app/actions/contact";
 
@@ -197,21 +198,37 @@ export function ContactForm() {
         </p>
       )}
 
-      <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+      {/* 送信ボタンはこのフォーム専用デザイン（サイトの他ボタンと差別化）。
+          角丸 2xl / 全幅 / 円形の矢印バッジ / ホバーで地色がわずかに沈み光がスイープ。 */}
+      <div className="mt-7">
         <button
           type="submit"
           disabled={isPending}
-          className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 text-[15px] text-white transition-opacity disabled:opacity-60 sm:w-auto"
+          className="group relative w-full overflow-hidden rounded-2xl bg-accent px-8 py-[18px] text-[15.5px] font-medium tracking-[0.02em] text-white transition-colors hover:bg-[color-mix(in_srgb,var(--accent)_88%,#000)] disabled:opacity-60"
         >
-          {isPending ? "送信中…" : "送信する"}
-          {!isPending && (
-            <span aria-hidden className="font-mono transition-transform group-hover:translate-x-[3px]">
-              →
-            </span>
-          )}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.16),transparent)] transition-transform duration-[700ms] ease-out group-hover:translate-x-full motion-reduce:hidden"
+          />
+          <span className="relative z-10 inline-flex items-center justify-center gap-3">
+            {isPending ? "送信中…" : "送信する"}
+            {!isPending && (
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/15 transition-colors group-hover:bg-white/25">
+                <span
+                  aria-hidden
+                  className="font-mono text-[13px] transition-transform group-hover:translate-x-[2px] motion-reduce:transform-none"
+                >
+                  →
+                </span>
+              </span>
+            )}
+          </span>
         </button>
-        <p className="m-0 text-[12px] leading-[1.8] text-faint">
-          いただいた情報は返信のみに利用します。
+        <p className="mt-3 text-center text-[12px] leading-[1.8] text-faint">
+          いただいた情報は返信のみに利用します。{" "}
+          <Link href="/privacy" className="underline underline-offset-2 transition-colors hover:text-muted">
+            プライバシーポリシー
+          </Link>
         </p>
       </div>
     </form>
