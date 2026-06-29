@@ -4,6 +4,7 @@ import { Phrase } from "@/components/common/ContactCTA";
 import { ServicesSwitcher } from "@/components/common/ServicesSwitcher";
 import { ProcessTimeline } from "@/components/common/ProcessTimeline";
 import { Underlined } from "@/components/common/Underlined";
+import { HeadingChars } from "@/components/common/HeadingChars";
 import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
 import { works } from "@/data/works";
@@ -224,19 +225,14 @@ export default function HomePage() {
       >
         <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(72px,11vw,150px)] text-center">
           {/* PC（sm 以上）は inline で1行。狭い画面では block で2行に折り返す。
-              2つのフレーズを時間差でフェードイン（下から）。 */}
+              1文字ずつ下からフェードイン。下の文章はこれが出終わってから出現させる。 */}
           <h2 className="mx-auto m-0 max-w-[22em] text-[clamp(24px,4vw,44px)] font-medium leading-[1.35] tracking-[-0.025em] sm:max-w-none">
-            <Reveal as="span" className="block sm:inline">
-              WEBのこと
-            </Reveal>
-            <Reveal as="span" delayMs={150} className="block sm:inline">
-              技術で頼れる人を探していますか。
-            </Reveal>
+            <HeadingChars phrases={["WEBのこと", "技術で頼れる人を探していますか。"]} />
           </h2>
           {/* 本文はフレーズ単位で折り返す（区切りを入れて語の途中で切れないように）。 */}
           <Reveal
             as="p"
-            delayMs={80}
+            delayMs={1000}
             className="mx-auto mt-[28px] max-w-[42em] text-[15px] leading-[1.9] text-muted [text-wrap:pretty]"
           >
             <Phrase>制作会社や事業者の方からのご相談を歓迎します。</Phrase>
@@ -245,7 +241,7 @@ export default function HomePage() {
           </Reveal>
           {/* 安心材料：相談のハードルを下げる一言 */}
           <Reveal
-            delayMs={120}
+            delayMs={1150}
             className="mt-[20px] flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[12.5px] text-muted"
           >
             <span>お見積もりは無料</span>
@@ -255,7 +251,7 @@ export default function HomePage() {
             <span>返信は1〜2営業日が目安</span>
           </Reveal>
           {/* お問い合わせページ（フォーム）への誘導 */}
-          <Reveal delayMs={160} className="mt-[44px] flex flex-wrap justify-center gap-[14px]">
+          <Reveal delayMs={1300} className="mt-[44px] flex flex-wrap justify-center gap-[14px]">
             <Link href="/contact" className={`${btnPrimary} px-[30px] py-[15px] text-[14.5px]`}>
               お問い合わせへ <span className={btnArrow}>→</span>
             </Link>
