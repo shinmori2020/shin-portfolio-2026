@@ -143,7 +143,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== 03 / WORKS ===== */}
-      <section className="border-t border-line bg-surface-2">
+      <section id="works" className="border-t border-line bg-surface-2">
         <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
           <Reveal className="mb-[clamp(36px,5vw,60px)] flex flex-wrap items-end justify-between gap-6">
             <SectionHeading label="03 / Selected works">制作物</SectionHeading>
