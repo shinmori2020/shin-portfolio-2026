@@ -228,7 +228,7 @@ export default function HomePage() {
           <h2 className="mx-auto m-0 max-w-[22em] text-[clamp(24px,4vw,44px)] font-medium leading-[1.35] tracking-[-0.025em] sm:max-w-none">
             <Reveal as="span" className="block sm:inline">
               WEBのこと
-            </Reveal>{" "}
+            </Reveal>
             <Reveal as="span" delayMs={150} className="block sm:inline">
               技術で頼れる人を探していますか。
             </Reveal>
