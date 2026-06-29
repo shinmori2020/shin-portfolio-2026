@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
 import { DrawLine } from "@/components/common/DrawLine";
+import { Parallax } from "@/components/common/Parallax";
 import { profile, skillGroups, timeline } from "@/data/profile";
 
 export const metadata: Metadata = {
@@ -16,15 +17,15 @@ const btnArrow =
   "font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-x-[3px] motion-reduce:transform-none";
 
 const hatch =
-  "[background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2)_10px,transparent_10px,transparent_20px)]";
+  "[background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2)_12px,transparent_12px,transparent_24px)]";
 
-// セクション見出し（ラベルを上・タイトルを下に縦積み）。Home と同じ構成で統一。
+// セクション見出し（ラベルを上・タイトルを下に縦積み）。Home と同じ構成・サイズで統一。
 function SectionHeading({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
       <span className="font-mono text-[12px] tracking-[0.1em] text-faint">{label}</span>
       <DrawLine className="mt-[14px] w-10" />
-      <h2 className="mt-[14px] text-[clamp(20px,2.6vw,30px)] font-medium leading-[1.4] tracking-[-0.02em]">
+      <h2 className="mt-[14px] text-[clamp(22px,3vw,34px)] font-medium leading-[1.4] tracking-[-0.02em]">
         {children}
       </h2>
     </div>
@@ -34,47 +35,45 @@ function SectionHeading({ label, children }: { label: string; children: React.Re
 export default function ProfilePage() {
   return (
     <>
-      {/* ===== INTRO ===== */}
-      <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(56px,9vw,120px)] pb-[clamp(40px,6vw,64px)]">
-        <Reveal className="mb-[24px] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
+      {/* ===== INTRO（Home の About と同じ二段組の絵作りで統一）===== */}
+      <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(64px,11vw,148px)] pb-[clamp(48px,7vw,96px)]">
+        <Reveal className="mb-[clamp(28px,5vw,52px)] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
           Profile
         </Reveal>
-        <div className="flex flex-wrap items-start gap-[clamp(28px,4vw,56px)]">
-          <Reveal
-            className={`grid aspect-square w-[clamp(96px,14vw,140px)] flex-none place-items-center rounded-[18px] border border-line ${hatch}`}
-          >
-            <span className="font-mono text-[10px] text-faint">portrait</span>
-          </Reveal>
-          <div className="flex-1 basis-[360px]">
-            <Reveal
-              as="h1"
-              className="m-0 text-[clamp(28px,4.4vw,50px)] font-medium leading-[1.25] tracking-[-0.025em]"
-            >
+        <div className="flex flex-wrap gap-[clamp(32px,6vw,80px)]">
+          <Reveal className="flex flex-[1.4_1_360px] flex-col">
+            <h1 className="m-0 text-[clamp(30px,5vw,56px)] font-medium leading-[1.2] tracking-[-0.025em]">
               {profile.name}
-            </Reveal>
-            <Reveal
-              as="p"
-              delayMs={60}
-              className="m-0 mt-[14px] font-mono text-[15px] tracking-[0.02em] text-accent"
-            >
+            </h1>
+            <p className="m-0 mt-[16px] font-mono text-[15px] tracking-[0.02em] text-accent">
               {profile.role}
-            </Reveal>
-            <Reveal
-              as="p"
-              delayMs={120}
-              className="m-0 mt-[22px] max-w-[58ch] text-[clamp(15px,1.5vw,17px)] leading-[2.05] text-muted"
-            >
+            </p>
+            <p className="mt-[clamp(20px,3vw,28px)] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
               {profile.bio}
-            </Reveal>
-          </div>
+            </p>
+          </Reveal>
+
+          {/* ポートレート（任意・未用意なら斜線プレースホルダー。Home About と同じカード）*/}
+          <Reveal delayMs={90} from="right" className="flex flex-[1_1_260px]">
+            <div className="w-full overflow-hidden rounded-2xl border border-line bg-surface shadow-[var(--shadow)]">
+              <div className="relative aspect-[4/5] w-full overflow-hidden">
+                <Parallax range={16} className="absolute inset-x-0 -top-[8%] h-[116%]">
+                  <div className={`h-full w-full ${hatch}`} />
+                </Parallax>
+                <span className="absolute inset-0 grid place-items-center font-mono text-[11px] tracking-[0.08em] text-faint">
+                  portrait
+                </span>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ===== SKILLS ===== */}
+      {/* ===== 01 / SKILLS ===== */}
       <section className="border-t border-line bg-surface-2">
-        <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(48px,7vw,88px)]">
+        <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
           <Reveal className="mb-[clamp(32px,5vw,52px)]">
-            <SectionHeading label="Skills">使用技術・得意領域</SectionHeading>
+            <SectionHeading label="01 / Skills">使用技術・得意領域</SectionHeading>
           </Reveal>
           <div className="grid gap-px overflow-hidden rounded-[14px] border border-line bg-line [grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))]">
             {skillGroups.map((g, i) => (
@@ -100,10 +99,10 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      {/* ===== EXPERIENCE ===== */}
-      <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(56px,8vw,104px)]">
+      {/* ===== 02 / EXPERIENCE ===== */}
+      <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
         <Reveal className="mb-[clamp(36px,5vw,56px)]">
-          <SectionHeading label="Experience">これまでの歩み</SectionHeading>
+          <SectionHeading label="02 / Experience">これまでの歩み</SectionHeading>
         </Reveal>
         <ol className="m-0 flex list-none flex-col p-0">
           {timeline.map((e, i) => (
