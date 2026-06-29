@@ -3,6 +3,7 @@ import { Reveal } from "@/components/common/Reveal";
 import { Phrase } from "@/components/common/ContactCTA";
 import { ServicesSwitcher } from "@/components/common/ServicesSwitcher";
 import { ProcessTimeline } from "@/components/common/ProcessTimeline";
+import { ContactForm } from "@/components/forms/ContactForm";
 import { Underlined } from "@/components/common/Underlined";
 import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
@@ -244,12 +245,30 @@ export default function HomePage() {
             <wbr />
             <Phrase>Web制作・開発・機能実装まで対応します。</Phrase>
           </Reveal>
-          <Reveal delayMs={150} className="mt-[44px] flex flex-wrap justify-center gap-[14px]">
-            <a href="mailto:hello@example.com" className={`${btnPrimary} px-[30px] py-[15px] text-[14.5px]`}>
-              相談する <span className={btnArrow}>→</span>
-            </a>
-            <Link href="/profile" className={`${btnSecondary} px-[30px] py-[15px] text-[14.5px]`}>
-              プロフィールを見る
+          {/* 安心材料：相談のハードルを下げる一言 */}
+          <Reveal
+            delayMs={120}
+            className="mt-[20px] flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[12.5px] text-muted"
+          >
+            <span>お見積もりは無料</span>
+            <span aria-hidden className="text-faint">/</span>
+            <span>簡単な内容でもかまいません</span>
+            <span aria-hidden className="text-faint">/</span>
+            <span>返信は1〜2営業日が目安</span>
+          </Reveal>
+          {/* 問い合わせフォーム（Server Action + Resend。未設定時はスタブ動作） */}
+          <Reveal delayMs={150} className="mx-auto mt-[48px] max-w-[560px]">
+            <ContactForm />
+          </Reveal>
+          <Reveal delayMs={200} className="mt-[34px]">
+            <Link
+              href="/profile"
+              className="group inline-flex items-center gap-2 text-[13.5px] text-muted transition-colors hover:text-ink"
+            >
+              先にプロフィールを見る
+              <span aria-hidden className="font-mono transition-transform group-hover:translate-x-[3px]">
+                →
+              </span>
             </Link>
           </Reveal>
         </div>
