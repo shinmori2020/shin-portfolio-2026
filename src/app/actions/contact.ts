@@ -9,10 +9,13 @@ const schema = z.object({
   name: z.string().trim().min(1, "お名前を入力してください").max(100),
   email: z.string().trim().email("メールアドレスの形式が正しくありません"),
   company: z.string().trim().max(100).optional(),
+  type: z.string().trim().max(50).optional(),
+  budget: z.string().trim().max(50).optional(),
+  deadline: z.string().trim().max(50).optional(),
   message: z.string().trim().min(10, "10文字以上で入力してください").max(2000),
 });
 
-type FieldKey = "name" | "email" | "company" | "message";
+type FieldKey = "name" | "email" | "company" | "type" | "budget" | "deadline" | "message";
 
 export type ContactFormState = {
   status: "idle" | "success" | "error";
@@ -28,6 +31,9 @@ export async function submitContact(
     name: formData.get("name"),
     email: formData.get("email"),
     company: formData.get("company"),
+    type: formData.get("type"),
+    budget: formData.get("budget"),
+    deadline: formData.get("deadline"),
     message: formData.get("message"),
   });
 
@@ -40,7 +46,7 @@ export async function submitContact(
     return { status: "error", message: "入力内容を確認してください", fieldErrors };
   }
 
-  const { name, email, company, message } = parsed.data;
+  const { name, email, company, type, budget, deadline, message } = parsed.data;
 
   // 環境変数未設定時はスタブ動作（Resend 契約前でも UI/UX を確認できる）
   const apiKey = process.env.RESEND_API_KEY;
@@ -61,7 +67,7 @@ export async function submitContact(
       to,
       replyTo: email,
       subject: `お問い合わせ - ${name} 様`,
-      react: ContactNoticeEmail({ name, email, company, message, receivedAt }),
+      react: ContactNoticeEmail({ name, email, company, type, budget, deadline, message, receivedAt }),
     });
     if (notice.error) throw notice.error;
 

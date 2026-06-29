@@ -4,12 +4,33 @@ interface Props {
   name: string;
   email: string;
   company?: string;
+  type?: string;
+  budget?: string;
+  deadline?: string;
   message: string;
   receivedAt: string;
 }
 
 // 運営（シン）宛の通知メール。メーラー互換のためインラインスタイルで記述。
-export function ContactNoticeEmail({ name, email, company, message, receivedAt }: Props) {
+export function ContactNoticeEmail({
+  name,
+  email,
+  company,
+  type,
+  budget,
+  deadline,
+  message,
+  receivedAt,
+}: Props) {
+  const rows: Array<[string, string]> = [
+    ["お名前", name],
+    ["メール", email],
+  ];
+  if (company) rows.push(["会社名", company]);
+  if (type) rows.push(["ご依頼の種類", type]);
+  if (budget) rows.push(["ご予算", budget]);
+  if (deadline) rows.push(["希望納期", deadline]);
+
   return (
     <Html lang="ja">
       <Head />
@@ -19,20 +40,12 @@ export function ContactNoticeEmail({ name, email, company, message, receivedAt }
           <Heading style={h1}>新しいお問い合わせ</Heading>
           <Text style={muted}>受付日時: {receivedAt}</Text>
           <Hr style={hr} />
-          <Text style={row}>
-            <strong style={label}>お名前</strong>
-            {name}
-          </Text>
-          <Text style={row}>
-            <strong style={label}>メール</strong>
-            {email}
-          </Text>
-          {company ? (
-            <Text style={row}>
-              <strong style={label}>会社名</strong>
-              {company}
+          {rows.map(([k, v]) => (
+            <Text key={k} style={row}>
+              <strong style={label}>{k}</strong>
+              {v}
             </Text>
-          ) : null}
+          ))}
           <Hr style={hr} />
           <Text style={messageStyle}>{message}</Text>
         </Container>
