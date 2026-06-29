@@ -41,7 +41,21 @@ export default function ProfilePage() {
           Profile
         </Reveal>
         <div className="flex flex-wrap gap-[clamp(32px,6vw,80px)]">
-          <Reveal className="flex flex-[1.4_1_360px] flex-col">
+          {/* ポートレート（左配置・正方形。未用意なら斜線プレースホルダー）*/}
+          <Reveal from="left" className="flex flex-[1_1_260px]">
+            <div className="w-full overflow-hidden rounded-2xl border border-line bg-surface shadow-[var(--shadow)]">
+              <div className="relative aspect-square w-full overflow-hidden">
+                <Parallax range={16} className="absolute inset-x-0 -top-[8%] h-[116%]">
+                  <div className={`h-full w-full ${hatch}`} />
+                </Parallax>
+                <span className="absolute inset-0 grid place-items-center font-mono text-[11px] tracking-[0.08em] text-faint">
+                  portrait
+                </span>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delayMs={90} className="flex flex-[1.4_1_360px] flex-col">
             <h1 className="m-0 text-[clamp(30px,5vw,56px)] font-medium leading-[1.2] tracking-[-0.025em]">
               {profile.name}
             </h1>
@@ -51,20 +65,6 @@ export default function ProfilePage() {
             <p className="mt-[clamp(20px,3vw,28px)] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
               {profile.bio}
             </p>
-          </Reveal>
-
-          {/* ポートレート（任意・未用意なら斜線プレースホルダー。Home About と同じカード）*/}
-          <Reveal delayMs={90} from="right" className="flex flex-[1_1_260px]">
-            <div className="w-full overflow-hidden rounded-2xl border border-line bg-surface shadow-[var(--shadow)]">
-              <div className="relative aspect-[4/5] w-full overflow-hidden">
-                <Parallax range={16} className="absolute inset-x-0 -top-[8%] h-[116%]">
-                  <div className={`h-full w-full ${hatch}`} />
-                </Parallax>
-                <span className="absolute inset-0 grid place-items-center font-mono text-[11px] tracking-[0.08em] text-faint">
-                  portrait
-                </span>
-              </div>
-            </div>
           </Reveal>
         </div>
       </section>
