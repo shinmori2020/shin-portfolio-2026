@@ -210,18 +210,8 @@ export function ContactForm() {
             aria-hidden
             className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.16),transparent)] transition-transform duration-[700ms] ease-out group-hover:translate-x-full motion-reduce:hidden"
           />
-          <span className="relative z-10 inline-flex items-center justify-center gap-3">
+          <span className="relative z-10 inline-flex items-center justify-center">
             {isPending ? "送信中…" : "送信する"}
-            {!isPending && (
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/15 transition-colors group-hover:bg-white/25">
-                <span
-                  aria-hidden
-                  className="font-mono text-[13px] transition-transform group-hover:translate-x-[2px] motion-reduce:transform-none"
-                >
-                  →
-                </span>
-              </span>
-            )}
           </span>
         </button>
         <p className="mt-3 text-center text-[12px] leading-[1.8] text-faint">
