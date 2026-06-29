@@ -223,14 +223,16 @@ export default function HomePage() {
         className="border-t border-line bg-surface-2"
       >
         <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(72px,11vw,150px)] text-center">
-          {/* PC（sm 以上）は inline で1行。狭い画面では block で2行に折り返す。 */}
-          <Reveal
-            as="h2"
-            className="mx-auto m-0 max-w-[22em] text-[clamp(24px,4vw,44px)] font-medium leading-[1.35] tracking-[-0.025em] sm:max-w-none"
-          >
-            <span className="block sm:inline">Webのこと</span>{" "}
-            <span className="block sm:inline">技術で頼れる人を探していますか。</span>
-          </Reveal>
+          {/* PC（sm 以上）は inline で1行。狭い画面では block で2行に折り返す。
+              2つのフレーズを時間差でフェードイン（下から）。 */}
+          <h2 className="mx-auto m-0 max-w-[22em] text-[clamp(24px,4vw,44px)] font-medium leading-[1.35] tracking-[-0.025em] sm:max-w-none">
+            <Reveal as="span" className="block sm:inline">
+              WEBのこと
+            </Reveal>{" "}
+            <Reveal as="span" delayMs={150} className="block sm:inline">
+              技術で頼れる人を探していますか。
+            </Reveal>
+          </h2>
           {/* 本文はフレーズ単位で折り返す（区切りを入れて語の途中で切れないように）。 */}
           <Reveal
             as="p"
