@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
 import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
+import { ServiceIcon } from "@/components/common/ServiceIcon";
 import { profile, skillGroups, timeline } from "@/data/profile";
 
 export const metadata: Metadata = {
@@ -75,24 +76,33 @@ export default function ProfilePage() {
           <Reveal className="mb-[clamp(32px,5vw,52px)]">
             <SectionHeading label="01 / Skills">使用技術・得意領域</SectionHeading>
           </Reveal>
-          <div className="grid gap-px overflow-hidden rounded-[14px] border border-line bg-line [grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))]">
+          <div className="grid gap-[clamp(16px,2vw,22px)] sm:grid-cols-2 lg:grid-cols-3">
             {skillGroups.map((g, i) => (
               <Reveal
                 key={g.cat}
                 delayMs={i * 90}
-                className="flex flex-col gap-[18px] bg-surface p-[clamp(24px,3vw,34px)]"
+                className="flex flex-col gap-[18px] rounded-2xl border border-line bg-surface p-[clamp(24px,3vw,32px)] transition-colors duration-300 hover:border-line-strong"
               >
-                <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-accent">
-                  {g.cat}
+                <span
+                  aria-hidden
+                  className="grid h-11 w-11 place-items-center rounded-xl border border-line bg-surface-2 text-accent"
+                >
+                  <ServiceIcon id={g.icon} />
                 </span>
-                <div className="flex flex-col gap-3">
-                  {g.items.map((item) => (
-                    <div key={item} className="flex items-center gap-2.5">
-                      <span aria-hidden className="h-[5px] w-[5px] flex-none rounded-full bg-accent" />
-                      <span className="text-[14.5px]">{item}</span>
-                    </div>
-                  ))}
+                <div>
+                  <h3 className="m-0 text-[17px] font-semibold tracking-[-0.01em]">{g.cat}</h3>
+                  <p className="m-0 mt-2 text-[13.5px] leading-[1.8] text-muted">{g.desc}</p>
                 </div>
+                <ul className="mt-auto flex list-none flex-wrap gap-2 p-0 pt-1">
+                  {g.items.map((item) => (
+                    <li
+                      key={item}
+                      className="rounded-full border border-line bg-surface-2 px-3 py-1 text-[12.5px] text-ink"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </Reveal>
             ))}
           </div>
@@ -104,20 +114,42 @@ export default function ProfilePage() {
         <Reveal className="mb-[clamp(36px,5vw,56px)]">
           <SectionHeading label="02 / Experience">これまでの歩み</SectionHeading>
         </Reveal>
-        <ol className="m-0 flex list-none flex-col p-0">
+        <ol className="m-0 list-none p-0">
           {timeline.map((e, i) => (
             <Reveal
               as="li"
               key={e.year + e.title}
               delayMs={i * 80}
-              className="flex flex-wrap gap-[clamp(16px,4vw,56px)] border-t border-line py-[clamp(24px,3vw,34px)]"
+              className="group flex gap-[clamp(18px,3vw,28px)]"
             >
-              <span className="w-[90px] flex-none pt-[3px] font-mono text-[13px] text-accent">
-                {e.year}
-              </span>
-              <div className="flex-1 basis-[320px]">
-                <h3 className="m-0 text-[16.5px] font-semibold tracking-[-0.01em]">{e.title}</h3>
-                <p className="m-0 mt-[10px] text-[14px] leading-[1.9] text-muted">{e.desc}</p>
+              {/* 左：ノード＋つなぎ線（Home Process と同じ流儀）*/}
+              <div className="flex flex-col items-center pt-[5px]">
+                <span
+                  aria-hidden
+                  className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-full border border-line bg-surface transition-colors duration-300 group-hover:border-accent"
+                >
+                  <span className="h-[9px] w-[9px] rounded-full bg-accent" />
+                </span>
+                {i < timeline.length - 1 && <span aria-hidden className="mt-2 w-px grow bg-line" />}
+              </div>
+
+              {/* 右：内容 */}
+              <div className="flex-1 pb-[clamp(28px,5vw,52px)]">
+                <span className="font-mono text-[13px] tracking-[0.04em] text-accent">{e.year}</span>
+                <h3 className="m-0 mt-2 text-[clamp(17px,2vw,20px)] font-semibold tracking-[-0.01em] transition-colors duration-300 group-hover:text-accent">
+                  {e.title}
+                </h3>
+                <p className="m-0 mt-[10px] max-w-[60ch] text-[14.5px] leading-[1.9] text-muted">{e.desc}</p>
+                <ul className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0">
+                  {e.tags.map((t) => (
+                    <li
+                      key={t}
+                      className="rounded-full border border-line bg-surface px-3 py-1 font-mono text-[11.5px] tracking-[0.02em] text-muted"
+                    >
+                      {t}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </Reveal>
           ))}
