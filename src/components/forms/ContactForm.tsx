@@ -211,11 +211,11 @@ export function ContactForm() {
             className="mt-[2px] h-[18px] w-[18px] flex-none accent-accent"
           />
           <span>
+            いただいた情報は返信のみに利用します。
             <Link href="/privacy" className="underline underline-offset-2 transition-colors hover:text-ink">
               プライバシーポリシー
             </Link>
-            に同意します。
-            <span className="mt-1 block text-[12px] text-faint">いただいた情報は返信のみに利用します。</span>
+            をご確認のうえ同意をお願いします。
           </span>
         </label>
 
