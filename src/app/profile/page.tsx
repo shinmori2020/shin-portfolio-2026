@@ -118,36 +118,18 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      {/* ===== STATEMENT（1か所だけのアクセント帯）===== */}
-      <section className="relative overflow-hidden border-t border-line text-white" style={{ background: ACCENT_BAND }}>
-        {/* 装飾：薄い大きな引用符で奥行きと"声"を出す */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute right-[3vw] top-[-0.16em] select-none font-serif text-[clamp(200px,30vw,420px)] leading-none text-white/[0.06]"
-        >
-          ”
-        </span>
-        <div className="relative mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,10vw,128px)]">
-          <Reveal className="mb-[clamp(20px,3vw,32px)] font-mono text-[12px] uppercase tracking-[0.16em] text-white/55">
+      {/* ===== STATEMENT（1か所だけのアクセント帯。控えめなスタンス文）===== */}
+      <section className="border-t border-line text-white" style={{ background: ACCENT_BAND }}>
+        <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(56px,8vw,104px)]">
+          <Reveal className="mb-[clamp(18px,2.5vw,28px)] font-mono text-[12px] uppercase tracking-[0.16em] text-white/55">
             Approach
           </Reveal>
           <Reveal
             as="p"
             delayMs={80}
-            className="m-0 max-w-[24em] text-[clamp(22px,3.4vw,38px)] font-medium leading-[1.5] tracking-[-0.02em]"
+            className="m-0 max-w-[30em] text-[clamp(18px,2.5vw,29px)] font-medium leading-[1.65] tracking-[-0.01em] text-white/95"
           >
-            派手な演出より{" "}
-            <span className="underline decoration-white/40 decoration-2 underline-offset-[6px]">
-              読みやすさと速さ
-            </span>
-            。発注する側が安心して任せられる状態を 技術でつくります。
-          </Reveal>
-          {/* 署名（細い罫線つき）で締める */}
-          <Reveal delayMs={160} className="mt-[clamp(28px,4vw,44px)] flex items-center gap-4">
-            <span aria-hidden className="h-px w-10 bg-white/30" />
-            <span className="font-mono text-[12px] tracking-[0.08em] text-white/70">
-              シン — Frontend Engineer
-            </span>
+            制作と開発のあいだで 派手さよりも読みやすさと速さを大切にしています。発注する側が安心して任せられる状態を 丁寧に整えることを心がけています。
           </Reveal>
         </div>
       </section>
@@ -207,12 +189,25 @@ export default function ProfilePage() {
           <Reveal className="mb-[clamp(32px,5vw,52px)]">
             <SectionHeading label="03 / Values">大切にしていること</SectionHeading>
           </Reveal>
-          <div className="grid gap-x-[clamp(28px,4vw,56px)] gap-y-[clamp(28px,4vw,44px)] md:grid-cols-3">
+          <div className="flex flex-col border-b border-line">
             {values.map((v, i) => (
-              <Reveal key={v.title} delayMs={i * 90} className="flex flex-col border-t border-line pt-6">
-                <span className="font-mono text-[13px] tracking-[0.06em] text-accent">0{i + 1}</span>
-                <h3 className="m-0 mt-3 text-[18px] font-semibold tracking-[-0.01em]">{v.title}</h3>
-                <p className="m-0 mt-[10px] text-[14px] leading-[1.95] text-muted">{v.desc}</p>
+              <Reveal
+                key={v.title}
+                delayMs={i * 80}
+                className="flex gap-[clamp(16px,4vw,48px)] border-t border-line py-[clamp(26px,3.5vw,44px)]"
+              >
+                <span
+                  aria-hidden
+                  className="w-[clamp(50px,7vw,104px)] shrink-0 font-mono text-[clamp(38px,6vw,80px)] font-medium leading-[0.9] tracking-[-0.03em] text-[color:color-mix(in_srgb,var(--accent)_20%,transparent)]"
+                >
+                  0{i + 1}
+                </span>
+                <div className="flex-1 pt-[clamp(4px,1vw,10px)]">
+                  <h3 className="m-0 text-[clamp(18px,2.2vw,24px)] font-semibold tracking-[-0.01em]">
+                    {v.title}
+                  </h3>
+                  <p className="m-0 mt-3 max-w-[56ch] text-[14.5px] leading-[1.9] text-muted">{v.desc}</p>
+                </div>
               </Reveal>
             ))}
           </div>
