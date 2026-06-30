@@ -5,7 +5,7 @@ import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
 import { HeadingChars } from "@/components/common/HeadingChars";
 import { ServiceIcon } from "@/components/common/ServiceIcon";
-import { profile, skillGroups, timeline } from "@/data/profile";
+import { profile, skillGroups, timeline, stats, values } from "@/data/profile";
 
 export const metadata: Metadata = {
   title: "プロフィール",
@@ -20,6 +20,9 @@ const btnArrow =
 
 const hatch =
   "[background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2)_12px,transparent_12px,transparent_24px)]";
+
+// 単調さを避けるための1か所だけのアクセント帯。両テーマで読めるよう背景はブランドの濃緑で固定し白文字。
+const ACCENT_BAND = "#1f3a30";
 
 // セクション見出し（ラベルを上・タイトルを下に縦積み）。Home と同じ構成・サイズで統一。
 function SectionHeading({ label, children }: { label: string; children: React.ReactNode }) {
@@ -37,7 +40,7 @@ function SectionHeading({ label, children }: { label: string; children: React.Re
 export default function ProfilePage() {
   return (
     <>
-      {/* ===== INTRO（Home の About と同じ二段組の絵作りで統一）===== */}
+      {/* ===== INTRO（Home の About と同じ二段組）===== */}
       <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(64px,11vw,148px)] pb-[clamp(48px,7vw,96px)]">
         <Reveal className="mb-[clamp(28px,5vw,52px)] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
           Profile
@@ -71,8 +74,24 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      {/* ===== 01 / SKILLS ===== */}
+      {/* ===== STATS（数字で語るバンド）===== */}
       <section className="border-t border-line bg-surface-2">
+        <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(44px,6vw,72px)]">
+          <ul className="grid grid-cols-2 gap-x-8 gap-y-[clamp(28px,4vw,40px)] md:grid-cols-4">
+            {stats.map((s, i) => (
+              <Reveal as="li" key={s.label} delayMs={i * 70} className="flex flex-col gap-[10px]">
+                <span className="font-mono text-[clamp(32px,5vw,52px)] font-medium leading-none tracking-[-0.02em] text-accent">
+                  {s.value}
+                </span>
+                <span className="text-[13px] leading-[1.7] text-muted">{s.label}</span>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ===== 01 / SKILLS ===== */}
+      <section className="border-t border-line">
         <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
           <Reveal className="mb-[clamp(32px,5vw,52px)]">
             <SectionHeading label="01 / Skills">使用技術・得意領域</SectionHeading>
@@ -114,58 +133,92 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      {/* ===== 02 / EXPERIENCE ===== */}
-      <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
-        <Reveal className="mb-[clamp(36px,5vw,56px)]">
-          <SectionHeading label="02 / Experience">これまでの歩み</SectionHeading>
-        </Reveal>
-        <ol className="m-0 list-none p-0">
-          {timeline.map((e, i) => (
-            <Reveal
-              as="li"
-              key={e.year + e.title}
-              delayMs={i * 80}
-              className="group flex gap-[clamp(18px,3vw,28px)]"
-            >
-              {/* 左：ノード＋つなぎ線（Home Process と同じ流儀）*/}
-              <div className="flex flex-col items-center pt-[5px]">
-                <span
-                  aria-hidden
-                  className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-full border border-line bg-surface transition-colors duration-300 group-hover:border-accent"
-                >
-                  <span className="h-[9px] w-[9px] rounded-full bg-accent" />
-                </span>
-                {i < timeline.length - 1 && <span aria-hidden className="mt-2 w-px grow bg-line" />}
-              </div>
-
-              {/* 右：内容 */}
-              <div className="flex-1 pb-[clamp(28px,5vw,52px)]">
-                <span className="font-mono text-[13px] tracking-[0.04em] text-accent">{e.year}</span>
-                <h3 className="m-0 mt-2 text-[clamp(17px,2vw,20px)] font-semibold tracking-[-0.01em] transition-colors duration-300 group-hover:text-accent">
-                  {e.title}
-                </h3>
-                <p className="m-0 mt-[10px] text-[14.5px] leading-[1.9] text-muted">{e.desc}</p>
-                <ul className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0">
-                  {e.tags.map((t) => (
-                    <li
-                      key={t}
-                      className="rounded-full border border-line bg-surface px-3 py-1 font-mono text-[11.5px] tracking-[0.02em] text-muted"
-                    >
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
-          ))}
-        </ol>
+      {/* ===== STATEMENT（1か所だけのアクセント帯）===== */}
+      <section className="border-t border-line text-white" style={{ background: ACCENT_BAND }}>
+        <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,10vw,128px)]">
+          <Reveal className="mb-[clamp(20px,3vw,32px)] font-mono text-[12px] uppercase tracking-[0.16em] text-white/55">
+            Approach
+          </Reveal>
+          <Reveal
+            as="p"
+            delayMs={80}
+            className="m-0 max-w-[24em] text-[clamp(22px,3.4vw,38px)] font-medium leading-[1.5] tracking-[-0.02em]"
+          >
+            派手な演出より 読みやすさと速さ。発注する側が安心して任せられる状態を 技術でつくります。
+          </Reveal>
+        </div>
       </section>
 
-      {/* ===== CONTACT CTA ===== */}
+      {/* ===== 02 / EXPERIENCE ===== */}
+      <section className="border-t border-line bg-surface-2">
+        <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
+          <Reveal className="mb-[clamp(36px,5vw,56px)]">
+            <SectionHeading label="02 / Experience">これまでの歩み</SectionHeading>
+          </Reveal>
+          <ol className="m-0 list-none p-0">
+            {timeline.map((e, i) => (
+              <Reveal
+                as="li"
+                key={e.year + e.title}
+                delayMs={i * 80}
+                className="group flex gap-[clamp(18px,3vw,28px)]"
+              >
+                {/* 左：ノード＋つなぎ線（Home Process と同じ流儀）*/}
+                <div className="flex flex-col items-center pt-[5px]">
+                  <span
+                    aria-hidden
+                    className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-full border border-line bg-surface transition-colors duration-300 group-hover:border-accent"
+                  >
+                    <span className="h-[9px] w-[9px] rounded-full bg-accent" />
+                  </span>
+                  {i < timeline.length - 1 && <span aria-hidden className="mt-2 w-px grow bg-line" />}
+                </div>
+
+                {/* 右：内容 */}
+                <div className="flex-1 pb-[clamp(28px,5vw,52px)]">
+                  <span className="font-mono text-[13px] tracking-[0.04em] text-accent">{e.year}</span>
+                  <h3 className="m-0 mt-2 text-[clamp(17px,2vw,20px)] font-semibold tracking-[-0.01em] transition-colors duration-300 group-hover:text-accent">
+                    {e.title}
+                  </h3>
+                  <p className="m-0 mt-[10px] text-[14.5px] leading-[1.9] text-muted">{e.desc}</p>
+                  <ul className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0">
+                    {e.tags.map((t) => (
+                      <li
+                        key={t}
+                        className="rounded-full border border-line bg-surface px-3 py-1 font-mono text-[11.5px] tracking-[0.02em] text-muted"
+                      >
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* ===== 03 / VALUES（大切にしていること）===== */}
+      <section className="border-t border-line">
+        <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
+          <Reveal className="mb-[clamp(32px,5vw,52px)]">
+            <SectionHeading label="03 / Values">大切にしていること</SectionHeading>
+          </Reveal>
+          <div className="grid gap-x-[clamp(28px,4vw,56px)] gap-y-[clamp(28px,4vw,44px)] md:grid-cols-3">
+            {values.map((v, i) => (
+              <Reveal key={v.title} delayMs={i * 90} className="flex flex-col border-t border-line pt-6">
+                <span className="font-mono text-[13px] tracking-[0.06em] text-accent">0{i + 1}</span>
+                <h3 className="m-0 mt-3 text-[18px] font-semibold tracking-[-0.01em]">{v.title}</h3>
+                <p className="m-0 mt-[10px] text-[14px] leading-[1.95] text-muted">{v.desc}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== CONTACT CTA（TOP と同じ見せ方）===== */}
       <section className="border-t border-line bg-surface-2">
         <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,10vw,140px)] text-center">
-          {/* TOP の Contact と同じ見せ方：ラベルなし・見出しは1文字ずつ下からフェードイン・
-              下の文章とボタンは見出しが出終わってから出現。 */}
           <h2 className="mx-auto m-0 max-w-[22em] text-[clamp(26px,4.4vw,48px)] font-medium leading-[1.32] tracking-[-0.025em] sm:max-w-none">
             <HeadingChars phrases={["お仕事のご相談", "お待ちしています。"]} />
           </h2>

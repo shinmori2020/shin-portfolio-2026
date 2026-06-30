@@ -37,6 +37,40 @@ export const skillGroups: SkillGroup[] = [
   },
 ];
 
+// 数字で語るバンド（仮の数値。実績に合わせて差し替え可）
+export interface Stat {
+  value: string;
+  label: string;
+}
+
+export const stats: Stat[] = [
+  { value: "6年+", label: "制作・開発の経験" },
+  { value: "50+", label: "制作・開発の実績" },
+  { value: "3", label: "領域 — 制作 / 開発 / 運用" },
+  { value: "1〜2日", label: "ご返信の目安（営業日）" },
+];
+
+// 大切にしていること（進め方・価値観）
+export interface Value {
+  title: string;
+  desc: string;
+}
+
+export const values: Value[] = [
+  {
+    title: "現場を知る",
+    desc: "制作の現場で進行や納品まで経験しているからこそ 無理のない進め方と現実的な提案ができます。",
+  },
+  {
+    title: "境目で品質を落とさない",
+    desc: "制作と開発の両方を扱えるため デザインと実装の境目でも仕上がりや速度を犠牲にしません。",
+  },
+  {
+    title: "長く壊れにくく",
+    desc: "派手さより読みやすさと保守性を優先し 公開後も運用しやすい状態を保てる設計にします。",
+  },
+];
+
 export interface TimelineEntry {
   year: string;
   title: string;
