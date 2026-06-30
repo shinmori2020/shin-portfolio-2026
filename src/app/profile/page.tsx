@@ -44,7 +44,7 @@ export default function ProfilePage() {
         </Reveal>
         <div className="flex flex-wrap gap-[clamp(32px,6vw,80px)]">
           {/* ポートレート（左配置・正方形。未用意なら斜線プレースホルダー）*/}
-          <Reveal from="left" className="flex flex-[1_1_260px]">
+          <Reveal className="flex flex-[1_1_260px]">
             <div className="w-full overflow-hidden rounded-2xl border border-line bg-surface shadow-[var(--shadow)]">
               <div className="relative aspect-square w-full overflow-hidden">
                 <Parallax range={16} className="absolute inset-x-0 -top-[8%] h-[116%]">
