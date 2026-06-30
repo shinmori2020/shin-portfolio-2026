@@ -21,10 +21,6 @@ const btnArrow =
 const hatch =
   "[background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2)_12px,transparent_12px,transparent_24px)]";
 
-// 単調さを避けるための1か所だけのアクセント帯。両テーマで読めるよう背景はブランドの濃緑で固定し白文字。
-// 単色だと寂しいので斜めグラデーションで奥行きを出す。
-const ACCENT_BAND = "linear-gradient(135deg, #234a3d 0%, #18302a 100%)";
-
 // セクション見出し（ラベルを上・タイトルを下に縦積み）。Home と同じ構成・サイズで統一。
 function SectionHeading({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -118,16 +114,16 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      {/* ===== STATEMENT（1か所だけのアクセント帯。控えめなスタンス文）===== */}
-      <section className="border-t border-line text-white" style={{ background: ACCENT_BAND }}>
+      {/* ===== STATEMENT（控えめなスタンス文。既存背景に寄せた淡いトーン）===== */}
+      <section className="border-t border-line bg-accent-soft">
         <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(56px,8vw,104px)]">
-          <Reveal className="mb-[clamp(18px,2.5vw,28px)] font-mono text-[12px] uppercase tracking-[0.16em] text-white/55">
+          <Reveal className="mb-[clamp(18px,2.5vw,28px)] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
             Approach
           </Reveal>
           <Reveal
             as="p"
             delayMs={80}
-            className="m-0 max-w-[30em] text-[clamp(18px,2.5vw,29px)] font-medium leading-[1.65] tracking-[-0.01em] text-white/95"
+            className="m-0 max-w-[30em] text-[clamp(18px,2.5vw,29px)] font-medium leading-[1.65] tracking-[-0.01em] text-ink"
           >
             制作と開発のあいだで 派手さよりも読みやすさと速さを大切にしています。発注する側が安心して任せられる状態を 丁寧に整えることを心がけています。
           </Reveal>
