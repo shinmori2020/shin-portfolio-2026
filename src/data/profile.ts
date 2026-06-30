@@ -6,7 +6,7 @@ import type { ServiceIconId } from "@/data/services";
 export const profile = {
   name: "シン",
   role: "Frontend Engineer / Web Developer",
-  bio: "WordPress制作の実務から Next.js によるモダンフロント開発まで。制作と開発の両側を行き来できることを強みに 制作会社や事業者のパートナーとして「速くて・読みやすくて・壊れにくい」サイトを設計します。AIは目的に合う場面でのみ取り入れ 導入の是非からご相談いただけます。",
+  bio: "WordPress制作の実務から Next.js によるモダンフロント開発まで 6年以上にわたり携わり これまでに50件ほどのサイトを手がけてきました。制作 / 開発 / 運用の3領域を行き来できることを強みに 制作会社や事業者のパートナーとして「速くて・読みやすくて・壊れにくい」サイトを設計します。AIは目的に合う場面でのみ取り入れ 導入の是非からご相談いただけます。",
 };
 
 export interface SkillGroup {
@@ -37,19 +37,6 @@ export const skillGroups: SkillGroup[] = [
   },
 ];
 
-// 数字で語るバンド（仮の数値。実績に合わせて差し替え可）
-export interface Stat {
-  value: string;
-  label: string;
-}
-
-export const stats: Stat[] = [
-  { value: "6年+", label: "制作・開発の経験" },
-  { value: "50+", label: "制作・開発の実績" },
-  { value: "3", label: "領域 — 制作 / 開発 / 運用" },
-  { value: "1〜2日", label: "ご返信の目安（営業日）" },
-];
-
 // 大切にしていること（進め方・価値観）
 export interface Value {
   title: string;
@@ -58,16 +45,16 @@ export interface Value {
 
 export const values: Value[] = [
   {
-    title: "現場を知る",
-    desc: "制作の現場で進行や納品まで経験しているからこそ 無理のない進め方と現実的な提案ができます。",
+    title: "ヒアリングを重視する",
+    desc: "つくる前の対話を大切にします。目的や背景を丁寧に伺い 本当に必要なものを見極めてから設計に入ります。",
   },
   {
-    title: "境目で品質を落とさない",
-    desc: "制作と開発の両方を扱えるため デザインと実装の境目でも仕上がりや速度を犠牲にしません。",
+    title: "速さとレスポンシブを丁寧に",
+    desc: "表示速度とどの画面でも崩れない作りに気を配ります。読みやすさと軽さを両立させ 端末を問わず快適に見られる状態にします。",
   },
   {
-    title: "長く壊れにくく",
-    desc: "派手さより読みやすさと保守性を優先し 公開後も運用しやすい状態を保てる設計にします。",
+    title: "返答が早い",
+    desc: "ご連絡にはできるだけ早くお返しします。やり取りのテンポを保ち 安心して進められる状態をつくります。",
   },
 ];
 

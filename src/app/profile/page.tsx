@@ -5,7 +5,7 @@ import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
 import { HeadingChars } from "@/components/common/HeadingChars";
 import { ServiceIcon } from "@/components/common/ServiceIcon";
-import { profile, skillGroups, timeline, stats, values } from "@/data/profile";
+import { profile, skillGroups, timeline, values } from "@/data/profile";
 
 export const metadata: Metadata = {
   title: "プロフィール",
@@ -22,7 +22,8 @@ const hatch =
   "[background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2)_12px,transparent_12px,transparent_24px)]";
 
 // 単調さを避けるための1か所だけのアクセント帯。両テーマで読めるよう背景はブランドの濃緑で固定し白文字。
-const ACCENT_BAND = "#1f3a30";
+// 単色だと寂しいので斜めグラデーションで奥行きを出す。
+const ACCENT_BAND = "linear-gradient(135deg, #234a3d 0%, #18302a 100%)";
 
 // セクション見出し（ラベルを上・タイトルを下に縦積み）。Home と同じ構成・サイズで統一。
 function SectionHeading({ label, children }: { label: string; children: React.ReactNode }) {
@@ -74,24 +75,8 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      {/* ===== STATS（数字で語るバンド）===== */}
-      <section className="border-t border-line bg-surface-2">
-        <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(44px,6vw,72px)]">
-          <ul className="grid grid-cols-2 gap-x-8 gap-y-[clamp(28px,4vw,40px)] md:grid-cols-4">
-            {stats.map((s, i) => (
-              <Reveal as="li" key={s.label} delayMs={i * 70} className="flex flex-col gap-[10px]">
-                <span className="font-mono text-[clamp(32px,5vw,52px)] font-medium leading-none tracking-[-0.02em] text-accent">
-                  {s.value}
-                </span>
-                <span className="text-[13px] leading-[1.7] text-muted">{s.label}</span>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-      </section>
-
       {/* ===== 01 / SKILLS ===== */}
-      <section className="border-t border-line">
+      <section className="border-t border-line bg-surface-2">
         <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
           <Reveal className="mb-[clamp(32px,5vw,52px)]">
             <SectionHeading label="01 / Skills">使用技術・得意領域</SectionHeading>
@@ -134,8 +119,15 @@ export default function ProfilePage() {
       </section>
 
       {/* ===== STATEMENT（1か所だけのアクセント帯）===== */}
-      <section className="border-t border-line text-white" style={{ background: ACCENT_BAND }}>
-        <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,10vw,128px)]">
+      <section className="relative overflow-hidden border-t border-line text-white" style={{ background: ACCENT_BAND }}>
+        {/* 装飾：薄い大きな引用符で奥行きと"声"を出す */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute right-[3vw] top-[-0.16em] select-none font-serif text-[clamp(200px,30vw,420px)] leading-none text-white/[0.06]"
+        >
+          ”
+        </span>
+        <div className="relative mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,10vw,128px)]">
           <Reveal className="mb-[clamp(20px,3vw,32px)] font-mono text-[12px] uppercase tracking-[0.16em] text-white/55">
             Approach
           </Reveal>
@@ -144,7 +136,18 @@ export default function ProfilePage() {
             delayMs={80}
             className="m-0 max-w-[24em] text-[clamp(22px,3.4vw,38px)] font-medium leading-[1.5] tracking-[-0.02em]"
           >
-            派手な演出より 読みやすさと速さ。発注する側が安心して任せられる状態を 技術でつくります。
+            派手な演出より{" "}
+            <span className="underline decoration-white/40 decoration-2 underline-offset-[6px]">
+              読みやすさと速さ
+            </span>
+            。発注する側が安心して任せられる状態を 技術でつくります。
+          </Reveal>
+          {/* 署名（細い罫線つき）で締める */}
+          <Reveal delayMs={160} className="mt-[clamp(28px,4vw,44px)] flex items-center gap-4">
+            <span aria-hidden className="h-px w-10 bg-white/30" />
+            <span className="font-mono text-[12px] tracking-[0.08em] text-white/70">
+              シン — Frontend Engineer
+            </span>
           </Reveal>
         </div>
       </section>
