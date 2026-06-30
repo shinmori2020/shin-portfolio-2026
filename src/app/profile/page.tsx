@@ -64,7 +64,7 @@ export default function ProfilePage() {
             <p className="m-0 mt-[16px] font-mono text-[15px] tracking-[0.02em] text-accent">
               {profile.role}
             </p>
-            <p className="mt-[clamp(20px,3vw,28px)] max-w-[52ch] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
+            <p className="mt-[clamp(20px,3vw,28px)] text-[clamp(15px,1.5vw,17px)] leading-[1.95] text-muted">
               {profile.bio}
             </p>
           </Reveal>
@@ -114,16 +114,24 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      {/* ===== STATEMENT（控えめなスタンス文。既存背景に寄せた淡いトーン）===== */}
-      <section className="border-t border-line bg-accent-soft">
-        <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(56px,8vw,104px)]">
+      {/* ===== STATEMENT（控えめなスタンス文。中間トーン＋微かな斜め地紋）===== */}
+      <section
+        className="relative overflow-hidden border-t border-line"
+        style={{ background: "color-mix(in srgb, var(--accent) 22%, var(--bg))" }}
+      >
+        {/* 特殊な背景：ごく薄い斜めストライプの地紋 */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 [background:repeating-linear-gradient(135deg,transparent,transparent_24px,color-mix(in_srgb,var(--accent)_9%,transparent)_24px,color-mix(in_srgb,var(--accent)_9%,transparent)_25px)]"
+        />
+        <div className="relative mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(56px,8vw,104px)]">
           <Reveal className="mb-[clamp(18px,2.5vw,28px)] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
             Approach
           </Reveal>
           <Reveal
             as="p"
             delayMs={80}
-            className="m-0 max-w-[30em] text-[clamp(18px,2.5vw,29px)] font-medium leading-[1.65] tracking-[-0.01em] text-ink"
+            className="m-0 text-[clamp(18px,2.5vw,29px)] font-medium leading-[1.65] tracking-[-0.01em] text-ink"
           >
             制作と開発のあいだで 派手さよりも読みやすさと速さを大切にしています。発注する側が安心して任せられる状態を 丁寧に整えることを心がけています。
           </Reveal>
@@ -202,7 +210,7 @@ export default function ProfilePage() {
                   <h3 className="m-0 text-[clamp(18px,2.2vw,24px)] font-semibold tracking-[-0.01em]">
                     {v.title}
                   </h3>
-                  <p className="m-0 mt-3 max-w-[56ch] text-[14.5px] leading-[1.9] text-muted">{v.desc}</p>
+                  <p className="m-0 mt-3 text-[14.5px] leading-[1.9] text-muted">{v.desc}</p>
                 </div>
               </Reveal>
             ))}
