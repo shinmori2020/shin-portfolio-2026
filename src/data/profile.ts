@@ -6,7 +6,7 @@ import type { ServiceIconId } from "@/data/services";
 export const profile = {
   name: "シン",
   role: "Frontend Engineer / Web Developer",
-  bio: "WordPress制作の実務から Next.js によるモダンフロント開発まで。制作と開発の両側を行き来できることを強みに 制作会社や事業者のパートナーとして「速くて・読みやすくて・壊れにくい」サイトを設計します。AIを活用した実装のご相談にも対応します。",
+  bio: "WordPress制作の実務から Next.js によるモダンフロント開発まで。制作と開発の両側を行き来できることを強みに 制作会社や事業者のパートナーとして「速くて・読みやすくて・壊れにくい」サイトを設計します。AIは目的に合う場面でのみ取り入れ 導入の是非からご相談いただけます。",
 };
 
 export interface SkillGroup {
@@ -30,10 +30,10 @@ export const skillGroups: SkillGroup[] = [
     items: ["テーマ開発・保守", "ヘッドレスWP", "カスタムフィールド設計", "既存資産の移行"],
   },
   {
-    icon: "ai",
-    cat: "AI / その他",
-    desc: "AIの活用やホスティングなど 周辺領域のご相談にも応じます。",
-    items: ["AIを活用した実装の相談", "AIコーディングの活用", "Vercel ホスティング", "業務効率化ツールの開発"],
+    icon: "support",
+    cat: "開発・運用",
+    desc: "ホスティングや保守・運用 業務効率化など 周辺領域のご相談にも応じます。",
+    items: ["Vercel ホスティング", "パフォーマンス最適化", "保守・運用", "業務効率化ツールの開発"],
   },
 ];
 
@@ -59,9 +59,9 @@ export const timeline: TimelineEntry[] = [
   },
   {
     year: "2024–",
-    title: "AI活用を実務に取り入れる",
-    desc: "AIコーディングやRAGなどを必要に応じて実案件に導入。「使う/任せる」の線引きを見極めて設計に落とし込む。",
-    tags: ["AIコーディング", "RAG", "Vercel"],
+    title: "対応範囲を制作から開発まで広げる",
+    desc: "受託で培った制作の知見にモダン開発を掛け合わせ 制作から開発まで一貫して引き受けられる体制を整える。",
+    tags: ["Next.js", "TypeScript", "パフォーマンス最適化"],
   },
   {
     year: "現在",
