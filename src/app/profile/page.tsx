@@ -77,24 +77,28 @@ export default function ProfilePage() {
           <Reveal className="mb-[clamp(32px,5vw,52px)]">
             <SectionHeading label="01 / Skills">使用技術・得意領域</SectionHeading>
           </Reveal>
-          <div className="grid gap-[clamp(16px,2vw,22px)] sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex flex-col gap-[clamp(14px,2vw,18px)]">
             {skillGroups.map((g, i) => (
               <Reveal
                 key={g.cat}
                 delayMs={i * 90}
-                className="flex flex-col gap-[18px] rounded-2xl border border-line bg-surface p-[clamp(24px,3vw,32px)] transition-colors duration-300 hover:border-line-strong"
+                className="flex flex-col gap-5 rounded-2xl border border-line bg-surface p-[clamp(22px,3vw,32px)] transition-colors duration-300 hover:border-line-strong md:flex-row md:items-center md:gap-[clamp(28px,4vw,56px)]"
               >
-                <span
-                  aria-hidden
-                  className="grid h-11 w-11 place-items-center rounded-xl border border-line bg-surface-2 text-accent"
-                >
-                  <ServiceIcon id={g.icon} />
-                </span>
-                <div>
-                  <h3 className="m-0 text-[17px] font-semibold tracking-[-0.01em]">{g.cat}</h3>
-                  <p className="m-0 mt-2 text-[13.5px] leading-[1.8] text-muted">{g.desc}</p>
+                {/* 左：アイコン＋見出し＋説明 */}
+                <div className="flex items-start gap-4 md:basis-[42%] md:shrink-0">
+                  <span
+                    aria-hidden
+                    className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-line bg-surface-2 text-accent"
+                  >
+                    <ServiceIcon id={g.icon} />
+                  </span>
+                  <div>
+                    <h3 className="m-0 text-[17px] font-semibold tracking-[-0.01em]">{g.cat}</h3>
+                    <p className="m-0 mt-2 text-[13.5px] leading-[1.8] text-muted">{g.desc}</p>
+                  </div>
                 </div>
-                <ul className="mt-auto flex list-none flex-wrap gap-2 p-0 pt-1">
+                {/* 右：スキルタグ */}
+                <ul className="flex list-none flex-wrap gap-2 p-0 md:flex-1">
                   {g.items.map((item) => (
                     <li
                       key={item}
