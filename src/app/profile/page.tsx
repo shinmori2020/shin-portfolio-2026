@@ -139,7 +139,7 @@ export default function ProfilePage() {
                 <h3 className="m-0 mt-2 text-[clamp(17px,2vw,20px)] font-semibold tracking-[-0.01em] transition-colors duration-300 group-hover:text-accent">
                   {e.title}
                 </h3>
-                <p className="m-0 mt-[10px] max-w-[60ch] text-[14.5px] leading-[1.9] text-muted">{e.desc}</p>
+                <p className="m-0 mt-[10px] text-[14.5px] leading-[1.9] text-muted">{e.desc}</p>
                 <ul className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0">
                   {e.tags.map((t) => (
                     <li
