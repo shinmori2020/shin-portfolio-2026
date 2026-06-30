@@ -214,7 +214,7 @@ export function ContactForm() {
             {isPending ? "送信中…" : "送信する"}
           </span>
         </button>
-        <p className="mt-3 text-center text-[12px] leading-[1.8] text-faint">
+        <p className="mt-3 text-left text-[12px] leading-[1.8] text-faint">
           いただいた情報は返信のみに利用します。{" "}
           <Link href="/privacy" className="underline underline-offset-2 transition-colors hover:text-muted">
             プライバシーポリシー
