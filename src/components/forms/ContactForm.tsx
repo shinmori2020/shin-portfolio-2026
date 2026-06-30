@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useId } from "react";
+import { useActionState, useId, useState } from "react";
 import { submitContact, type ContactFormState } from "@/app/actions/contact";
 
 const INIT: ContactFormState = { status: "idle", message: "" };
@@ -128,6 +128,7 @@ function Select({
 
 export function ContactForm() {
   const [state, formAction, isPending] = useActionState(submitContact, INIT);
+  const [agreed, setAgreed] = useState(false);
   const msgId = useId();
   const msgErrId = `${msgId}-err`;
   const msgError = state.fieldErrors?.message;
@@ -201,10 +202,27 @@ export function ContactForm() {
       {/* 送信ボタンはこのフォーム専用デザイン（サイトの他ボタンと差別化）。
           角丸 2xl / 全幅 / 円形の矢印バッジ / ホバーで地色がわずかに沈み光がスイープ。 */}
       <div className="mt-7">
+        {/* 同意チェック（チェックしないと送信ボタンは押せない）*/}
+        <label className="flex cursor-pointer items-start gap-3 text-[13px] leading-[1.7] text-muted">
+          <input
+            type="checkbox"
+            checked={agreed}
+            onChange={(e) => setAgreed(e.target.checked)}
+            className="mt-[2px] h-[18px] w-[18px] flex-none accent-accent"
+          />
+          <span>
+            <Link href="/privacy" className="underline underline-offset-2 transition-colors hover:text-ink">
+              プライバシーポリシー
+            </Link>
+            に同意します。
+            <span className="mt-1 block text-[12px] text-faint">いただいた情報は返信のみに利用します。</span>
+          </span>
+        </label>
+
         <button
           type="submit"
-          disabled={isPending}
-          className="group relative w-full overflow-hidden rounded-2xl bg-accent px-8 py-[18px] text-[15.5px] font-medium tracking-[0.02em] text-white transition-colors hover:bg-[color-mix(in_srgb,var(--accent)_88%,#000)] disabled:opacity-60"
+          disabled={isPending || !agreed}
+          className="group relative mt-5 w-full overflow-hidden rounded-2xl bg-accent px-8 py-[18px] text-[15.5px] font-medium tracking-[0.02em] text-white transition-colors hover:bg-[color-mix(in_srgb,var(--accent)_88%,#000)] disabled:cursor-not-allowed disabled:opacity-60"
         >
           <span
             aria-hidden
@@ -214,12 +232,6 @@ export function ContactForm() {
             {isPending ? "送信中…" : "送信する"}
           </span>
         </button>
-        <p className="mt-3 text-left text-[12px] leading-[1.8] text-faint">
-          いただいた情報は返信のみに利用します。{" "}
-          <Link href="/privacy" className="underline underline-offset-2 transition-colors hover:text-muted">
-            プライバシーポリシー
-          </Link>
-        </p>
       </div>
     </form>
   );
