@@ -82,10 +82,10 @@ export default function ProfilePage() {
               <Reveal
                 key={g.cat}
                 delayMs={i * 90}
-                className="flex flex-col gap-5 rounded-2xl border border-line bg-surface p-[clamp(22px,3vw,32px)] transition-colors duration-300 hover:border-line-strong md:flex-row md:items-center md:gap-[clamp(28px,4vw,56px)]"
+                className="flex flex-col gap-5 rounded-2xl border border-line bg-surface p-[clamp(22px,3vw,32px)] transition-colors duration-300 hover:border-line-strong"
               >
-                {/* 左：アイコン＋見出し＋説明 */}
-                <div className="flex items-start gap-4 md:basis-[42%] md:shrink-0">
+                {/* 上：アイコン＋見出し＋説明 */}
+                <div className="flex items-start gap-4">
                   <span
                     aria-hidden
                     className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-line bg-surface-2 text-accent"
@@ -97,8 +97,8 @@ export default function ProfilePage() {
                     <p className="m-0 mt-2 text-[13.5px] leading-[1.8] text-muted">{g.desc}</p>
                   </div>
                 </div>
-                {/* 右：スキルタグ */}
-                <ul className="flex list-none flex-wrap gap-2 p-0 md:flex-1">
+                {/* 下：スキルタグ */}
+                <ul className="flex list-none flex-wrap gap-2 p-0">
                   {g.items.map((item) => (
                     <li
                       key={item}
