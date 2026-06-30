@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
 import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
+import { HeadingChars } from "@/components/common/HeadingChars";
 import { ServiceIcon } from "@/components/common/ServiceIcon";
 import { profile, skillGroups, timeline } from "@/data/profile";
 
@@ -159,23 +160,19 @@ export default function ProfilePage() {
       {/* ===== CONTACT CTA ===== */}
       <section className="border-t border-line bg-surface-2">
         <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,10vw,140px)] text-center">
-          <Reveal className="mb-[26px] font-mono text-[12px] uppercase tracking-[0.14em] text-accent">
-            Contact
-          </Reveal>
-          <Reveal
-            as="h2"
-            className="mx-auto m-0 max-w-[20ch] text-[clamp(26px,4.4vw,48px)] font-medium leading-[1.32] tracking-[-0.025em] [text-wrap:balance]"
-          >
-            お仕事のご相談 お待ちしています。
-          </Reveal>
+          {/* TOP の Contact と同じ見せ方：ラベルなし・見出しは1文字ずつ下からフェードイン・
+              下の文章とボタンは見出しが出終わってから出現。 */}
+          <h2 className="mx-auto m-0 max-w-[22em] text-[clamp(26px,4.4vw,48px)] font-medium leading-[1.32] tracking-[-0.025em] sm:max-w-none">
+            <HeadingChars phrases={["お仕事のご相談", "お待ちしています。"]} />
+          </h2>
           <Reveal
             as="p"
-            delayMs={80}
+            delayMs={1000}
             className="mx-auto m-0 mt-[26px] max-w-[46ch] text-[15px] leading-[1.9] text-muted"
           >
             制作会社や事業者からのご相談を歓迎します。モダン技術での開発や機能実装などお気軽にご連絡ください。
           </Reveal>
-          <Reveal delayMs={150} className="mt-[42px] flex flex-wrap justify-center gap-[14px]">
+          <Reveal delayMs={1200} className="mt-[42px] flex flex-wrap justify-center gap-[14px]">
             <Link href="/contact" className={`${btnBase} bg-accent text-white`}>
               お問い合わせへ <span className={btnArrow}>→</span>
             </Link>
