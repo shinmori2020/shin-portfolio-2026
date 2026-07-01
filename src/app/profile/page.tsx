@@ -198,7 +198,7 @@ export default function ProfilePage() {
               <Reveal
                 key={v.title}
                 delayMs={i * 80}
-                className="flex gap-[clamp(16px,4vw,48px)] border-t border-line py-[clamp(26px,3.5vw,44px)]"
+                className="flex items-center gap-[clamp(16px,4vw,48px)] border-t border-line py-[clamp(26px,3.5vw,44px)]"
               >
                 <span
                   aria-hidden
@@ -206,7 +206,7 @@ export default function ProfilePage() {
                 >
                   0{i + 1}
                 </span>
-                <div className="flex-1 pt-[clamp(4px,1vw,10px)]">
+                <div className="flex-1">
                   <h3 className="m-0 text-[clamp(18px,2.2vw,24px)] font-semibold tracking-[-0.01em]">
                     {v.title}
                   </h3>
