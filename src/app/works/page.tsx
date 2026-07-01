@@ -46,16 +46,16 @@ export default function WorksPage() {
                   image={w.image}
                   className="transition-colors group-hover:border-line-strong"
                 />
-                <div className="flex items-baseline gap-[14px]">
-                  <span className="font-mono text-[13px] text-accent">{w.no}</span>
-                  <div className="flex flex-col gap-[10px]">
+                <div className="flex flex-col gap-[10px]">
+                  <div className="flex items-baseline gap-[14px]">
+                    <span className="font-mono text-[13px] text-accent">{w.no}</span>
                     <span className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-muted">
                       {w.kind}
                     </span>
-                    <h3 className="m-0 text-[clamp(18px,1.8vw,21px)] font-semibold leading-[1.5] tracking-[-0.015em]">
-                      {w.title}
-                    </h3>
                   </div>
+                  <h3 className="m-0 text-[clamp(18px,1.8vw,21px)] font-semibold leading-[1.5] tracking-[-0.015em]">
+                    {w.title}
+                  </h3>
                 </div>
                 <p className="m-0 text-[14px] leading-[1.85] text-muted">{w.desc}</p>
                 <div className="flex flex-wrap gap-[7px]">
