@@ -75,7 +75,7 @@ export default function ProfilePage() {
       <section className="border-t border-line bg-surface-2">
         <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(64px,9vw,120px)]">
           <Reveal className="mb-[clamp(32px,5vw,52px)]">
-            <SectionHeading label="01 / Skills">使用技術・得意領域</SectionHeading>
+            <SectionHeading label="01 / Skills">得意なことと使う技術</SectionHeading>
           </Reveal>
           <div className="flex flex-col gap-[clamp(14px,2vw,18px)]">
             {skillGroups.map((g, i) => (
