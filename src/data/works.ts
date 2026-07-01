@@ -44,6 +44,8 @@ export interface Work {
   delayMs: number;
   /** スクリーンショット画像パス（未用意なら undefined → 斜線プレースホルダー） */
   image?: string;
+  /** 全体スクリーンショット（縦長・モーダル表示用。未指定なら image を使用） */
+  imageFull?: string;
   /** 詳細ページのメタ情報 */
   meta: WorkMeta;
   /** 詳細: 制作物の概要 */

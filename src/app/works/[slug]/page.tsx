@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/common/Reveal";
-import { BrowserFrame } from "@/components/common/BrowserFrame";
+import { WorkImageLightbox } from "@/components/common/WorkImageLightbox";
 import { works, getWorkBySlug } from "@/data/works";
 
 type Params = { slug: string };
@@ -95,9 +95,9 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
         </Reveal>
       </section>
 
-      {/* ===== HERO IMAGE ===== */}
+      {/* ===== HERO IMAGE（クリックで全体をモーダル表示）===== */}
       <Reveal className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pb-[clamp(48px,7vw,88px)]">
-        <BrowserFrame url={w.url} ratio="16 / 8.5" label="hero screenshot" image={w.image} />
+        <WorkImageLightbox url={w.url} title={w.title} image={w.image} imageFull={w.imageFull} />
       </Reveal>
 
       {/* ===== BODY ===== */}

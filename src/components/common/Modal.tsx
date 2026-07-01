@@ -13,11 +13,22 @@ interface ModalProps {
   /** パネルの見出し要素の id（aria-labelledby）*/
   labelledById: string;
   children: ReactNode;
+  /** パネルの最大幅クラス（既定 max-w-[560px]）*/
+  panelMaxWidth?: string;
+  /** パネルの余白クラス（既定 p-[clamp(24px,4vw,40px)]）*/
+  panelPadding?: string;
 }
 
 // アクセシブルなモーダル：portal / フォーカストラップ / Escで閉じる / 背景クリックで閉じる /
 // スクロールロック / 閉じたら元の要素にフォーカスを戻す / reduced-motion 配慮。
-export function Modal({ open, onClose, labelledById, children }: ModalProps) {
+export function Modal({
+  open,
+  onClose,
+  labelledById,
+  children,
+  panelMaxWidth = "max-w-[560px]",
+  panelPadding = "p-[clamp(24px,4vw,40px)]",
+}: ModalProps) {
   const reduceMotion = useReducedMotion();
   const panelRef = useRef<HTMLDivElement>(null);
   const prevFocus = useRef<HTMLElement | null>(null);
@@ -90,7 +101,7 @@ export function Modal({ open, onClose, labelledById, children }: ModalProps) {
             aria-modal="true"
             aria-labelledby={labelledById}
             tabIndex={-1}
-            className="relative z-10 max-h-[85vh] w-full max-w-[560px] overflow-y-auto rounded-2xl border border-line bg-surface p-[clamp(24px,4vw,40px)] shadow-[var(--shadow)] focus:outline-none"
+            className={`relative z-10 max-h-[85vh] w-full ${panelMaxWidth} overflow-y-auto rounded-2xl border border-line bg-surface ${panelPadding} shadow-[var(--shadow)] focus:outline-none`}
             initial={reduceMotion ? false : { opacity: 0, scale: 0.96, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, scale: 0.97, y: 6 }}
