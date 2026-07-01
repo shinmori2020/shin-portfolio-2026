@@ -118,14 +118,16 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
         </DetailSection>
 
         <DetailSection no="03" title="使用技術スタック">
-          <div className="grid gap-px overflow-hidden rounded-[12px] border border-line bg-line [grid-template-columns:repeat(auto-fit,minmax(150px,1fr))]">
+          <ul className="m-0 flex list-none flex-wrap gap-2.5 p-0">
             {w.stack.map((s) => (
-              <div key={s.cat + s.name} className="flex flex-col gap-1.5 bg-surface px-5 py-[18px]">
-                <span className="font-mono text-[10px] uppercase tracking-[0.06em] text-faint">{s.cat}</span>
-                <span className="text-[14.5px] font-medium">{s.name}</span>
-              </div>
+              <li
+                key={s.cat + s.name}
+                className="rounded-full border border-line bg-surface px-4 py-1.5 text-[13.5px] text-ink"
+              >
+                {s.name}
+              </li>
             ))}
-          </div>
+          </ul>
         </DetailSection>
 
         <DetailSection no="04" title="工夫した点・こだわり" last>
