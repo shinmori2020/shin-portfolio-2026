@@ -57,8 +57,8 @@ export default function WorksPage() {
                     </h3>
                   </div>
                 </div>
-                <p className="m-0 pl-[30px] text-[14px] leading-[1.85] text-muted">{w.desc}</p>
-                <div className="flex flex-wrap gap-[7px] pl-[30px]">
+                <p className="m-0 text-[14px] leading-[1.85] text-muted">{w.desc}</p>
+                <div className="flex flex-wrap gap-[7px]">
                   {w.tags.map((t) => (
                     <span
                       key={t}
@@ -68,7 +68,7 @@ export default function WorksPage() {
                     </span>
                   ))}
                 </div>
-                <span className="mt-[2px] inline-flex items-center gap-2 pl-[30px] text-[13px] text-accent">
+                <span className="mt-[2px] inline-flex items-center gap-2 text-[13px] text-accent">
                   詳細を見る
                   <span
                     aria-hidden
