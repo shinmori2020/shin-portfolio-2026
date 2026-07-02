@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
+import { useScrolled } from "@/hooks/useScrolled";
 
 const navLinks = [
   { href: "/works", label: "Works" },
@@ -8,8 +11,17 @@ const navLinks = [
 ];
 
 export function Header() {
+  // スクロール時のみ罫線＋背景を不透明化（高さは変えない・transition は色のみ 200ms）
+  const scrolled = useScrolled();
+
   return (
-    <header className="sticky top-0 z-50 border-b border-line backdrop-blur-[12px] backdrop-saturate-[1.6] [background:color-mix(in_srgb,var(--bg)_80%,transparent)]">
+    <header
+      className={`sticky top-0 z-50 border-b backdrop-blur-[12px] backdrop-saturate-[1.6] transition-[background-color,border-color] duration-200 motion-reduce:transition-none ${
+        scrolled
+          ? "border-line [background:color-mix(in_srgb,var(--bg)_88%,transparent)]"
+          : "border-transparent [background:color-mix(in_srgb,var(--bg)_55%,transparent)]"
+      }`}
+    >
       <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-6 px-[clamp(20px,4vw,40px)] py-4">
         <Link
           href="/"
