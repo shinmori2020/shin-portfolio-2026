@@ -65,7 +65,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
         <Reveal className="mb-[clamp(32px,5vw,52px)]">
           <Link
             href="/works"
-            className="group inline-flex items-center gap-2 text-[13px] text-muted no-underline transition-colors hover:text-accent"
+            className="link-underline group inline-flex items-center gap-2 text-[13px] text-muted no-underline transition-colors hover:text-accent"
           >
             <span aria-hidden className="font-mono transition-transform group-hover:-translate-x-[3px] motion-reduce:transform-none">
               ←

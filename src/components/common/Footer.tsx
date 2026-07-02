@@ -8,7 +8,7 @@ export function Footer() {
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           <Link
             href="/privacy"
-            className="text-[12.5px] text-muted no-underline transition-colors hover:text-ink"
+            className="link-underline text-[12.5px] text-muted no-underline transition-colors hover:text-ink"
           >
             プライバシーポリシー
           </Link>

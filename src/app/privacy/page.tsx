@@ -128,7 +128,7 @@ export default function PrivacyPage() {
         <Reveal delayMs={160} className="mt-[40px] border-t border-line pt-[26px]">
           <Link
             href="/"
-            className="group inline-flex items-center gap-2 text-[13.5px] text-muted transition-colors hover:text-ink"
+            className="link-underline group inline-flex items-center gap-2 text-[13.5px] text-muted transition-colors hover:text-ink"
           >
             <span aria-hidden className="font-mono transition-transform group-hover:-translate-x-[3px]">
               ←
