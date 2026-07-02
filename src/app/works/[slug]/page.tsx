@@ -147,19 +147,19 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
         <Reveal>
           <Link
             href={`/works/${next.slug}`}
-            className="group flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-line bg-surface p-[clamp(24px,3vw,36px)] text-ink no-underline transition-colors duration-300 hover:border-accent"
+            className="group flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-line bg-surface p-[clamp(24px,3vw,36px)] text-ink no-underline transition-colors duration-200 motion-reduce:transition-none hover:border-accent focus-visible:border-accent focus-visible:outline-none"
           >
             <div className="flex flex-col gap-2">
               <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-faint">
                 Next work — {next.no}
               </span>
-              <span className="text-[clamp(17px,2vw,21px)] font-semibold tracking-[-0.015em]">
+              <span className="text-[clamp(17px,2vw,21px)] font-semibold tracking-[-0.015em] transition-colors duration-200 group-hover:text-accent group-focus-visible:text-accent">
                 {next.title}
               </span>
             </div>
             <span
               aria-hidden
-              className="font-mono text-[22px] text-accent transition-transform duration-300 group-hover:translate-x-[4px] motion-reduce:transform-none"
+              className="font-mono text-[22px] text-accent transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transform-none"
             >
               →
             </span>
