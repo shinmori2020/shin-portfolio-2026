@@ -1,6 +1,10 @@
 // ブラウザ風カード（上部にドット＋URL・下にスクリーンショット領域）。
 // 一覧カードと詳細ページのヒーロー画像で共用する。
 // 画像未用意の間は斜線プレースホルダー。親に `group` があるとホバーで微ズームする（一覧カード用）。
+// 実画像がある場合は next/image で blur-up 表示（タスク3）。
+
+import Image from "next/image";
+import { BLUR_DATA_URL } from "@/lib/blur";
 
 const hatch =
   "[background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2)_12px,transparent_12px,transparent_24px)]";
@@ -29,14 +33,17 @@ export function BrowserFrame({
         ))}
         <span className="ml-2.5 truncate font-mono text-[10.5px] text-faint">{url}</span>
       </div>
-      {/* スクリーンショット領域 */}
-      <div className="overflow-hidden" style={{ aspectRatio: ratio }}>
+      {/* スクリーンショット領域（aspect-ratio で高さ確保＝CLSゼロ）*/}
+      <div className="relative overflow-hidden" style={{ aspectRatio: ratio }}>
         {image ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={image}
             alt=""
-            className="h-full w-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.04] motion-reduce:transform-none"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1180px) 50vw, 560px"
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
+            className="object-cover transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.04] motion-reduce:transform-none"
           />
         ) : (
           <div
