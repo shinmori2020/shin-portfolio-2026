@@ -1,238 +1,225 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useId, useState } from "react";
+import { useState } from "react";
 import { submitContact, type ContactFormState } from "@/app/actions/contact";
-
-const INIT: ContactFormState = { status: "idle", message: "" };
-
-const ERROR_COLOR = "#c0362c";
-
-const baseInput =
-  "w-full rounded-xl border bg-surface px-4 py-3 text-[15px] text-ink outline-none transition-[border-color,box-shadow] placeholder:text-faint focus:border-accent focus:[box-shadow:0_0_0_3px_color-mix(in_srgb,var(--accent)_13%,transparent)]";
+import { TextField } from "./TextField";
+import { TextArea } from "./TextArea";
+import { SelectField } from "./SelectField";
+import { ConsentCheckbox } from "./ConsentCheckbox";
+import { SubmitButton, type SubmitStatus } from "./SubmitButton";
 
 const TYPE_OPTIONS = ["Web制作", "開発", "機能追加・改修", "その他"];
 const BUDGET_OPTIONS = ["〜10万円", "10〜30万円", "30〜50万円", "50万円〜", "相談したい"];
 const DEADLINE_OPTIONS = ["できるだけ早く", "1ヶ月以内", "1〜3ヶ月", "3ヶ月以上", "時期は相談したい"];
 
-function borderClass(error?: string) {
-  return error ? "border-[#c0362c]" : "border-line";
-}
+const INIT: ContactFormState = { status: "idle", message: "" };
 
-function Badge({ required }: { required: boolean }) {
-  return required ? (
-    <span className="ml-2 rounded-full bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] px-2 py-[2px] text-[10px] tracking-[0.04em] text-accent">
-      必須
-    </span>
-  ) : (
-    <span className="ml-2 text-[11px] text-faint">任意</span>
-  );
-}
+/* バリデーションルール（純関数）。メッセージはサーバー側 Zod と揃える */
+const validators = {
+  name: (v: string) => (v.trim() ? "" : "お名前を入力してください"),
+  email: (v: string) => {
+    if (!v.trim()) return "メールアドレスを入力してください";
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "" : "メールアドレスの形式が正しくありません";
+  },
+  message: (v: string) => {
+    const t = v.trim();
+    if (!t) return "お問い合わせ内容を入力してください";
+    return t.length >= 10 ? "" : "10文字以上で入力してください";
+  },
+  consent: (v: boolean) => (v ? "" : "プライバシーポリシーへの同意が必要です"),
+};
 
-function FieldLabel({ htmlFor, label, required }: { htmlFor: string; label: string; required: boolean }) {
-  return (
-    <label htmlFor={htmlFor} className="mb-2 flex items-center text-[13px] text-ink">
-      {label}
-      <Badge required={required} />
-    </label>
-  );
-}
-
-function Field({
-  label,
-  name,
-  type = "text",
-  required = false,
-  autoComplete,
-  placeholder,
-  error,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  required?: boolean;
-  autoComplete?: string;
-  placeholder?: string;
-  error?: string;
-}) {
-  const id = useId();
-  const errId = `${id}-err`;
-  return (
-    <div>
-      <FieldLabel htmlFor={id} label={label} required={required} />
-      <input
-        id={id}
-        name={name}
-        type={type}
-        required={required}
-        autoComplete={autoComplete}
-        placeholder={placeholder}
-        aria-required={required || undefined}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={error ? errId : undefined}
-        className={`${baseInput} ${borderClass(error)}`}
-      />
-      {error ? (
-        <p id={errId} className="mt-1.5 text-[12.5px]" style={{ color: ERROR_COLOR }}>
-          {error}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
-function Select({
-  label,
-  name,
-  options,
-  required = false,
-  placeholder = "選択してください",
-}: {
-  label: string;
-  name: string;
-  options: string[];
-  required?: boolean;
-  placeholder?: string;
-}) {
-  const id = useId();
-  return (
-    <div>
-      <FieldLabel htmlFor={id} label={label} required={required} />
-      <div className="relative">
-        <select
-          id={id}
-          name={name}
-          required={required}
-          defaultValue=""
-          className={`${baseInput} border-line appearance-none pr-10`}
-        >
-          <option value="" disabled={required}>
-            {placeholder}
-          </option>
-          {options.map((o) => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-        <span
-          aria-hidden
-          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[12px] text-muted"
-        >
-          ▾
-        </span>
-      </div>
-    </div>
-  );
-}
+type TextKey = "name" | "email" | "message";
+type Errors = { name?: string; email?: string; message?: string; consent?: string };
 
 export function ContactForm() {
-  const [state, formAction, isPending] = useActionState(submitContact, INIT);
-  const [agreed, setAgreed] = useState(false);
-  const msgId = useId();
-  const msgErrId = `${msgId}-err`;
-  const msgError = state.fieldErrors?.message;
+  const [status, setStatus] = useState<SubmitStatus>("idle");
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    company: "",
+    type: "",
+    budget: "",
+    deadline: "",
+    message: "",
+    consent: false,
+  });
+  const [errors, setErrors] = useState<Errors>({});
+  const [touched, setTouched] = useState<{ name?: boolean; email?: boolean; message?: boolean }>({});
+  const [failMessage, setFailMessage] = useState("");
 
-  if (state.status === "success") {
-    return (
-      <div
-        role="status"
-        className="rounded-2xl border border-line bg-surface px-7 py-14 text-center"
-      >
-        <p className="m-0 font-mono text-[12px] uppercase tracking-[0.2em] text-accent">Thank you</p>
-        <p className="m-0 mt-3 text-[17px] text-ink">{state.message}</p>
-        <p className="m-0 mt-2 text-[13.5px] leading-[1.9] text-muted">
-          内容を確認のうえ折り返しご連絡します。返信は1〜2営業日を目安にしています。
-        </p>
-      </div>
-    );
+  /* blurで初回検証 → 一度エラーになった欄だけ入力のたび再検証
+     ("reward early, punish late" パターン) */
+  const changeText = (field: TextKey, v: string) => {
+    setValues((s) => ({ ...s, [field]: v }));
+    if (touched[field]) setErrors((e) => ({ ...e, [field]: validators[field](v) }));
+  };
+  const blurText = (field: TextKey) => {
+    setTouched((t) => ({ ...t, [field]: true }));
+    setErrors((e) => ({ ...e, [field]: validators[field](values[field]) }));
+  };
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (status === "loading" || status === "success") return;
+
+    const next: Errors = {
+      name: validators.name(values.name),
+      email: validators.email(values.email),
+      message: validators.message(values.message),
+      consent: validators.consent(values.consent),
+    };
+    setErrors(next);
+    setTouched({ name: true, email: true, message: true });
+
+    /* 最初のエラー欄へフォーカスを送る（キーボード/SR利用者への配慮）*/
+    const firstError = (["name", "email", "message", "consent"] as const).find((k) => next[k]);
+    if (firstError) {
+      const el = e.currentTarget.elements.namedItem(firstError);
+      if (el instanceof HTMLElement) el.focus();
+      return;
+    }
+
+    setStatus("loading");
+    setFailMessage("");
+
+    const fd = new FormData();
+    fd.set("name", values.name);
+    fd.set("email", values.email);
+    fd.set("company", values.company);
+    fd.set("type", values.type);
+    fd.set("budget", values.budget);
+    fd.set("deadline", values.deadline);
+    fd.set("message", values.message);
+
+    try {
+      const res = await submitContact(INIT, fd);
+      if (res.status === "success") {
+        setStatus("success");
+        return;
+      }
+      // サーバー側 Zod で弾かれた場合はインラインへ反映して idle に戻す
+      if (res.fieldErrors) {
+        setErrors((prev) => ({
+          ...prev,
+          name: res.fieldErrors?.name ?? prev.name,
+          email: res.fieldErrors?.email ?? prev.email,
+          message: res.fieldErrors?.message ?? prev.message,
+        }));
+        setStatus("idle");
+        return;
+      }
+      // 送信自体の失敗（メール送信エラー等）
+      setFailMessage(res.message || "送信に失敗しました。時間をおいて再度お試しください");
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 2500);
+    } catch {
+      setFailMessage("送信に失敗しました。時間をおいて再度お試しください");
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 2500);
+    }
   }
 
   return (
-    <form action={formAction} className="text-left" noValidate>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="お名前" name="name" required autoComplete="name" placeholder="山田 太郎" error={state.fieldErrors?.name} />
-        <Field
+    <form onSubmit={handleSubmit} noValidate className="text-left">
+      <div className="grid gap-x-5 sm:grid-cols-2">
+        <TextField
+          label="お名前"
+          name="name"
+          required
+          autoComplete="name"
+          placeholder="山田 太郎"
+          value={values.name}
+          error={errors.name}
+          onChange={(e) => changeText("name", e.target.value)}
+          onBlur={() => blurText("name")}
+        />
+        <TextField
           label="メールアドレス"
           name="email"
           type="email"
           required
           autoComplete="email"
           placeholder="you@example.com"
-          error={state.fieldErrors?.email}
+          value={values.email}
+          error={errors.email}
+          onChange={(e) => changeText("email", e.target.value)}
+          onBlur={() => blurText("email")}
         />
-        <Field
+        <TextField
           label="会社名"
           name="company"
           autoComplete="organization"
           placeholder="株式会社〇〇"
-          error={state.fieldErrors?.company}
+          value={values.company}
+          onChange={(e) => setValues((s) => ({ ...s, company: e.target.value }))}
         />
-        <Select label="ご依頼の種類" name="type" options={TYPE_OPTIONS} />
-        <Select label="ご予算" name="budget" options={BUDGET_OPTIONS} />
-        <Select label="希望納期" name="deadline" options={DEADLINE_OPTIONS} />
+        <SelectField
+          label="ご依頼の種類"
+          name="type"
+          options={TYPE_OPTIONS}
+          value={values.type}
+          onChange={(v) => setValues((s) => ({ ...s, type: v }))}
+        />
+        <SelectField
+          label="ご予算"
+          name="budget"
+          options={BUDGET_OPTIONS}
+          value={values.budget}
+          onChange={(v) => setValues((s) => ({ ...s, budget: v }))}
+        />
+        <SelectField
+          label="希望納期"
+          name="deadline"
+          options={DEADLINE_OPTIONS}
+          value={values.deadline}
+          onChange={(v) => setValues((s) => ({ ...s, deadline: v }))}
+        />
       </div>
 
-      <div className="mt-5">
-        <FieldLabel htmlFor={msgId} label="お問い合わせ内容" required />
-        <textarea
-          id={msgId}
-          name="message"
-          required
-          rows={6}
-          placeholder="ご依頼の概要やご相談したいことをお書きください。"
-          aria-required
-          aria-invalid={msgError ? true : undefined}
-          aria-describedby={msgError ? msgErrId : undefined}
-          className={`${baseInput} ${borderClass(msgError)} resize-y leading-[1.8]`}
-        />
-        {msgError ? (
-          <p id={msgErrId} className="mt-1.5 text-[12.5px]" style={{ color: ERROR_COLOR }}>
-            {msgError}
-          </p>
-        ) : null}
+      <TextArea
+        label="お問い合わせ内容"
+        name="message"
+        required
+        rows={6}
+        placeholder="ご依頼の概要やご相談したいことをお書きください。"
+        value={values.message}
+        error={errors.message}
+        onChange={(e) => changeText("message", e.target.value)}
+        onBlur={() => blurText("message")}
+      />
+
+      <div className="mt-3">
+        <ConsentCheckbox
+          name="consent"
+          checked={values.consent}
+          error={errors.consent}
+          onChange={(v) => {
+            setValues((s) => ({ ...s, consent: v }));
+            if (v) setErrors((er) => ({ ...er, consent: "" }));
+          }}
+        >
+          いただいた情報は返信のみに利用します。
+          <Link href="/privacy" className="underline underline-offset-4 transition-colors hover:text-ink">
+            プライバシーポリシー
+          </Link>
+          に同意します
+        </ConsentCheckbox>
       </div>
 
-      {state.status === "error" && !state.fieldErrors && (
-        <p role="alert" className="mt-4 text-[13px]" style={{ color: ERROR_COLOR }}>
-          {state.message}
+      <SubmitButton status={status} className="mt-2 w-full" />
+
+      {status === "success" && (
+        <p role="status" className="mt-3 text-[13.5px] leading-[1.9] text-muted">
+          内容を確認のうえ折り返しご連絡します。返信は1〜2営業日を目安にしています。
         </p>
       )}
-
-      {/* 送信ボタンはこのフォーム専用デザイン（サイトの他ボタンと差別化）。
-          角丸 2xl / 全幅 / 円形の矢印バッジ / ホバーで地色がわずかに沈み光がスイープ。 */}
-      <div className="mt-7">
-        {/* 同意チェック（チェックしないと送信ボタンは押せない）*/}
-        <label className="flex cursor-pointer items-start gap-3 text-[13px] leading-[1.7] text-muted">
-          <input
-            type="checkbox"
-            checked={agreed}
-            onChange={(e) => setAgreed(e.target.checked)}
-            className="mt-[2px] h-[18px] w-[18px] flex-none accent-accent"
-          />
-          <span>
-            いただいた情報は返信のみに利用します。
-            <Link href="/privacy" className="underline underline-offset-2 transition-colors hover:text-ink">
-              プライバシーポリシー
-            </Link>
-            をご確認のうえ同意をお願いします。
-          </span>
-        </label>
-
-        <button
-          type="submit"
-          disabled={isPending || !agreed}
-          className="group relative mt-5 w-full overflow-hidden rounded-2xl bg-accent px-8 py-[18px] text-[15.5px] font-medium tracking-[0.02em] text-white transition-colors hover:bg-[color-mix(in_srgb,var(--accent)_88%,#000)] disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          <span
-            aria-hidden
-            className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.16),transparent)] transition-transform duration-[700ms] ease-out group-hover:translate-x-full motion-reduce:hidden"
-          />
-          <span className="relative z-10 inline-flex items-center justify-center">
-            {isPending ? "送信中…" : "送信する"}
-          </span>
-        </button>
-      </div>
+      {status === "error" && failMessage && (
+        <p role="alert" className="mt-3 text-[13px] text-[#c0362c]">
+          {failMessage}
+        </p>
+      )}
     </form>
   );
 }
