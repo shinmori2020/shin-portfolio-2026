@@ -19,7 +19,16 @@ const underlineClass =
   "absolute -bottom-[0.06em] left-0 right-0 h-[0.06em] origin-left rounded-full [background:color-mix(in_srgb,var(--accent)_55%,transparent)]";
 
 // アクセント語。表示時に1文字ずつフェードインし、最後に下線がスッと引かれる。
-export function Underlined({ children }: { children: ReactNode }) {
+// 下線の delay / duration は呼び出し側で再調整可（既定は従来値）。
+export function Underlined({
+  children,
+  underlineDelay = 0.7,
+  underlineDuration = 0.6,
+}: {
+  children: ReactNode;
+  underlineDelay?: number;
+  underlineDuration?: number;
+}) {
   const reduceMotion = useReducedMotion();
   const chars = typeof children === "string" ? Array.from(children) : null;
 
@@ -64,7 +73,7 @@ export function Underlined({ children }: { children: ReactNode }) {
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true, margin: "-7%" }}
-        transition={{ duration: 0.6, ease: EASE, delay: 0.7 }}
+        transition={{ duration: underlineDuration, ease: EASE, delay: underlineDelay }}
       />
     </span>
   );

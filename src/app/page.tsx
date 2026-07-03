@@ -5,6 +5,7 @@ import { ServicesSwitcher } from "@/components/common/ServicesSwitcher";
 import { ProcessTimeline } from "@/components/common/ProcessTimeline";
 import { Underlined } from "@/components/common/Underlined";
 import { HeadingChars } from "@/components/common/HeadingChars";
+import { HeroBackdrop } from "@/components/common/HeroBackdrop";
 import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
 import { works } from "@/data/works";
@@ -53,41 +54,50 @@ export default function HomePage() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(64px,11vw,148px)] pb-[clamp(48px,7vw,96px)]">
-        <Reveal className="mb-[clamp(28px,5vw,52px)] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
-          Frontend Engineer — 2026
-        </Reveal>
-        <Reveal
-          as="h1"
-          className="m-0 max-w-[18em] text-[clamp(30px,5.2vw,60px)] font-medium leading-[1.22] tracking-[-0.025em]"
-        >
-          <Phrase>デザインの現場と</Phrase>
-          <wbr />
-          <Phrase>開発の最前線。</Phrase>
-          <br />
-          その<Underlined>“あいだ”</Underlined>をつなぐ。
-        </Reveal>
-        <Reveal
-          as="p"
-          delayMs={90}
-          className="mt-[clamp(28px,4vw,42px)] max-w-[44em] text-[clamp(14px,1.4vw,18px)] leading-[1.9] text-muted [text-wrap:pretty]"
-        >
-          <Phrase>制作と開発の両方がわかります。</Phrase>
-          <wbr />
-          <Phrase>だからデザインの意図や細かなこだわりをくずさないまま</Phrase>
-          <wbr />
-          <Phrase>実際に動くサイトへ落とし込めます。</Phrase>
-          <wbr />
-          <Phrase>表示の速さや公開後の運用のしやすさまで考えて作ります。</Phrase>
-        </Reveal>
-        <Reveal delayMs={170} className="mt-[clamp(36px,5vw,52px)] flex flex-wrap gap-[14px]">
-          <Link href="/#contact" className={`${btnPrimary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
-            相談する<span className={btnArrow}>→</span>
-          </Link>
-          <Link href="/works" className={`${btnSecondary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
-            制作物を見る
-          </Link>
-        </Reveal>
+      {/* 背景「木漏れ日×組版方眼」を最初の子に。振り付けはアイドル後(data-armed)で発火し LCP を遅らせない。
+          コンテンツは relative z-10 で前面。見出し(LCP)は即描画のまま、説明文/CTA/下線をタイムテーブルへ再調整。 */}
+      <section className="relative overflow-hidden mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(64px,11vw,148px)] pb-[clamp(48px,7vw,96px)]">
+        <HeroBackdrop />
+        <div className="relative z-10">
+          <Reveal className="mb-[clamp(28px,5vw,52px)] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
+            Frontend Engineer — 2026
+          </Reveal>
+          <Reveal
+            as="h1"
+            className="m-0 max-w-[18em] text-[clamp(30px,5.2vw,60px)] font-medium leading-[1.22] tracking-[-0.025em]"
+          >
+            <Phrase>デザインの現場と</Phrase>
+            <wbr />
+            <Phrase>開発の最前線。</Phrase>
+            <br />
+            その
+            <Underlined underlineDelay={0.98} underlineDuration={0.5}>
+              “あいだ”
+            </Underlined>
+            をつなぐ。
+          </Reveal>
+          <Reveal
+            as="p"
+            delayMs={880}
+            className="mt-[clamp(28px,4vw,42px)] max-w-[44em] text-[clamp(14px,1.4vw,18px)] leading-[1.9] text-muted [text-wrap:pretty]"
+          >
+            <Phrase>制作と開発の両方がわかります。</Phrase>
+            <wbr />
+            <Phrase>だからデザインの意図や細かなこだわりをくずさないまま</Phrase>
+            <wbr />
+            <Phrase>実際に動くサイトへ落とし込めます。</Phrase>
+            <wbr />
+            <Phrase>表示の速さや公開後の運用のしやすさまで考えて作ります。</Phrase>
+          </Reveal>
+          <Reveal delayMs={1020} className="mt-[clamp(36px,5vw,52px)] flex flex-wrap gap-[14px]">
+            <Link href="/#contact" className={`${btnPrimary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
+              相談する<span className={btnArrow}>→</span>
+            </Link>
+            <Link href="/works" className={`${btnSecondary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
+              制作物を見る
+            </Link>
+          </Reveal>
+        </div>
       </section>
 
       {/* ===== 01 / ABOUT ===== */}
