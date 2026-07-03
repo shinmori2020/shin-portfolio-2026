@@ -137,3 +137,123 @@ select:focus-visible {
     transition: none;
   }
 }
+
+/* =============================================================
+   ヒーロー背景「木漏れ日 × 組版方眼」（HeroBackdrop.tsx とペア）
+   振り付けは親の [data-armed] 付与（requestIdleCallback後）で開始。
+   reduced-motion では JS に依存せず CSS だけで完成形を即表示する。
+   ダークは本プロジェクトの [data-theme="dark"] で上書き。
+   ============================================================= */
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  --hb-line: #e2dfd2;
+  --hb-tombo: #cfcbbb;
+}
+
+/* 光レイヤー（木漏れ日）: 実寸半分で描き scale(2) で拡大（blur コスト対策） */
+.hb-lights {
+  position: absolute;
+  inset: -60px;
+  transition: transform 1.4s cubic-bezier(0.2, 0.6, 0.3, 1);
+  will-change: transform;
+}
+.hb-lt {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(26px);
+  transform: scale(2) translate(0, 0);
+  opacity: 0;
+  transition: background-color 1.5s ease;
+}
+[data-armed] .hb-lt {
+  animation:
+    hb-ltin 2.4s ease 0.9s forwards,
+    hb-drift 96s ease-in-out infinite alternate;
+}
+.hb-l1 { width: 220px; height: 220px; top: -20px; right: 120px; --op: 0.6; --dx: -40px; --dy: 25px; }
+.hb-l2 { width: 160px; height: 160px; bottom: 0; right: 32%; --op: 0.55; --dx: 35px; --dy: -20px; animation-delay: 1.3s, 0s !important; }
+.hb-l3 { width: 130px; height: 130px; top: 32%; left: -20px; --op: 0.5; --dx: 30px; --dy: -18px; animation-delay: 1.7s, 0s !important; }
+
+@keyframes hb-ltin { to { opacity: var(--op, 0.5); } }
+@keyframes hb-drift {
+  from { transform: scale(2) translate(0, 0); }
+  to { transform: scale(2) translate(var(--dx), var(--dy)); }
+}
+
+/* 時刻パレット（data-time はマウント後にJSが付与 / 既定はhiru） */
+.hero-backdrop .hb-l1 { background: #d6e3d4; }
+.hero-backdrop .hb-l2 { background: #efe8d3; }
+.hero-backdrop .hb-l3 { background: #dbe6db; }
+.hero-backdrop[data-time="asa"] .hb-l1 { background: #d8e5e2; }
+.hero-backdrop[data-time="asa"] .hb-l2 { background: #e9ede0; }
+.hero-backdrop[data-time="asa"] .hb-l3 { background: #dde8e4; }
+.hero-backdrop[data-time="yu"] .hb-l1 { background: #f0dfc4; }
+.hero-backdrop[data-time="yu"] .hb-l2 { background: #ebd9be; }
+.hero-backdrop[data-time="yu"] .hb-l3 { background: #e8deca; }
+.hero-backdrop[data-time="yoru"] .hb-l1 { background: #d8ded6; }
+.hero-backdrop[data-time="yoru"] .hb-l2 { background: #dfe2d5; }
+.hero-backdrop[data-time="yoru"] .hb-l3 { background: #d5dcd4; }
+.hero-backdrop[data-time="yoru"] .hb-lt { --op: 0.4; }
+
+/* ダークモード: 時刻に関わらず夜系で上書き */
+[data-theme="dark"] .hero-backdrop {
+  --hb-line: #32322e;
+  --hb-tombo: #3e3e39;
+}
+[data-theme="dark"] .hero-backdrop .hb-l1 { background: #33443a; }
+[data-theme="dark"] .hero-backdrop .hb-l2 { background: #3e4536; }
+[data-theme="dark"] .hero-backdrop .hb-l3 { background: #2f3e38; }
+[data-theme="dark"] .hero-backdrop .hb-lt { --op: 0.45; }
+
+/* 方眼レイヤー（ベースライングリッド + トンボ） */
+.hb-grid span {
+  position: absolute;
+  background: var(--hb-line);
+}
+.hb-gh { left: 0; right: 0; height: 1px; transform: scaleX(0); transform-origin: left; }
+.hb-gv { top: 0; bottom: 0; width: 1px; transform: scaleY(0); transform-origin: top; }
+[data-armed] .hb-gh { animation: hb-gx 0.8s cubic-bezier(0.4, 0, 0.3, 1) var(--d) forwards; }
+[data-armed] .hb-gv { animation: hb-gy 0.8s cubic-bezier(0.4, 0, 0.3, 1) var(--d) forwards; }
+@keyframes hb-gx { to { transform: scaleX(1); } }
+@keyframes hb-gy { to { transform: scaleY(1); } }
+
+/* トンボ（交点の十字マーク） */
+.hb-tb {
+  width: 13px;
+  height: 13px;
+  margin: -6px 0 0 -6px;
+  background: transparent !important;
+  opacity: 0;
+}
+.hb-tb::before,
+.hb-tb::after {
+  content: "";
+  position: absolute;
+  background: var(--hb-tombo);
+}
+.hb-tb::before { left: 6px; top: 0; width: 1px; height: 13px; }
+.hb-tb::after { top: 6px; left: 0; height: 1px; width: 13px; }
+[data-armed] .hb-tb { animation: hb-tbin 0.6s ease var(--d) forwards; }
+@keyframes hb-tbin { to { opacity: 1; } }
+
+/* モバイル(768px以下): 間引いて静かに（水平3本 / 垂直1本 / 光2つ / トンボ非表示） */
+@media (max-width: 768px) {
+  .hb-md { display: none; }
+  .hb-tb { display: none; }
+  .hb-l3 { display: none; }
+  .hb-l1 { width: 170px; height: 170px; right: -30px; }
+  .hb-l2 { width: 130px; height: 130px; right: 40%; }
+}
+
+/* reduced-motion: JS に依存せず完成形を即表示 */
+@media (prefers-reduced-motion: reduce) {
+  .hb-lights { transition: none; }
+  .hb-lt { animation: none !important; opacity: var(--op, 0.5); transform: scale(2) translate(0, 0); }
+  .hb-gh { animation: none !important; transform: scaleX(1); }
+  .hb-gv { animation: none !important; transform: scaleY(1); }
+  .hb-tb { animation: none !important; opacity: 1; }
+}
