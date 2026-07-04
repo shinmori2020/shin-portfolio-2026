@@ -158,7 +158,7 @@ select:focus-visible {
 .hb-lights {
   position: absolute;
   inset: -60px;
-  transition: transform 0.9s cubic-bezier(0.2, 0.6, 0.3, 1);
+  transition: transform 0.5s cubic-bezier(0.2, 0.6, 0.3, 1);
   will-change: transform;
 }
 .hb-lt {
@@ -185,20 +185,19 @@ select:focus-visible {
 }
 
 /* 時刻パレット（data-time はマウント後にJSが付与 / 既定はhiru） */
-.hero-backdrop .hb-l1 { background: #d6e3d4; }
-.hero-backdrop .hb-l2 { background: #efe8d3; }
-.hero-backdrop .hb-l3 { background: #dbe6db; }
+.hero-backdrop .hb-l1 { background: #c2d8bf; }
+.hero-backdrop .hb-l2 { background: #ecdcac; }
+.hero-backdrop .hb-l3 { background: #c9dfc7; }
 .hero-backdrop[data-time="asa"] .hb-l1 { background: #d8e5e2; }
 .hero-backdrop[data-time="asa"] .hb-l2 { background: #e9ede0; }
 .hero-backdrop[data-time="asa"] .hb-l3 { background: #dde8e4; }
 .hero-backdrop[data-time="yu"] .hb-l1 { background: #f0dfc4; }
 .hero-backdrop[data-time="yu"] .hb-l2 { background: #ebd9be; }
 .hero-backdrop[data-time="yu"] .hb-l3 { background: #e8deca; }
-/* TODO(test): 視差確認用に一時的に濃色化。確認後 #d8ded6 系 / --op:0.55 に戻す */
-.hero-backdrop[data-time="yoru"] .hb-l1 { background: #7fb88f; }
-.hero-backdrop[data-time="yoru"] .hb-l2 { background: #d8b25a; }
-.hero-backdrop[data-time="yoru"] .hb-l3 { background: #6fae86; }
-.hero-backdrop[data-time="yoru"] .hb-lt { --op: 0.85; }
+.hero-backdrop[data-time="yoru"] .hb-l1 { background: #aecbb6; }
+.hero-backdrop[data-time="yoru"] .hb-l2 { background: #d9c48c; }
+.hero-backdrop[data-time="yoru"] .hb-l3 { background: #a4c4b0; }
+.hero-backdrop[data-time="yoru"] .hb-lt { --op: 0.62; }
 
 /* ダークモード: 時刻に関わらず夜系で上書き */
 [data-theme="dark"] .hero-backdrop {
