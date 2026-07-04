@@ -209,7 +209,18 @@ select:focus-visible {
 [data-theme="dark"] .hero-backdrop .hb-l3 { background: #2f3e38; }
 [data-theme="dark"] .hero-backdrop .hb-lt { --op: 0.45; }
 
-/* 方眼レイヤー（ベースライングリッド + トンボ） */
+/* 方眼レイヤー（ベースライングリッド + トンボ）
+   背景は全幅だが、方眼だけは中央1180pxの列に整列させる */
+.hb-gridwrap {
+  position: absolute;
+  inset: 0;
+  max-width: 1180px;
+  margin-inline: auto;
+}
+.hb-grid {
+  position: absolute;
+  inset: 0;
+}
 .hb-grid span {
   position: absolute;
   background: var(--hb-line);

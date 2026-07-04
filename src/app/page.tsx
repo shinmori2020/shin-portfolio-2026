@@ -56,9 +56,9 @@ export default function HomePage() {
       {/* ===== HERO ===== */}
       {/* 背景「木漏れ日×組版方眼」を最初の子に。振り付けはアイドル後(data-armed)で発火し LCP を遅らせない。
           コンテンツは relative z-10 で前面。見出し(LCP)は即描画のまま、説明文/CTA/下線をタイムテーブルへ再調整。 */}
-      <section className="relative overflow-hidden mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(64px,11vw,148px)] pb-[clamp(48px,7vw,96px)]">
+      <section className="relative overflow-hidden">
         <HeroBackdrop />
-        <div className="relative z-10">
+        <div className="relative z-10 mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(64px,11vw,148px)] pb-[clamp(48px,7vw,96px)]">
           <Reveal className="mb-[clamp(28px,5vw,52px)] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
             Frontend Engineer — 2026
           </Reveal>
