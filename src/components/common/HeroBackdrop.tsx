@@ -8,6 +8,7 @@
  */
 
 import { useEffect, useRef } from "react";
+import { useReducedMotion } from "motion/react";
 
 /** 時刻→パレット判定。UIには出さない隠し要素 */
 function timeSlot(hour: number): "asa" | "hiru" | "yu" | "yoru" {
@@ -40,7 +41,9 @@ const TOMBO = [
 
 export function HeroBackdrop() {
   const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
 
+  // 発火(data-armed) + 時刻パレット（マウント時に一度）
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -55,34 +58,43 @@ export function HeroBackdrop() {
       ? window.requestIdleCallback(arm, { timeout: 800 })
       : window.setTimeout(arm, 300);
 
-    // 気配の視差: 光レイヤーだけが遅れて応答。遅れは CSS transition(1.4s) に任せる。
-    const hero = el.parentElement;
+    return () => {
+      if (hasRIC) window.cancelIdleCallback(idleId);
+      else window.clearTimeout(idleId);
+    };
+  }, []);
+
+  // ポインター視差: 光レイヤーだけが遅れて応答（遅れは CSS transition 1.4s に任せる）。
+  // 付け先はヒーロー section を closest で明示参照（parentElement 依存をやめる）。
+  // ただし backdrop 全体が pointer-events:none で section 上の mousemove が確実に発火しないため、
+  // リスナーは window に付けて hero の矩形でゲートする（＝どこでも確実に発火）。
+  // reduced-motion 時は視差を付けない＝光は静止（通常モードには影響しない）。
+  useEffect(() => {
+    if (reduce) return;
+    const el = ref.current;
+    if (!el) return;
+    const hero = el.closest<HTMLElement>("section");
     const lights = el.querySelector<HTMLElement>("[data-lights]");
+    if (!hero || !lights) return;
 
     const onMove = (e: MouseEvent) => {
-      if (!hero || !lights) return;
       const r = hero.getBoundingClientRect();
+      // ヒーロー外に出たら中立へ戻す
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+        lights.style.transform = "translate(0px, 0px)";
+        return;
+      }
       const nx = (e.clientX - r.left) / r.width - 0.5;
       const ny = (e.clientY - r.top) / r.height - 0.5;
       lights.style.transform = `translate(${nx * 26}px, ${ny * 14}px)`;
     };
-    const onLeave = () => {
-      if (lights) lights.style.transform = "translate(0, 0)";
-    };
 
-    hero?.addEventListener("mousemove", onMove);
-    hero?.addEventListener("mouseleave", onLeave);
-
+    window.addEventListener("mousemove", onMove, { passive: true });
     return () => {
-      if (hasRIC) {
-        window.cancelIdleCallback(idleId);
-      } else {
-        window.clearTimeout(idleId);
-      }
-      hero?.removeEventListener("mousemove", onMove);
-      hero?.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("mousemove", onMove);
+      lights.style.transform = "translate(0px, 0px)";
     };
-  }, []);
+  }, [reduce]);
 
   return (
     <div ref={ref} className="hero-backdrop" aria-hidden="true">
