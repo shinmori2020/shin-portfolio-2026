@@ -211,6 +211,16 @@ select:focus-visible {
 
 /* 方眼レイヤー（ベースライングリッド + トンボ）
    背景は全幅だが、方眼だけは中央1180pxの列に整列させる */
+/* 横罫は全幅レイヤー */
+.hb-hlines {
+  position: absolute;
+  inset: 0;
+}
+.hb-hlines span {
+  position: absolute;
+  background: var(--hb-line);
+}
+/* 縦罫・トンボは中央1180pxのラッパ（コンテンツ列に整列） */
 .hb-gridwrap {
   position: absolute;
   inset: 0;

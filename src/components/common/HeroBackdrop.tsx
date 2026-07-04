@@ -93,17 +93,20 @@ export function HeroBackdrop() {
         <span className="hb-lt hb-l3" />
       </div>
 
-      {/* 方眼レイヤー: 背景は全幅だが、方眼だけは中央1180pxのラッパでコンテンツ列に整列 */}
-      <div className="hb-gridwrap">
-        <div className="hb-grid">
-          {H_LINES.map((l, i) => (
+      {/* 横罫は全幅 */}
+      <div className="hb-hlines">
+        {H_LINES.map((l, i) => (
           <span
             key={`h${i}`}
             className={`hb-gh${l.mdHide ? " hb-md" : ""}`}
             style={{ top: l.top, "--d": l.d } as React.CSSProperties}
           />
         ))}
-        {V_LINES.map((l, i) => (
+      </div>
+      {/* 縦罫・トンボはコンテンツ列(1180px)に整列 */}
+      <div className="hb-gridwrap">
+        <div className="hb-grid">
+          {V_LINES.map((l, i) => (
           <span
             key={`v${i}`}
             className={`hb-gv${l.mdHide ? " hb-md" : ""}`}
