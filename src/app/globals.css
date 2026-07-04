@@ -185,19 +185,19 @@ select:focus-visible {
 }
 
 /* 時刻パレット（data-time はマウント後にJSが付与 / 既定はhiru） */
-.hero-backdrop .hb-l1 { background: #c2d8bf; }
-.hero-backdrop .hb-l2 { background: #ecdcac; }
-.hero-backdrop .hb-l3 { background: #c9dfc7; }
+.hero-backdrop .hb-l1 { background: #d6e3d4; }
+.hero-backdrop .hb-l2 { background: #efe8d3; }
+.hero-backdrop .hb-l3 { background: #dbe6db; }
 .hero-backdrop[data-time="asa"] .hb-l1 { background: #d8e5e2; }
 .hero-backdrop[data-time="asa"] .hb-l2 { background: #e9ede0; }
 .hero-backdrop[data-time="asa"] .hb-l3 { background: #dde8e4; }
 .hero-backdrop[data-time="yu"] .hb-l1 { background: #f0dfc4; }
 .hero-backdrop[data-time="yu"] .hb-l2 { background: #ebd9be; }
 .hero-backdrop[data-time="yu"] .hb-l3 { background: #e8deca; }
-.hero-backdrop[data-time="yoru"] .hb-l1 { background: #aecbb6; }
-.hero-backdrop[data-time="yoru"] .hb-l2 { background: #d9c48c; }
-.hero-backdrop[data-time="yoru"] .hb-l3 { background: #a4c4b0; }
-.hero-backdrop[data-time="yoru"] .hb-lt { --op: 0.62; }
+.hero-backdrop[data-time="yoru"] .hb-l1 { background: #d8ded6; }
+.hero-backdrop[data-time="yoru"] .hb-l2 { background: #dfe2d5; }
+.hero-backdrop[data-time="yoru"] .hb-l3 { background: #d5dcd4; }
+.hero-backdrop[data-time="yoru"] .hb-lt { --op: 0.6; }
 
 /* ダークモード: 時刻に関わらず夜系で上書き */
 [data-theme="dark"] .hero-backdrop {
