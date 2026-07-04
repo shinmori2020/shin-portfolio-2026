@@ -79,7 +79,7 @@ export function HeroBackdrop() {
       }
       const nx = (e.clientX - r.left) / r.width - 0.5;
       const ny = (e.clientY - r.top) / r.height - 0.5;
-      lights.style.transform = `translate(${nx * 44}px, ${ny * 24}px)`;
+      lights.style.transform = `translate(${nx * 80}px, ${ny * 44}px)`;
     };
     window.addEventListener("mousemove", onMove, { passive: true });
 
