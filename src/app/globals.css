@@ -163,8 +163,18 @@ select:focus-visible {
   position: absolute;
   inset: -60px;
   transition: transform 1.4s cubic-bezier(0.2, 0.6, 0.3, 1);
-  /* will-change: transform は付けない。合成レイヤーへ常時昇格すると blur と併さって
-     親の overflow/contain を越えて右端に貼り付く原因になる（視差の transition は昇格なしでも滑らか）。 */
+  /* will-change: transform は付けない（常時合成レイヤー化＝blurと併さり端に残る原因）。 */
+  /* 四辺をソフトにフェード: 単色円＋blurの光が端で硬く切れて「帯」に見えるのを防ぐ。
+     位置・サイズ・色は不変のまま、クリップ境界での見切れだけ消す。 */
+  --hb-fade: 150px;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 var(--hb-fade), #000 calc(100% - var(--hb-fade)), transparent),
+    linear-gradient(to bottom, transparent, #000 var(--hb-fade), #000 calc(100% - var(--hb-fade)), transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent, #000 var(--hb-fade), #000 calc(100% - var(--hb-fade)), transparent),
+    linear-gradient(to bottom, transparent, #000 var(--hb-fade), #000 calc(100% - var(--hb-fade)), transparent);
+  mask-composite: intersect;
 }
 .hb-lt {
   position: absolute;
