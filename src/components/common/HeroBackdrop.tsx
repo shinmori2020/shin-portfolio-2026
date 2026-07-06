@@ -17,10 +17,8 @@ function timeSlot(hour: number): "asa" | "hiru" | "yu" | "yoru" {
   return "yoru";
 }
 
-// コンテンツ左端（section の px パディング）に合わせた縦罫の左位置
-const CONTENT_LEFT = "clamp(20px,4vw,40px)";
-
 /* 方眼の構成。mdHide: true はモバイル(768px以下)で間引く */
+/* 横罫: 全幅5本（等間隔・現行維持） */
 const H_LINES = [
   { top: "18%", d: ".08s" },
   { top: "34%", d: ".16s", mdHide: true },
@@ -28,14 +26,22 @@ const H_LINES = [
   { top: "66%", d: ".32s", mdHide: true },
   { top: "82%", d: ".40s" },
 ];
+/* 縦罫: コンテンツ幅(1180px)を6等分する等間隔7本（両端含む）。
+   左→右の順に stagger（水平の後に流れる）。モバイルは端数を間引き4本。 */
 const V_LINES = [
-  { left: CONTENT_LEFT, d: ".45s" }, // コンテンツ左端に揃える
-  { left: "62%", d: ".55s", mdHide: true },
+  { left: "0%", d: ".45s" },
+  { left: "16.667%", d: ".50s", mdHide: true },
+  { left: "33.333%", d: ".55s" },
+  { left: "50%", d: ".60s", mdHide: true },
+  { left: "66.667%", d: ".65s" },
+  { left: "83.333%", d: ".70s", mdHide: true },
+  { left: "100%", d: ".75s" },
 ];
+/* トンボ: 3つ。新グリッドの交点に左右バランスよく載せる */
 const TOMBO = [
-  { left: CONTENT_LEFT, top: "34%", d: "1.15s" },
-  { left: "62%", top: "18%", d: "1.25s" },
-  { left: "62%", top: "66%", d: "1.35s" },
+  { left: "16.667%", top: "34%", d: "1.15s" },
+  { left: "50%", top: "18%", d: "1.25s" },
+  { left: "83.333%", top: "66%", d: "1.35s" },
 ];
 
 export function HeroBackdrop() {
@@ -79,7 +85,7 @@ export function HeroBackdrop() {
       }
       const nx = (e.clientX - r.left) / r.width - 0.5;
       const ny = (e.clientY - r.top) / r.height - 0.5;
-      lights.style.transform = `translate(${nx * 80}px, ${ny * 44}px)`;
+      lights.style.transform = `translate(${nx * 34}px, ${ny * 18}px)`;
     };
     window.addEventListener("mousemove", onMove, { passive: true });
 

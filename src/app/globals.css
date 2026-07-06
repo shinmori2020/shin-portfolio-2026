@@ -150,7 +150,8 @@ select:focus-visible {
   overflow: hidden;
   z-index: 0;
   pointer-events: none;
-  --hb-line: #e2dfd2;
+  /* 縦罫を7本へ増やすため線色を1段淡く（インク総量の保存・見出し可読性優先） */
+  --hb-line: #dfdbca;
   --hb-tombo: #cfcbbb;
 }
 
@@ -158,13 +159,14 @@ select:focus-visible {
 .hb-lights {
   position: absolute;
   inset: -60px;
-  transition: transform 0.5s cubic-bezier(0.2, 0.6, 0.3, 1);
+  transition: transform 1.4s cubic-bezier(0.2, 0.6, 0.3, 1);
   will-change: transform;
 }
 .hb-lt {
   position: absolute;
   border-radius: 50%;
-  filter: blur(26px);
+  /* 26px → 39px（scale(2)で実効78px）。輪郭を完全に溶かし「1つの滲み」に見せる */
+  filter: blur(39px);
   transform: scale(2) translate(0, 0);
   opacity: 0;
   transition: background-color 1.5s ease;
@@ -174,9 +176,10 @@ select:focus-visible {
     hb-ltin 2.4s ease 0.9s forwards,
     hb-drift 96s ease-in-out infinite alternate;
 }
-.hb-l1 { width: 220px; height: 220px; top: -20px; right: 120px; --op: 0.6; --dx: -40px; --dy: 25px; }
-.hb-l2 { width: 160px; height: 160px; bottom: 0; right: 32%; --op: 0.55; --dx: 35px; --dy: -20px; animation-delay: 1.3s, 0s !important; }
-.hb-l3 { width: 130px; height: 130px; top: 32%; left: -20px; --op: 0.5; --dx: 30px; --dy: -18px; animation-delay: 1.7s, 0s !important; }
+/* 実寸1.5倍（半分描画+scale(2)方式は維持）+ 滲み合う配置。ドリフト(--dx/--dy)は変更しない */
+.hb-l1 { width: 320px; height: 320px; top: -70px; right: -60px; --op: 0.62; --dx: -40px; --dy: 25px; }
+.hb-l2 { width: 260px; height: 260px; bottom: -90px; right: 20%; --op: 0.5; --dx: 35px; --dy: -20px; animation-delay: 1.3s, 0s !important; }
+.hb-l3 { width: 200px; height: 200px; top: 40%; left: -70px; --op: 0.42; --dx: 30px; --dy: -18px; animation-delay: 1.7s, 0s !important; }
 
 @keyframes hb-ltin { to { opacity: var(--op, 0.5); } }
 @keyframes hb-drift {
@@ -184,30 +187,31 @@ select:focus-visible {
   to { transform: scale(2) translate(var(--dx), var(--dy)); }
 }
 
-/* 時刻パレット（data-time はマウント後にJSが付与 / 既定はhiru） */
-.hero-backdrop .hb-l1 { background: #d6e3d4; }
-.hero-backdrop .hb-l2 { background: #efe8d3; }
-.hero-backdrop .hb-l3 { background: #dbe6db; }
-.hero-backdrop[data-time="asa"] .hb-l1 { background: #d8e5e2; }
-.hero-backdrop[data-time="asa"] .hb-l2 { background: #e9ede0; }
-.hero-backdrop[data-time="asa"] .hb-l3 { background: #dde8e4; }
-.hero-backdrop[data-time="yu"] .hb-l1 { background: #f0dfc4; }
-.hero-backdrop[data-time="yu"] .hb-l2 { background: #ebd9be; }
-.hero-backdrop[data-time="yu"] .hb-l3 { background: #e8deca; }
-.hero-backdrop[data-time="yoru"] .hb-l1 { background: #d8ded6; }
-.hero-backdrop[data-time="yoru"] .hb-l2 { background: #dfe2d5; }
-.hero-backdrop[data-time="yoru"] .hb-l3 { background: #d5dcd4; }
-.hero-backdrop[data-time="yoru"] .hb-lt { --op: 0.6; }
+/* 時刻パレット（data-time はマウント後にJSが付与 / 既定はhiru）
+   3灯を各時間帯とも同一色に統一（緑+生成りの混合を廃止＝1つの滲みに見せる） */
+.hero-backdrop .hb-l1,
+.hero-backdrop .hb-l2,
+.hero-backdrop .hb-l3 { background: #d2e0cf; } /* 昼: セージ緑 */
+.hero-backdrop[data-time="asa"] .hb-l1,
+.hero-backdrop[data-time="asa"] .hb-l2,
+.hero-backdrop[data-time="asa"] .hb-l3 { background: #d8e5e2; } /* 朝: 冷たい淡緑 */
+.hero-backdrop[data-time="yu"] .hb-l1,
+.hero-backdrop[data-time="yu"] .hb-l2,
+.hero-backdrop[data-time="yu"] .hb-l3 { background: #eedfc2; } /* 夕: 琥珀 */
+.hero-backdrop[data-time="yoru"] .hb-l1,
+.hero-backdrop[data-time="yoru"] .hb-l2,
+.hero-backdrop[data-time="yoru"] .hb-l3 { background: #d8ded6; } /* 夜: 沈んだ緑 */
+.hero-backdrop[data-time="yoru"] .hb-lt { --op: 0.4; } /* 夜は抑えめ比率を維持 */
 
 /* ダークモード: 時刻に関わらず夜系で上書き */
 [data-theme="dark"] .hero-backdrop {
   --hb-line: #32322e;
   --hb-tombo: #3e3e39;
 }
-[data-theme="dark"] .hero-backdrop .hb-l1 { background: #33443a; }
-[data-theme="dark"] .hero-backdrop .hb-l2 { background: #3e4536; }
-[data-theme="dark"] .hero-backdrop .hb-l3 { background: #2f3e38; }
-[data-theme="dark"] .hero-backdrop .hb-lt { --op: 0.45; }
+[data-theme="dark"] .hero-backdrop .hb-l1,
+[data-theme="dark"] .hero-backdrop .hb-l2,
+[data-theme="dark"] .hero-backdrop .hb-l3 { background: #33443a; }
+[data-theme="dark"] .hero-backdrop .hb-lt { --op: 0.45; } /* dark も抑えめ維持 */
 
 /* 方眼レイヤー（ベースライングリッド + トンボ）
    背景は全幅だが、方眼だけは中央1180pxの列に整列させる */
