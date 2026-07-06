@@ -265,7 +265,7 @@ select:focus-visible {
 [data-armed] .hb-tb { animation: hb-tbin 0.6s ease var(--d) forwards; }
 @keyframes hb-tbin { to { opacity: 1; } }
 
-/* モバイル(768px以下): 間引いて静かに（水平3本 / 垂直1本 / 光2つ / トンボ非表示） */
+/* モバイル(768px以下): 間引いて静かに（水平3本 / 垂直4本 / 光2つ / トンボ非表示） */
 @media (max-width: 768px) {
   .hb-md { display: none; }
   .hb-tb { display: none; }
@@ -281,4 +281,135 @@ select:focus-visible {
   .hb-gh { animation: none !important; transform: scaleX(1); }
   .hb-gv { animation: none !important; transform: scaleY(1); }
   .hb-tb { animation: none !important; opacity: 1; }
+}
+
+/* =============================================================
+   ヒーロー右側「最新作カード」（LatestWorkCard.tsx とペア）
+   背景に溶ける半透明の静かな導線。z順はコピー未満（重なったら文字が手前）。
+   目安1024px以下で非表示（大原則: 左テキストが主役）。
+   ============================================================= */
+.hero-latest {
+  position: absolute;
+  /* コンテナ(1180px)右端の内側に寄せる。狭い画面でも40pxは確保して見切れさせない */
+  right: max(40px, calc(50% - 566px));
+  top: 50%;
+  transform: translateY(-50%);
+  width: 440px;
+  z-index: 1; /* コピー側(relative z-10)より必ず下 */
+  opacity: 0;
+  animation: hlw-in 1.1s ease 0.9s forwards; /* rise なし・フェードのみ */
+}
+@keyframes hlw-in { to { opacity: 1; } }
+
+.hlw {
+  display: block;
+  border: 1px solid rgba(201, 198, 188, 0.42);
+  border-radius: 12px;
+  background: rgba(251, 250, 246, 0.42);
+  overflow: hidden;
+  text-decoration: none;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+.hlw:hover,
+.hlw:focus-visible {
+  background: rgba(251, 250, 246, 0.72);
+  border-color: rgba(201, 198, 188, 0.65);
+  outline: none;
+}
+
+.hlw-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 12px;
+  border-bottom: 1px solid rgba(228, 225, 214, 0.5);
+}
+.hlw-bar i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(219, 215, 199, 0.7);
+}
+.hlw-url {
+  margin-left: 7px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  color: #b3b0a2;
+}
+
+.hlw-shot {
+  position: relative; /* next/image fill 用 */
+  display: block;
+  height: 200px;
+  background: rgba(246, 244, 236, 0.4); /* 半透明トーン（指定値を維持） */
+  overflow: hidden;
+}
+/* 画像未用意のプレースホルダー: 他カードと同じ斜線パターン。
+   実装時はこの要素を next/image に差し替えるだけ */
+.hlw-shot-inner {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--surface-2),
+    var(--surface-2) 12px,
+    transparent 12px,
+    transparent 24px
+  );
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.hlw:hover .hlw-shot-inner,
+.hlw:focus-visible .hlw-shot-inner { transform: scale(1.05); }
+
+.hlw-cap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 11px 14px;
+}
+.hlw-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: #b3b0a2;
+}
+.hlw-title {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #6b6a63;
+  transition: color 0.3s ease;
+}
+.hlw-arrow {
+  display: inline-block;
+  margin-left: 6px;
+  color: rgba(34, 69, 47, 0.6);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.hlw:hover .hlw-title,
+.hlw:focus-visible .hlw-title { color: #3a3935; }
+.hlw:hover .hlw-arrow,
+.hlw:focus-visible .hlw-arrow { transform: translateX(4px); color: #22452f; }
+
+/* dark: 沈んだトーンへ */
+[data-theme="dark"] .hlw {
+  border-color: rgba(80, 80, 74, 0.5);
+  background: rgba(38, 38, 36, 0.4);
+}
+[data-theme="dark"] .hlw:hover,
+[data-theme="dark"] .hlw:focus-visible { background: rgba(38, 38, 36, 0.7); }
+
+/* 大原則: テキスト主役。競合する幅ではカードを消す（目安1024px） */
+@media (max-width: 1024px) {
+  .hero-latest { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-latest { animation: none; opacity: 1; }
+  .hlw,
+  .hlw-shot-inner,
+  .hlw-arrow,
+  .hlw-title { transition: none; }
 }
