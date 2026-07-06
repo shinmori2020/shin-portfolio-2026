@@ -148,6 +148,9 @@ select:focus-visible {
   position: absolute;
   inset: 0;
   overflow: hidden;
+  /* 光レイヤーは will-change + blur で合成レイヤー化するため、overflow:hidden だけでは
+     クリップが効かず枠外へ漏れる（スクロール後も右端に残る）。paint 封じ込めで確実に切る。 */
+  contain: paint;
   z-index: 0;
   pointer-events: none;
   /* 縦罫を7本へ増やすため線色を1段淡く（インク総量の保存・見出し可読性優先） */
@@ -160,7 +163,8 @@ select:focus-visible {
   position: absolute;
   inset: -60px;
   transition: transform 1.4s cubic-bezier(0.2, 0.6, 0.3, 1);
-  will-change: transform;
+  /* will-change: transform は付けない。合成レイヤーへ常時昇格すると blur と併さって
+     親の overflow/contain を越えて右端に貼り付く原因になる（視差の transition は昇格なしでも滑らか）。 */
 }
 .hb-lt {
   position: absolute;
