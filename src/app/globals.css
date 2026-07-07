@@ -84,9 +84,11 @@ body {
   transition: background 0.4s ease, color 0.4s ease;
 }
 
+/* テキスト選択: 背景=アクセント緑 / 文字=背景色。トークンがテーマで反転するため
+   ライトは深緑×オフホワイト ダークは明るい緑×ダーク背景色になる。 */
 ::selection {
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
 }
 
 /* 動きを嫌うユーザーにはテーマのトランジションも無効化 */
