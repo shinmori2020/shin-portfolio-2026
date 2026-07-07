@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
 import { BrowserFrame } from "@/components/common/BrowserFrame";
 import { works } from "@/data/works";
+import { resolveWorkCover } from "@/lib/workImages";
 
 export const metadata: Metadata = {
   title: "制作物",
@@ -43,7 +44,8 @@ export default function WorksPage() {
                 <BrowserFrame
                   url={w.url}
                   ratio="16 / 10"
-                  image={w.image}
+                  image={resolveWorkCover(w.slug, w.image)}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
                   className="transition-colors group-hover:border-line-strong"
                 />
                 <div className="flex flex-col gap-[10px]">

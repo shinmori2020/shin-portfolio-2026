@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Reveal } from "@/components/common/Reveal";
 import { WorkImageLightbox } from "@/components/common/WorkImageLightbox";
 import { works, getWorkBySlug } from "@/data/works";
+import { resolveWorkCover, resolveWorkFull } from "@/lib/workImages";
 
 type Params = { slug: string };
 
@@ -58,6 +59,10 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
     ["Type", w.meta.type],
   ];
 
+  const hasOutcomes = !!(w.outcomes && w.outcomes.length > 0);
+  const cover = resolveWorkCover(w.slug, w.image);
+  const full = resolveWorkFull(w.slug, w.imageFull);
+
   return (
     <>
       {/* ===== DETAIL HERO ===== */}
@@ -97,7 +102,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
 
       {/* ===== HERO IMAGE（クリックで全体をモーダル表示）===== */}
       <Reveal className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pb-[clamp(48px,7vw,88px)]">
-        <WorkImageLightbox url={w.url} title={w.title} image={w.image} imageFull={w.imageFull} />
+        <WorkImageLightbox url={w.url} title={w.title} image={cover} imageFull={full} />
       </Reveal>
 
       {/* ===== BODY ===== */}
@@ -130,7 +135,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
           </ul>
         </DetailSection>
 
-        <DetailSection no="04" title="工夫した点・こだわり" last>
+        <DetailSection no="04" title="工夫した点・こだわり" last={!hasOutcomes}>
           <div className="flex flex-col gap-6">
             {w.craft.map((c) => (
               <div key={c.t} className="flex flex-col gap-2">
@@ -140,6 +145,34 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
             ))}
           </div>
         </DetailSection>
+
+        {hasOutcomes && (
+          <DetailSection no="05" title="成果" last>
+            <div className="flex flex-col gap-[clamp(20px,2.6vw,30px)]">
+              {w.outcomes!.map((o, i) => (
+                <div key={`${o.label}-${i}`} className="flex flex-col gap-[7px]">
+                  <span className="text-[14px] font-medium tracking-[-0.005em] text-ink">{o.label}</span>
+                  {(o.before || o.after) && (
+                    <span className="font-mono text-[clamp(20px,2.7vw,28px)] font-medium tracking-[-0.01em] text-accent">
+                      {o.before ? (
+                        <>
+                          {o.before}
+                          <span aria-hidden className="mx-2.5 text-faint">
+                            →
+                          </span>
+                          {o.after}
+                        </>
+                      ) : (
+                        o.after
+                      )}
+                    </span>
+                  )}
+                  {o.note && <p className="m-0 text-[13.5px] leading-[1.9] text-muted">{o.note}</p>}
+                </div>
+              ))}
+            </div>
+          </DetailSection>
+        )}
       </section>
 
       {/* ===== NEXT WORK ===== */}

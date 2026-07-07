@@ -10,6 +10,7 @@ import { LatestWorkCard } from "@/components/common/LatestWorkCard";
 import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
 import { works } from "@/data/works";
+import { resolveWorkCover } from "@/lib/workImages";
 import { defaultCards, serviceTopics } from "@/data/services";
 import { processSteps } from "@/data/process";
 
@@ -59,8 +60,9 @@ export default function HomePage() {
           コンテンツは relative z-10 で前面。見出し(LCP)は即描画のまま、説明文/CTA/下線をタイムテーブルへ再調整。 */}
       <section className="relative overflow-hidden">
         <HeroBackdrop />
-        {/* 右側の最新作カード（背景に溶ける導線・コピーより下のz。1024px以下で非表示） */}
-        <LatestWorkCard />
+        {/* 右側の最新作カード（背景に溶ける導線・コピーより下のz。1024px以下で非表示）。
+            cover 画像は works 先頭の規約パスをサーバ側で解決して渡す（無ければプレースホルダー） */}
+        <LatestWorkCard image={resolveWorkCover(works[0].slug, works[0].image)} />
         <div className="relative z-10 mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(64px,11vw,148px)] pb-[clamp(48px,7vw,96px)]">
           <Reveal className="mb-[clamp(28px,5vw,52px)] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
             Frontend Engineer — 2026

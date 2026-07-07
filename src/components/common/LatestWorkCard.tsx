@@ -11,13 +11,17 @@
  * - スタイルは globals.css の .hero-latest / .hlw* 系とペア。
  */
 
+import Image from "next/image";
 import Link from "next/link";
 import { works } from "@/data/works";
+import { BLUR_DATA_URL } from "@/lib/blur";
 
 // 実スクリーンショット投入前でも導線として表示する（HANDOFF上書き指示）。
 const SHOW_LATEST_WORK = true;
 
-export function LatestWorkCard() {
+// image は cover 規約をサーバ側で解決した結果を親(page.tsx)から受け取る。
+// 未指定なら斜線プレースホルダーへ自動フォールバック。
+export function LatestWorkCard({ image }: { image?: string }) {
   if (!SHOW_LATEST_WORK) return null;
 
   const work = works[0]; // 最新作（配列先頭）
@@ -32,9 +36,21 @@ export function LatestWorkCard() {
           <span className="hlw-url">{work.url}</span>
         </span>
 
-        {/* 画像未用意: 斜線プレースホルダー。実装時はこの span を next/image に差し替え */}
+        {/* cover があれば blur-up 表示。無ければ斜線プレースホルダーへ自動フォールバック */}
         <span className="hlw-shot">
-          <span className="hlw-shot-inner" aria-hidden="true" />
+          {image ? (
+            <Image
+              src={image}
+              alt=""
+              fill
+              sizes="440px"
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
+              className="hlw-shot-img object-cover"
+            />
+          ) : (
+            <span className="hlw-shot-inner" aria-hidden="true" />
+          )}
         </span>
 
         <span className="hlw-cap">

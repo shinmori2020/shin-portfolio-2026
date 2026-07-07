@@ -14,12 +14,15 @@ export function BrowserFrame({
   ratio,
   label = "screenshot",
   image,
+  sizes = "(max-width: 640px) 100vw, (max-width: 1180px) 50vw, 560px",
   className = "",
 }: {
   url: string;
   ratio: string;
   label?: string;
   image?: string;
+  /** next/image の sizes。呼び出し側の実レイアウト幅に合わせて指定する */
+  sizes?: string;
   className?: string;
 }) {
   return (
@@ -40,7 +43,7 @@ export function BrowserFrame({
             src={image}
             alt=""
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1180px) 50vw, 560px"
+            sizes={sizes}
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
             className="object-cover transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.04] motion-reduce:transform-none"

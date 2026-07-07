@@ -376,6 +376,13 @@ select:focus-visible {
 }
 .hlw:hover .hlw-shot-inner,
 .hlw:focus-visible .hlw-shot-inner { transform: scale(1.05); }
+/* 実画像(next/image)時も同じホバー微ズーム */
+.hlw-shot-img {
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.hlw:hover .hlw-shot-img,
+.hlw:focus-visible .hlw-shot-img { transform: scale(1.05); }
 
 .hlw-cap {
   display: flex;
@@ -424,6 +431,7 @@ select:focus-visible {
   .hero-latest { animation: none; opacity: 1; }
   .hlw,
   .hlw-shot-inner,
+  .hlw-shot-img,
   .hlw-arrow,
   .hlw-title { transition: none; }
 }

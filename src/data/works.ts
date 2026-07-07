@@ -25,6 +25,17 @@ export interface CraftItem {
   d: string;
 }
 
+export interface Outcome {
+  /** 指標名（例: 表示速度 LCP・モバイル実測） */
+  label: string;
+  /** 改善前の値（例: 2.8s）。定性成果では省略 */
+  before?: string;
+  /** 改善後・実測値（例: 0.9s）。before なしで単独指定なら単値表示 */
+  after?: string;
+  /** 補足（任意） */
+  note?: string;
+}
+
 export interface Work {
   /** 通し番号（表示用） */
   no: string;
@@ -56,6 +67,8 @@ export interface Work {
   stack: StackItem[];
   /** 詳細: 工夫した点・こだわり */
   craft: CraftItem[];
+  /** 詳細: 成果（未入力なら 05 セクションごと非表示） */
+  outcomes?: Outcome[];
 }
 
 export const works: Work[] = [
@@ -89,6 +102,13 @@ export const works: Work[] = [
       { t: "上品なモーションを速度を犠牲にせず", d: "フェードと控えめな浮き上がりだけを使い初期表示と体感速度を最優先に調整しました。" },
       { t: "拡張しても壊れない情報設計", d: "コンポーネントとデータ取得を分離し機能追加が局所的な変更で済む構造にしました。" },
     ],
+    // 成果(05) 記入例。実データが入ったら下の outcomes を有効化する（未入力の案件はセクションごと非表示）。
+    // 書き方: 数値改善は before→after / 単発の実測値は after のみ / 定性成果は label+note。
+    // outcomes: [
+    //   { label: "表示速度 LCP（モバイル実測）", before: "2.8s", after: "0.9s" },
+    //   { label: "Lighthouse", after: "Performance 98 / Accessibility 100 / SEO 100" },
+    //   { label: "記事更新の運用", note: "編集フローを変えずにヘッドレス化し表示速度とSEOを改善" },
+    // ],
   },
   {
     no: "02",

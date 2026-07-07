@@ -30,7 +30,13 @@ export function WorkImageLightbox({
         aria-label={`${title} の全体スクリーンショットを表示`}
         className="group relative block w-full cursor-zoom-in text-left"
       >
-        <BrowserFrame url={url} ratio="16 / 8.5" label="hero screenshot" image={image} />
+        <BrowserFrame
+          url={url}
+          ratio="16 / 8.5"
+          label="hero screenshot"
+          image={image}
+          sizes="(max-width: 1180px) 100vw, 1100px"
+        />
         {/* ホバー時のヒント */}
         <span
           aria-hidden
