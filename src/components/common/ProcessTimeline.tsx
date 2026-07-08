@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion
 import { Reveal } from "./Reveal";
 import { KeywordReveal } from "./KeywordReveal";
 import { Modal } from "./Modal";
+import { ScrollTimeline } from "./ScrollTimeline";
 import type { ProcessStep } from "@/data/process";
 
 const EASE = [0.22, 0.61, 0.36, 1] as const;
@@ -81,14 +82,20 @@ export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
 
   return (
     <>
-      <ol className="relative m-0 list-none p-0">
-        {steps.map((p, i) => (
+      <ScrollTimeline count={steps.length} className="m-0 list-none p-0">
+        {(lit) => steps.map((p, i) => (
           <Reveal as="li" key={p.no} delayMs={p.delayMs} className="group flex gap-[clamp(16px,3vw,24px)]">
             <div className="flex flex-col items-center">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-line bg-surface font-mono text-[clamp(16px,1.8vw,19px)] text-accent transition-colors duration-300 group-hover:border-accent">
+              <span
+                data-tl-dot
+                className={`relative z-10 grid h-12 w-12 shrink-0 place-items-center rounded-full border font-mono text-[clamp(16px,1.8vw,19px)] transition-colors duration-200 ${
+                  i < lit
+                    ? "border-accent bg-accent text-bg"
+                    : "border-line bg-surface text-accent group-hover:border-accent"
+                }`}
+              >
                 {p.no}
               </span>
-              {i < steps.length - 1 && <span aria-hidden className="mt-2 w-px grow bg-line" />}
             </div>
 
             <button
@@ -121,7 +128,7 @@ export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
             </button>
           </Reveal>
         ))}
-      </ol>
+      </ScrollTimeline>
 
       <Modal open={open} onClose={() => setActive(null)} labelledById="process-modal-title">
         {current && active !== null && (
