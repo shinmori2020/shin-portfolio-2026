@@ -41,10 +41,23 @@ export function ScrollTimeline({
   }, [progress, count, reduce]);
 
   // レールを先頭ノード中心〜末尾ノード中心に合わせる。
+  // Reveal が各項目に transform を当てるため offsetParent が <li> 側になり得る。
+  // 単純な offsetTop では基準がズレて高さ0になるので ol までを親方向に積算する。
   // offsetTop/Left は transform 非依存なので reveal 中でも安定。計測はレイアウト時のみ（スクロール毎ではない）。
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    const offsetWithin = (node: HTMLElement) => {
+      let top = 0;
+      let left = 0;
+      let cur: HTMLElement | null = node;
+      while (cur && cur !== el && el.contains(cur)) {
+        top += cur.offsetTop;
+        left += cur.offsetLeft;
+        cur = cur.offsetParent as HTMLElement | null;
+      }
+      return { top, left };
+    };
     const measure = () => {
       const dots = el.querySelectorAll<HTMLElement>("[data-tl-dot]");
       if (dots.length < 2) {
@@ -53,9 +66,11 @@ export function ScrollTimeline({
       }
       const first = dots[0];
       const last = dots[dots.length - 1];
-      const top = first.offsetTop + first.offsetHeight / 2;
-      const bottom = last.offsetTop + last.offsetHeight / 2;
-      const left = first.offsetLeft + first.offsetWidth / 2;
+      const f = offsetWithin(first);
+      const l = offsetWithin(last);
+      const top = f.top + first.offsetHeight / 2;
+      const bottom = l.top + last.offsetHeight / 2;
+      const left = f.left + first.offsetWidth / 2;
       setRail({ top, height: bottom - top, left });
     };
     measure();
