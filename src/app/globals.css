@@ -462,9 +462,15 @@ select:focus-visible {
   animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
 }
 
-/* 新旧スナップショットは即入替（二重写りのゴーストを防ぎ「1枚の画像が動いた」ように見せる） */
+/* 新旧スナップショットは即入替（二重写りのゴーストを防ぎ「1枚の画像が動いた」ように見せる）。
+   height:100% + object-fit:cover で、縦横比が違う箱(一覧16/10 ↔ 詳細16/8.5)でも
+   常にグループを覆い切る＝旧スナップショットが隙間から覗かない
+   （Homeカードのホバースクリムが黒い縞として見える不具合の対策）。 */
 ::view-transition-old(.work-shot),
 ::view-transition-new(.work-shot) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   animation: none;
   mix-blend-mode: normal;
 }
