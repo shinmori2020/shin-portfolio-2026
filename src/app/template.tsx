@@ -14,9 +14,15 @@ const fade = { duration: 0.18, ease: "easeOut" } as const;
 export default function Template({ children }: { children: React.ReactNode }) {
   const reduce = useReducedMotion();
 
+  // View Transition 発動時は root のクロスフェード（globals.css / 180ms）が
+  // ページ遷移を担うので、template 側の opacity フェードは抑制して二重発火を避ける。
+  // TransitionLink が push 直前に data-vt を立てる → 新ページの template 再マウントが読む。
+  const inViewTransition =
+    typeof document !== "undefined" && document.documentElement.hasAttribute("data-vt");
+
   return (
     <motion.div
-      initial={reduce ? false : { opacity: 0 }}
+      initial={reduce || inViewTransition ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={fade}
     >

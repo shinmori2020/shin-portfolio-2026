@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
+import { TransitionLink } from "@/components/common/TransitionLink";
 import { BrowserFrame } from "@/components/common/BrowserFrame";
 import { works } from "@/data/works";
 import { resolveWorkCover } from "@/lib/workImages";
@@ -40,13 +41,17 @@ export default function WorksPage() {
         <div className="grid gap-[clamp(24px,3.4vw,52px)] [grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))]">
           {works.map((w) => (
             <Reveal key={w.slug} delayMs={w.delayMs}>
-              <Link href={`/works/${w.slug}`} className="group flex flex-col gap-5 text-ink no-underline">
+              <TransitionLink
+                href={`/works/${w.slug}`}
+                className="group flex flex-col gap-5 text-ink no-underline"
+              >
                 <BrowserFrame
                   url={w.url}
                   ratio="16 / 10"
                   image={resolveWorkCover(w.slug, w.image)}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
                   className="transition-colors group-hover:border-line-strong"
+                  viewTransitionName={`work-shot-${w.slug}`}
                 />
                 <div className="flex flex-col gap-[10px]">
                   <div className="flex items-baseline gap-[14px]">
@@ -79,7 +84,7 @@ export default function WorksPage() {
                     →
                   </span>
                 </span>
-              </Link>
+              </TransitionLink>
             </Reveal>
           ))}
         </div>

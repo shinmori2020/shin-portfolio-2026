@@ -16,6 +16,7 @@ export function BrowserFrame({
   image,
   sizes = "(max-width: 640px) 100vw, (max-width: 1180px) 50vw, 560px",
   className = "",
+  viewTransitionName,
 }: {
   url: string;
   ratio: string;
@@ -24,6 +25,10 @@ export function BrowserFrame({
   /** next/image の sizes。呼び出し側の実レイアウト幅に合わせて指定する */
   sizes?: string;
   className?: string;
+  /** 共有要素遷移用。スクリーンショット領域に付与する一意名（例: work-shot-${slug}）。
+   *  一覧カードと詳細ヒーローで同名にすると、対応ブラウザで連続変形する。
+   *  非対応ブラウザは単に無視するため、常にHTMLへ出力してよい（プログレッシブエンハンスメント）。 */
+  viewTransitionName?: string;
 }) {
   return (
     <div
@@ -37,7 +42,14 @@ export function BrowserFrame({
         <span className="ml-2.5 truncate font-mono text-[10.5px] text-faint">{url}</span>
       </div>
       {/* スクリーンショット領域（aspect-ratio で高さ確保＝CLSゼロ）*/}
-      <div className="relative overflow-hidden" style={{ aspectRatio: ratio }}>
+      <div
+        className="relative overflow-hidden"
+        style={{
+          aspectRatio: ratio,
+          // view-transition-class で質感(globals.css)を一括指定、name で一覧↔詳細を対応付け。
+          ...(viewTransitionName ? { viewTransitionName, viewTransitionClass: "work-shot" } : null),
+        }}
+      >
         {image ? (
           <Image
             src={image}

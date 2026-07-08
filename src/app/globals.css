@@ -441,3 +441,39 @@ select:focus-visible {
   .hlw-arrow,
   .hlw-title { transition: none; }
 }
+
+/* =============================================================
+   View Transitions — Works一覧 ↔ 詳細 の共有要素遷移（プログレッシブエンハンスメント）
+   対応ブラウザ かつ TransitionLink 経由の遷移でのみ解釈される。
+   非対応ブラウザ / reduced-motion では無視され、現行フェード(template.tsx/180ms)のまま。
+   共有要素名は TSX 側で work-shot-${slug}（一意）、質感は view-transition-class="work-shot" で一括指定。
+   ============================================================= */
+
+/* ページ全体のクロスフェードは現行の遷移言語(180ms/ease-out)に揃える */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: ease-out;
+}
+
+/* 共有要素(スクリーンショット)の座標・サイズの引き継ぎ。派手さは付けずに滑らかに。 */
+::view-transition-group(.work-shot) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* 新旧スナップショットは即入替（二重写りのゴーストを防ぎ「1枚の画像が動いた」ように見せる） */
+::view-transition-old(.work-shot),
+::view-transition-new(.work-shot) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* reduced-motion: 共有要素遷移ごと無効化（即時切替）。TransitionLink 側でも発火自体を抑止済み。 */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

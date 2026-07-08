@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { fontVariables } from "@/lib/fonts";
 import { ThemeProvider } from "@/components/common/ThemeProvider";
+import { ViewTransitions } from "@/components/common/ViewTransitions";
 import { Header } from "@/components/common/Header";
 import { Footer } from "@/components/common/Footer";
 
@@ -56,9 +57,11 @@ export default function RootLayout({
           enableSystem={false}
           storageKey="shin-theme"
         >
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <ViewTransitions>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </ViewTransitions>
         </ThemeProvider>
       </body>
     </html>

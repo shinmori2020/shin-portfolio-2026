@@ -13,11 +13,14 @@ export function WorkImageLightbox({
   title,
   image,
   imageFull,
+  viewTransitionName,
 }: {
   url: string;
   title: string;
   image?: string;
   imageFull?: string;
+  /** 共有要素遷移用。一覧カードと同名にする（例: work-shot-${slug}）。 */
+  viewTransitionName?: string;
 }) {
   const [open, setOpen] = useState(false);
   const full = imageFull ?? image;
@@ -36,6 +39,7 @@ export function WorkImageLightbox({
           label="hero screenshot"
           image={image}
           sizes="(max-width: 1180px) 100vw, 1100px"
+          viewTransitionName={viewTransitionName}
         />
         {/* ホバー時のヒント */}
         <span

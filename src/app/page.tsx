@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
+import { TransitionLink } from "@/components/common/TransitionLink";
 import { Phrase } from "@/components/common/ContactCTA";
 import { ServicesSwitcher } from "@/components/common/ServicesSwitcher";
 import { ProcessTimeline } from "@/components/common/ProcessTimeline";
@@ -176,7 +177,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 gap-[clamp(20px,3vw,40px)] md:grid-cols-2">
             {works.map((w) => (
               <Reveal key={w.slug} delayMs={w.delayMs}>
-                <Link
+                <TransitionLink
                   href={`/works/${w.slug}`}
                   className="group flex flex-col gap-[18px] text-ink no-underline"
                 >
@@ -187,7 +188,13 @@ export default function HomePage() {
                       <span className="h-[9px] w-[9px] rounded-full bg-line-strong" />
                       <span className="ml-[10px] font-mono text-[10.5px] text-faint">{w.url}</span>
                     </div>
-                    <div className="relative aspect-[16/10] overflow-hidden">
+                    <div
+                      className="relative aspect-[16/10] overflow-hidden"
+                      style={{
+                        viewTransitionName: `work-shot-${w.slug}`,
+                        viewTransitionClass: "work-shot",
+                      }}
+                    >
                       <div
                         className={`grid h-full w-full place-items-center ${hatch} transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.04] motion-reduce:group-hover:scale-100`}
                       >
@@ -216,7 +223,7 @@ export default function HomePage() {
                       </span>
                     ))}
                   </div>
-                </Link>
+                </TransitionLink>
               </Reveal>
             ))}
           </div>

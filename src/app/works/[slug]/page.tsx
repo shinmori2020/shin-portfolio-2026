@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/common/Reveal";
+import { TransitionLink } from "@/components/common/TransitionLink";
 import { WorkImageLightbox } from "@/components/common/WorkImageLightbox";
 import { works, getWorkBySlug } from "@/data/works";
 import { resolveWorkCover, resolveWorkFull } from "@/lib/workImages";
@@ -68,7 +69,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
       {/* ===== DETAIL HERO ===== */}
       <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(40px,6vw,72px)] pb-[clamp(32px,4vw,48px)]">
         <Reveal className="mb-[clamp(32px,5vw,52px)]">
-          <Link
+          <TransitionLink
             href="/works"
             className="link-underline group inline-flex items-center gap-2 text-[13px] text-muted no-underline transition-colors hover:text-accent"
           >
@@ -76,7 +77,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
               ←
             </span>
             Works
-          </Link>
+          </TransitionLink>
         </Reveal>
         <Reveal className="mb-[22px] font-mono text-[12px] uppercase tracking-[0.12em] text-accent">
           {w.no} — {w.kind}
@@ -102,7 +103,13 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
 
       {/* ===== HERO IMAGE（クリックで全体をモーダル表示）===== */}
       <Reveal className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pb-[clamp(48px,7vw,88px)]">
-        <WorkImageLightbox url={w.url} title={w.title} image={cover} imageFull={full} />
+        <WorkImageLightbox
+          url={w.url}
+          title={w.title}
+          image={cover}
+          imageFull={full}
+          viewTransitionName={`work-shot-${w.slug}`}
+        />
       </Reveal>
 
       {/* ===== BODY ===== */}
@@ -178,7 +185,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
       {/* ===== NEXT WORK ===== */}
       <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(40px,6vw,72px)] pb-[clamp(72px,10vw,120px)]">
         <Reveal>
-          <Link
+          <TransitionLink
             href={`/works/${next.slug}`}
             className="group flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-line bg-surface p-[clamp(24px,3vw,36px)] text-ink no-underline transition-colors duration-200 motion-reduce:transition-none hover:border-accent focus-visible:border-accent focus-visible:outline-none"
           >
@@ -196,7 +203,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
             >
               →
             </span>
-          </Link>
+          </TransitionLink>
         </Reveal>
       </section>
     </>
