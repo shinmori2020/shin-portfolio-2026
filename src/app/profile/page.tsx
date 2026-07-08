@@ -5,6 +5,7 @@ import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
 import { HeadingChars } from "@/components/common/HeadingChars";
 import { ServiceIcon } from "@/components/common/ServiceIcon";
+import { ExperienceTimeline } from "@/components/common/ExperienceTimeline";
 import { profile, skillGroups, timeline, values } from "@/data/profile";
 
 export const metadata: Metadata = {
@@ -144,46 +145,7 @@ export default function ProfilePage() {
           <Reveal className="mb-[clamp(36px,5vw,56px)]">
             <SectionHeading label="02 / Experience">これまでの歩み</SectionHeading>
           </Reveal>
-          <ol className="m-0 list-none p-0">
-            {timeline.map((e, i) => (
-              <Reveal
-                as="li"
-                key={e.year + e.title}
-                delayMs={i * 80}
-                className="group flex gap-[clamp(18px,3vw,28px)]"
-              >
-                {/* 左：ノード＋つなぎ線（Home Process と同じ流儀）*/}
-                <div className="flex flex-col items-center pt-[5px]">
-                  <span
-                    aria-hidden
-                    className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-full border border-line bg-surface transition-colors duration-300 group-hover:border-accent"
-                  >
-                    <span className="h-[9px] w-[9px] rounded-full bg-accent" />
-                  </span>
-                  {i < timeline.length - 1 && <span aria-hidden className="mt-2 w-px grow bg-line" />}
-                </div>
-
-                {/* 右：内容 */}
-                <div className="flex-1 pb-[clamp(28px,5vw,52px)]">
-                  <span className="font-mono text-[13px] tracking-[0.04em] text-accent">{e.year}</span>
-                  <h3 className="m-0 mt-2 text-[clamp(17px,2vw,20px)] font-semibold tracking-[-0.01em] transition-colors duration-300 group-hover:text-accent">
-                    {e.title}
-                  </h3>
-                  <p className="m-0 mt-[10px] text-[14.5px] leading-[1.9] text-muted">{e.desc}</p>
-                  <ul className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0">
-                    {e.tags.map((t) => (
-                      <li
-                        key={t}
-                        className="rounded-full border border-line bg-surface px-3 py-1 font-mono text-[11.5px] tracking-[0.02em] text-muted"
-                      >
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            ))}
-          </ol>
+          <ExperienceTimeline timeline={timeline} />
         </div>
       </section>
 
