@@ -96,6 +96,10 @@ body {
   body {
     transition: none;
   }
+  /* タイムライン進捗線：完成形（scaleY(1)）で静止（JS に依存しない担保）*/
+  .tl-rail {
+    transform: scaleY(1) !important;
+  }
 }
 
 /* キーボードフォーカスの可視化（design-reference には無いが a11y 必須・accent で統一） */
