@@ -490,13 +490,16 @@ select:focus-visible {
    ページ / モーダル 両方に適用。ライト/ダークはトークンで自動切替。
    ============================================================= */
 
+/* サム色はサイトのアクセント緑ベース。半透明で下地に馴染ませ ホバーで濃く。
+   トークンがテーマで反転するため ライトは深緑 ダークは明るい緑になる。 */
+
 /* Firefox（scrollbar-color / -width は継承プロパティ。html に置けばモーダルにも効く）*/
 html {
-  scrollbar-color: var(--faint) transparent;
+  scrollbar-color: color-mix(in srgb, var(--accent) 55%, transparent) transparent;
   scrollbar-width: thin;
 }
 
-/* WebKit系（Chrome / Edge / Safari）*/
+/* WebKit系（Chrome / Edge / Safari）。要素セレクタを付けず全スクロール領域＝ページ＋モーダルに適用 */
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
@@ -505,14 +508,14 @@ html {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--faint);
+  background-color: color-mix(in srgb, var(--accent) 55%, transparent);
   border-radius: 999px;
   /* 透明ボーダー＋padding-box で、背景(ページ面/モーダル面)を問わず内側に余白を作る */
   border: 3px solid transparent;
   background-clip: padding-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--muted);
+  background-color: var(--accent);
 }
 ::-webkit-scrollbar-corner {
   background: transparent;
