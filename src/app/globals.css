@@ -370,13 +370,14 @@ select:focus-visible {
 .hlw-shot-inner {
   position: absolute;
   inset: 0;
+  /* 斜線＋不透明な下地(surface)。隙間の透過を無くす（共有要素遷移の黒い縞対策と同方針） */
   background: repeating-linear-gradient(
     135deg,
     var(--surface-2),
     var(--surface-2) 12px,
     transparent 12px,
     transparent 24px
-  );
+  ), var(--surface);
   transform-origin: center;
   transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
 }

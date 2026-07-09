@@ -30,8 +30,10 @@ const btnPrimary = `${btnBase} bg-accent text-white`;
 const btnSecondary = `${btnBase} border border-line-strong text-ink hover:border-accent`;
 
 // 斜線プレースホルダー背景（実画像未用意の箇所で使用）
+// 斜線パターン＋不透明な下地(surface)。下地が無いと隙間が透けて、共有要素遷移で
+// 移動元スナップショット(ホバースクリム)が透過して黒い縞になる。docs/view-transitions.md 参照。
 const hatch =
-  "[background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2)_12px,transparent_12px,transparent_24px)]";
+  "[background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2)_12px,transparent_12px,transparent_24px),var(--surface)]";
 
 // セクション見出しラベル（モノスペース番号）
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -188,15 +190,16 @@ export default function HomePage() {
                       <span className="h-[9px] w-[9px] rounded-full bg-line-strong" />
                       <span className="ml-[10px] font-mono text-[10.5px] text-faint">{w.url}</span>
                     </div>
-                    <div
-                      className="relative aspect-[16/10] overflow-hidden"
-                      style={{
-                        viewTransitionName: `work-shot-${w.slug}`,
-                        viewTransitionClass: "work-shot",
-                      }}
-                    >
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      {/* view-transition-name はスクリーンショット画像そのものへ付与する。
+                          スクリム(下の View → オーバーレイ)は共有要素の外に置き、
+                          移動元スナップショットに焼き込まれないようにする。 */}
                       <div
                         className={`grid h-full w-full place-items-center ${hatch} transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.04] motion-reduce:group-hover:scale-100`}
+                        style={{
+                          viewTransitionName: `work-shot-${w.slug}`,
+                          viewTransitionClass: "work-shot",
+                        }}
                       >
                         <span className="font-mono text-[11px] tracking-[0.08em] text-faint">screenshot</span>
                       </div>
