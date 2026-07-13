@@ -48,13 +48,23 @@ export async function submitContact(
 
   const { name, email, company, type, budget, deadline, message } = parsed.data;
 
-  // 環境変数未設定時はスタブ動作（Resend 契約前でも UI/UX を確認できる）
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.CONTACT_EMAIL_FROM;
   const to = process.env.CONTACT_EMAIL_TO;
-  if (!apiKey || !from || !to) {
-    console.warn("[contact] Resend 未設定のためスタブ動作で受付");
+
+  // 独自ドメイン登録前は Resend のサンドボックス送信元を使う。
+  // ドメイン検証後は CONTACT_EMAIL_FROM に自ドメインのアドレスを入れるだけで切り替わる。
+  const from = process.env.CONTACT_EMAIL_FROM ?? "シン ポートフォリオ <onboarding@resend.dev>";
+  const isSandboxSender = from.includes("onboarding@resend.dev");
+
+  // APIキー未設定時のみスタブ動作（ローカルで Resend 契約前でも UI/UX を確認できる）
+  if (!apiKey) {
+    console.warn("[contact] RESEND_API_KEY 未設定のためスタブ動作で受付");
     return { status: "success", message: "送信を受け付けました（現在はテスト動作）" };
+  }
+  // キーはあるのに宛先が無いのは設定漏れ。偽の成功を返さずエラーにする
+  if (!to) {
+    console.error("[contact] CONTACT_EMAIL_TO が未設定のため送信できません");
+    return { status: "error", message: "送信に失敗しました。時間をおいて再度お試しください" };
   }
 
   const resend = new Resend(apiKey);
@@ -72,14 +82,20 @@ export async function submitContact(
     if (notice.error) throw notice.error;
 
     // 2. 送信者宛の自動返信（失敗しても運営通知の成功は打ち消さない）
-    const autoReply = await resend.emails.send({
-      from,
-      to: email,
-      subject: "お問い合わせを受け付けました",
-      react: ContactAutoReplyEmail({ name, message }),
-    });
-    if (autoReply.error) {
-      console.warn("[contact] 自動返信に失敗（運営通知は成功）", autoReply.error);
+    // サンドボックス送信元では Resend アカウント本人以外へ送れず必ず 403 になるため送信しない。
+    // 独自ドメインを CONTACT_EMAIL_FROM に設定した時点で自動的に有効化される。
+    if (isSandboxSender && email.toLowerCase() !== to.toLowerCase()) {
+      console.info("[contact] 独自ドメイン未設定のため自動返信はスキップ（運営通知は送信済み）");
+    } else {
+      const autoReply = await resend.emails.send({
+        from,
+        to: email,
+        subject: "お問い合わせを受け付けました",
+        react: ContactAutoReplyEmail({ name, message }),
+      });
+      if (autoReply.error) {
+        console.warn("[contact] 自動返信に失敗（運営通知は成功）", autoReply.error);
+      }
     }
 
     return { status: "success", message: "送信を受け付けました。ご連絡ありがとうございます" };
