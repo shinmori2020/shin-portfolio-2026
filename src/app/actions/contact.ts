@@ -1,6 +1,7 @@
 "use server";
 
 import { Resend } from "resend";
+import { render } from "@react-email/render";
 import { z } from "zod";
 import { ContactNoticeEmail } from "@/emails/ContactNoticeEmail";
 import { ContactAutoReplyEmail } from "@/emails/ContactAutoReplyEmail";
@@ -72,12 +73,16 @@ export async function submitContact(
 
   try {
     // 1. 運営宛の通知（返信は問い合わせ者に直接届くよう replyTo を設定）
+    // react: を渡すと resend が内部で @react-email/render を動的 import するが、
+    // 本番バンドルでは解決に失敗して落ちる。ここで render 済みの html/text を渡す。
+    const noticeNode = ContactNoticeEmail({ name, email, company, type, budget, deadline, message, receivedAt });
     const notice = await resend.emails.send({
       from,
       to,
       replyTo: email,
       subject: `お問い合わせ - ${name} 様`,
-      react: ContactNoticeEmail({ name, email, company, type, budget, deadline, message, receivedAt }),
+      html: await render(noticeNode),
+      text: await render(noticeNode, { plainText: true }),
     });
     if (notice.error) throw notice.error;
 
@@ -87,11 +92,13 @@ export async function submitContact(
     if (isSandboxSender && email.toLowerCase() !== to.toLowerCase()) {
       console.info("[contact] 独自ドメイン未設定のため自動返信はスキップ（運営通知は送信済み）");
     } else {
+      const replyNode = ContactAutoReplyEmail({ name, message });
       const autoReply = await resend.emails.send({
         from,
         to: email,
         subject: "お問い合わせを受け付けました",
-        react: ContactAutoReplyEmail({ name, message }),
+        html: await render(replyNode),
+        text: await render(replyNode, { plainText: true }),
       });
       if (autoReply.error) {
         console.warn("[contact] 自動返信に失敗（運営通知は成功）", autoReply.error);
