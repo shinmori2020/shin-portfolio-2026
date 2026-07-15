@@ -11,7 +11,7 @@
 | 0 | hero-final-handoff の決着(実装済みなら報告確認のみ) | - | Opus+人間 |
 | 1 | timeline-scroll-handoff(タイムラインのスクロール描画) | 0 | Opus |
 | 2 | **01-works-content**(成果欄の実装+実画像の受け入れ準備) | - | Opus |
-| 3 | 実スクリーンショット撮影と成果データ収集 | 2 | **人間**(01のHUMAN_TASKS.md参照) |
+| 3 | 実スクリーンショット撮影と成果データ収集 **(進行中: 4作品の cover.png 投入済み / 成果データは未収集)** | 2 | **人間**(01のHUMAN_TASKS.md参照) |
 | 4 | view-transitions-handoff(共有要素遷移) | 3推奨 | Opus |
 | 5 | **02-site-meta**(OGP / favicon / theme-color / ::selection) | - | Opus |
 | 6 | **03-not-found**(404ページ) | - | Opus |

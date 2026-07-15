@@ -14,13 +14,8 @@
 
 /** @type {Target[]} */
 export const targets = [
-  {
-    slug: '_sample',
-    url: 'https://example.com',
-  },
-  // 実案件の例（コメントを外して url を実URLに差し替える）:
-  // { slug: 'headless-wp-media', url: 'https://example.com' },
-  // { slug: 'multilingual-ec',   url: 'https://example.com' },
-  // { slug: 'estimate-simulator', url: 'https://example.com' },
-  // { slug: 'proposal-builder',  url: 'https://example.com' },
+  { slug: 'headless-wp-media',  url: 'https://nordic-works.vercel.app/' },
+  { slug: 'multilingual-ec',    url: 'https://stillne-shop.vercel.app/ja' },
+  { slug: 'estimate-simulator', url: 'https://mitsumo-project.vercel.app/' },
+  { slug: 'proposal-builder',   url: 'https://proposal-builder-flame.vercel.app/' },
 ];
