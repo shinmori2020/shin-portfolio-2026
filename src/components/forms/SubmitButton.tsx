@@ -21,11 +21,10 @@ export function SubmitButton({ status, idleLabel = "送信する", className = "
     <motion.button
       type="submit"
       disabled={status === "loading" || status === "success"}
-      whileTap={reduce || status !== "idle" ? undefined : { scale: 0.98 }}
       aria-live="polite"
       data-status={status}
       className={`
-        relative flex h-12 min-w-52 items-center justify-center
+        relative flex h-12 min-w-52 cursor-pointer items-center justify-center
         rounded-lg bg-accent text-sm font-medium tracking-wide
         text-white transition-colors duration-200
         hover:enabled:[background:color-mix(in_srgb,var(--accent)_88%,#000)]
