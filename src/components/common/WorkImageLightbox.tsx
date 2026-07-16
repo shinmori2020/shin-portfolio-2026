@@ -4,10 +4,8 @@ import { useState } from "react";
 import { BrowserFrame } from "./BrowserFrame";
 import { Modal } from "./Modal";
 
-const hatch =
-  "[background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2)_14px,transparent_14px,transparent_28px)]";
-
-// 詳細ページのヒーロー画像。クリックで全体スクリーンショットをモーダル（ライトボックス）表示する。
+// 詳細ページのヒーロー画像。全景(full)がある時だけクリックで全体スクリーンショットをモーダル表示する。
+// full が無い案件では「全体を見る」導線を出さず 静的なブラウザ枠のみ表示する（フォールバック思想）。
 export function WorkImageLightbox({
   url,
   title,
@@ -18,12 +16,26 @@ export function WorkImageLightbox({
   url: string;
   title: string;
   image?: string;
+  /** 縦長全景（full.png）。未指定なら「全体を見る」導線ごと非表示にする */
   imageFull?: string;
   /** 共有要素遷移用。一覧カードと同名にする（例: work-shot-${slug}）。 */
   viewTransitionName?: string;
 }) {
   const [open, setOpen] = useState(false);
-  const full = imageFull ?? image;
+
+  // 全景が無ければライトボックスを配線せず 静的なヒーロー枠だけを出す
+  if (!imageFull) {
+    return (
+      <BrowserFrame
+        url={url}
+        ratio="16 / 8.5"
+        label="hero screenshot"
+        image={image}
+        sizes="(max-width: 1180px) 100vw, 1100px"
+        viewTransitionName={viewTransitionName}
+      />
+    );
+  }
 
   return (
     <>
@@ -83,19 +95,8 @@ export function WorkImageLightbox({
               ))}
               <span className="ml-2.5 truncate font-mono text-[10.5px] text-faint">{url}</span>
             </div>
-            {full ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={full} alt={`${title} の全体スクリーンショット`} className="block w-full" />
-            ) : (
-              <div
-                className={`grid w-full place-items-center ${hatch}`}
-                style={{ aspectRatio: "16 / 34" }}
-              >
-                <span className="font-mono text-[11px] tracking-[0.08em] text-faint">
-                  full screenshot
-                </span>
-              </div>
-            )}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={imageFull} alt={`${title} の全体スクリーンショット`} className="block w-full" />
           </div>
         </div>
       </Modal>

@@ -88,6 +88,24 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
         >
           {w.title}
         </Reveal>
+        {w.href && (
+          <Reveal delayMs={60} className="mt-[clamp(18px,2.4vw,26px)]">
+            <a
+              href={w.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-underline group inline-flex items-center gap-2 text-[13.5px] text-accent no-underline transition-colors"
+            >
+              サイトを見る
+              <span
+                aria-hidden
+                className="font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-x-[3px] motion-reduce:transform-none"
+              >
+                →
+              </span>
+            </a>
+          </Reveal>
+        )}
         <Reveal
           delayMs={80}
           className="mt-[clamp(28px,4vw,44px)] flex flex-wrap gap-[clamp(24px,4vw,56px)] border-t border-line pt-[clamp(24px,3vw,32px)]"

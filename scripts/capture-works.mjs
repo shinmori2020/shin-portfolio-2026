@@ -38,18 +38,24 @@ const slugFilter = args.find((a) => a.startsWith('--slug='))?.slice('--slug='.le
 const skipExisting = args.includes('--skip-existing');
 const listOnly = args.includes('--list');
 
-const EXTS = ['webp', 'png', 'jpg', 'jpeg', 'avif']; // 規約の探索拡張子（既存カバー判定用）
+const EXTS = ['webp', 'png', 'jpg', 'jpeg', 'avif']; // 規約の探索拡張子（既存判定用）
 
-/** その slug に既にカバー画像が存在するか（規約の全拡張子を確認） */
-function hasExistingCover(slug) {
-  return EXTS.some((ext) => fs.existsSync(path.join(WORKS_DIR, slug, `cover.${ext}`)));
+/** 出力ファイル名（未指定は cover.png）。full.png 用に out で上書きできる */
+function outNameFor(target) {
+  return target.out ?? 'cover.png';
+}
+
+/** その target の出力画像が既に存在するか（out の basename を全拡張子で確認） */
+function hasExisting(target) {
+  const base = path.parse(outNameFor(target)).name; // 'cover' / 'full'
+  return EXTS.some((ext) => fs.existsSync(path.join(WORKS_DIR, target.slug, `${base}.${ext}`)));
 }
 
 /** 1件を撮影。成功時は保存パスを返し 失敗時は例外を投げる */
 async function capture(browser, target) {
   const { slug, url, dismiss, waitMs = 0, fullPage = false } = target;
   const outDir = path.join(WORKS_DIR, slug);
-  const outPath = path.join(outDir, 'cover.png');
+  const outPath = path.join(outDir, outNameFor(target));
 
   const context = await browser.newContext({
     viewport: VIEWPORT,
@@ -100,7 +106,7 @@ async function main() {
 
   if (listOnly) {
     console.log(`撮影対象 ${queue.length} 件:`);
-    for (const t of queue) console.log(`  - ${t.slug.padEnd(20)} ${t.url}`);
+    for (const t of queue) console.log(`  - ${t.slug.padEnd(20)} → ${outNameFor(t).padEnd(10)} ${t.url}`);
     return;
   }
 
@@ -116,7 +122,7 @@ async function main() {
   try {
     for (const target of queue) {
       const { slug, url } = target;
-      if (skipExisting && hasExistingCover(slug)) {
+      if (skipExisting && hasExisting(target)) {
         console.log(`- ${slug}: 既存カバーありスキップ`);
         continue;
       }

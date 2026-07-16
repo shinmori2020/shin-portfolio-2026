@@ -47,8 +47,10 @@ export interface Work {
   title: string;
   /** 一覧・ティーザー用の短い説明 */
   desc: string;
-  /** ブラウザ風カードに表示する URL（現状はプレースホルダー） */
+  /** ブラウザ風カードに表示する URL 表記（スキームなしのドメイン+任意パス） */
   url: string;
+  /** 公開サイトへの外部リンク先（完全URL）。未設定なら「サイトを見る」導線を出さない */
+  href?: string;
   /** 技術タグ */
   tags: string[];
   /** reveal アニメーションの遅延（ミリ秒, design-reference 準拠） */
@@ -78,7 +80,8 @@ export const works: Work[] = [
     kind: "Headless WordPress",
     title: "ヘッドレスWP構成のメディア＋コーポレートサイト",
     desc: "B2B SaaS企業向け。WordPressをCMSに使いNext.jsでフロントを構築。",
-    url: "saas-media.example.com",
+    url: "nordic-works.vercel.app",
+    href: "https://nordic-works.vercel.app/",
     tags: ["Headless WP", "Next.js", "Tailwind"],
     delayMs: 0,
     meta: { client: "B2B SaaS 企業", role: "設計・フロント実装", year: "2025", type: "受託 / 継続" },
@@ -116,7 +119,8 @@ export const works: Work[] = [
     kind: "E-Commerce / i18n",
     title: "多言語対応のECサイト",
     desc: "国・言語ごとの出し分けと軽量な商品閲覧体験を実装。",
-    url: "shop.example.com",
+    url: "stillne-shop.vercel.app/ja",
+    href: "https://stillne-shop.vercel.app/ja",
     tags: ["Next.js", "i18n", "Vercel"],
     delayMs: 80,
     meta: { client: "アパレルEC事業者", role: "設計・フロント実装", year: "2024", type: "受託" },
@@ -146,7 +150,8 @@ export const works: Work[] = [
     kind: "Internal Tool",
     title: "コーディング見積もりシミュレーター",
     desc: "条件入力から概算を即時算出する制作現場の業務効率化ツール。",
-    url: "estimate.example.com",
+    url: "mitsumo-project.vercel.app",
+    href: "https://mitsumo-project.vercel.app/",
     tags: ["React", "TypeScript", "Tool"],
     delayMs: 160,
     meta: { client: "自社 / 制作会社向け", role: "企画・設計・実装", year: "2024", type: "社内ツール" },
@@ -175,7 +180,8 @@ export const works: Work[] = [
     kind: "Internal Tool / PDF",
     title: "Web制作提案書ビルダー",
     desc: "入力した内容からPDFを出力できる提案業務の効率化ツール。",
-    url: "proposal.example.com",
+    url: "proposal-builder-flame.vercel.app",
+    href: "https://proposal-builder-flame.vercel.app/",
     tags: ["Next.js", "PDF", "Tool"],
     delayMs: 240,
     meta: { client: "自社 / 制作会社向け", role: "企画・設計・実装", year: "2025", type: "社内ツール" },
