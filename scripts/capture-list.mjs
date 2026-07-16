@@ -20,12 +20,13 @@
 /** @type {Target[]} */
 export const targets = [
   // --- ファーストビュー（cover.png） ---
-  { slug: 'headless-wp-media',  url: 'https://nordic-works.vercel.app/' },
+  // nordic-works のみ Cookie バナーが出るため撮影前に「拒否する」で閉じる（他3案件はバナー無し）
+  { slug: 'headless-wp-media',  url: 'https://nordic-works.vercel.app/', dismiss: 'text=拒否する' },
   { slug: 'multilingual-ec',    url: 'https://stillne-shop.vercel.app/ja' },
   { slug: 'estimate-simulator', url: 'https://mitsumo-project.vercel.app/' },
   { slug: 'proposal-builder',   url: 'https://proposal-builder-flame.vercel.app/' },
   // --- 縦長全景（full.png・ライトボックス用） ---
-  { slug: 'headless-wp-media',  url: 'https://nordic-works.vercel.app/',           out: 'full.png', fullPage: true },
+  { slug: 'headless-wp-media',  url: 'https://nordic-works.vercel.app/',           out: 'full.png', fullPage: true, dismiss: 'text=拒否する' },
   { slug: 'multilingual-ec',    url: 'https://stillne-shop.vercel.app/ja',         out: 'full.png', fullPage: true },
   { slug: 'estimate-simulator', url: 'https://mitsumo-project.vercel.app/',        out: 'full.png', fullPage: true },
   { slug: 'proposal-builder',   url: 'https://proposal-builder-flame.vercel.app/', out: 'full.png', fullPage: true },

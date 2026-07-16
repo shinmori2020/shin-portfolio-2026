@@ -32,6 +32,8 @@ const REDUCED_MOTION = 'reduce';    // 登場アニメ途中を写さない
 const SAFETY_MARGIN_MS = 500;       // フォント/描画確定後の安全マージン
 const NAV_TIMEOUT_MS = 30_000;      // 1件あたり上限（無限に待たない）
 
+const REVEAL_SETTLE_MS = 600;       // reveal を確定させた後 再描画を待つ
+
 // ---- CLI 引数 ----
 const args = process.argv.slice(2);
 const slugFilter = args.find((a) => a.startsWith('--slug='))?.slice('--slug='.length);
@@ -49,6 +51,60 @@ function outNameFor(target) {
 function hasExisting(target) {
   const base = path.parse(outNameFor(target)).name; // 'cover' / 'full'
   return EXTS.some((ext) => fs.existsSync(path.join(WORKS_DIR, target.slug, `${base}.${ext}`)));
+}
+
+/**
+ * fullPage 撮影の前処理その1: ページ全体をゆっくりスクロールする。
+ * 遅延読み込み(loading=lazy / クライアント取得)を誘発し 一度きりの reveal を発火させるのが狙い。
+ */
+async function scrollThroughPage(page) {
+  await page.evaluate(async () => {
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    const docHeight = () =>
+      Math.max(document.body?.scrollHeight ?? 0, document.documentElement?.scrollHeight ?? 0);
+
+    const step = Math.max(200, Math.round(window.innerHeight * 0.75));
+    let y = 0;
+    // 上限を設けpage伸長による無限ループを防ぐ
+    for (let i = 0; i < 300 && y < docHeight(); i++) {
+      window.scrollTo(0, y);
+      await sleep(140); // reveal の発火と描画を待つ
+      y += step;
+    }
+    window.scrollTo(0, docHeight());
+    await sleep(400);
+    window.scrollTo(0, 0);
+    await sleep(300); // 先頭へ戻した後の再描画を待つ
+  });
+}
+
+/**
+ * fullPage 撮影の前処理その2（本命）: 画面外へ出て隠れ直した reveal を最終状態へ確定させる。
+ *
+ * Framer Motion の whileInView は once:true が無いと ビューポートを出た要素を opacity:0 へ戻す。
+ * そのためスクロールで発火させても 先頭へ戻した時点で下部が再び隠れ 白紙のまま写る。
+ * ここではその署名（インラインで opacity ほぼ0 かつ transform 付き）を持つ要素だけを対象に
+ * インラインスタイルを最終状態へ上書きする。意図的に隠している要素（display:none や
+ * transform 無しのオーバーレイ）は条件に合わないため巻き込まない。
+ *
+ * ビューポートを全高へ広げる案は 100vh 指定のヒーローが引き伸ばされるため不採用。
+ */
+async function settleRevealedState(page) {
+  const fixed = await page.evaluate(() => {
+    let n = 0;
+    for (const el of document.querySelectorAll('[style*="opacity"]')) {
+      const s = el.style;
+      const op = parseFloat(s.opacity || '1');
+      if (op < 0.5 && s.transform && s.transform !== 'none') {
+        s.opacity = '1';
+        s.transform = 'none';
+        n++;
+      }
+    }
+    return n;
+  });
+  if (fixed > 0) console.log(`    (画面外で隠れ直した reveal ${fixed} 件を表示状態へ確定)`);
+  await page.waitForTimeout(REVEAL_SETTLE_MS);
 }
 
 /** 1件を撮影。成功時は保存パスを返し 失敗時は例外を投げる */
@@ -81,6 +137,14 @@ async function capture(browser, target) {
 
     // フォント確定を待つ（失敗しても致命ではない）
     await page.evaluate(() => document.fonts?.ready).catch(() => {});
+
+    // 全景撮影のみ: reveal を発火させた状態を作ってから撮る（ファーストビューは表示済みのため不要）
+    if (fullPage) {
+      await scrollThroughPage(page);
+      // スクロールで誘発した遅延読み込みの取得完了を待つ（失敗しても致命ではない）
+      await page.waitForLoadState('networkidle').catch(() => {});
+      await settleRevealedState(page);
+    }
 
     if (waitMs > 0) await page.waitForTimeout(waitMs);
     await page.waitForTimeout(SAFETY_MARGIN_MS);
