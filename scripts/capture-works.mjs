@@ -28,7 +28,9 @@ const WORKS_DIR = path.join(PROJECT_ROOT, 'public', 'works');
 const VIEWPORT = { width: 1440, height: 900 };
 const DEVICE_SCALE_FACTOR = 2;      // Retina 相当の解像度
 const COLOR_SCHEME = 'light';       // ライト固定
-const REDUCED_MOTION = 'reduce';    // 登場アニメ途中を写さない
+// 既定は reduce（登場アニメ途中を写さない）。ただし背景アニメが常時動く案件では
+// reduce が「崩れた中間状態」で凍結してしまうため 案件側の reducedMotion で上書きできる。
+const REDUCED_MOTION = 'reduce';
 const SAFETY_MARGIN_MS = 500;       // フォント/描画確定後の安全マージン
 const NAV_TIMEOUT_MS = 30_000;      // 1件あたり上限（無限に待たない）
 
@@ -109,7 +111,7 @@ async function settleRevealedState(page) {
 
 /** 1件を撮影。成功時は保存パスを返し 失敗時は例外を投げる */
 async function capture(browser, target) {
-  const { slug, url, dismiss, waitMs = 0, fullPage = false } = target;
+  const { slug, url, dismiss, waitMs = 0, fullPage = false, reducedMotion = REDUCED_MOTION } = target;
   const outDir = path.join(WORKS_DIR, slug);
   const outPath = path.join(outDir, outNameFor(target));
 
@@ -117,7 +119,7 @@ async function capture(browser, target) {
     viewport: VIEWPORT,
     deviceScaleFactor: DEVICE_SCALE_FACTOR,
     colorScheme: COLOR_SCHEME,
-    reducedMotion: REDUCED_MOTION,
+    reducedMotion,
   });
   const page = await context.newPage();
   page.setDefaultTimeout(NAV_TIMEOUT_MS);
