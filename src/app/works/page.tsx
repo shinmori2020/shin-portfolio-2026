@@ -41,50 +41,75 @@ export default function WorksPage() {
         <div className="grid gap-[clamp(24px,3.4vw,52px)] [grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))]">
           {works.map((w) => (
             <Reveal key={w.slug} delayMs={w.delayMs}>
-              <TransitionLink
-                href={`/works/${w.slug}`}
-                className="group flex flex-col gap-5 text-ink no-underline"
-              >
-                <BrowserFrame
-                  url={w.url}
-                  ratio="16 / 10"
-                  image={resolveWorkCover(w.slug, w.image)}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
-                  className="transition-colors group-hover:border-line-strong"
-                  viewTransitionName={`work-shot-${w.slug}`}
-                />
-                <div className="flex flex-col gap-[10px]">
-                  <div className="flex items-baseline gap-[14px]">
-                    <span className="font-mono text-[13px] text-accent">{w.no}</span>
-                    <span className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-muted">
-                      {w.kind}
-                    </span>
+              <div className="group flex flex-col gap-5">
+                {/* カード本体（画像＋テキスト）は詳細ページへのリンク */}
+                <TransitionLink
+                  href={`/works/${w.slug}`}
+                  className="flex flex-col gap-5 text-ink no-underline"
+                >
+                  <BrowserFrame
+                    url={w.url}
+                    ratio="16 / 10"
+                    image={resolveWorkCover(w.slug, w.image)}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
+                    className="transition-colors group-hover:border-line-strong"
+                    viewTransitionName={`work-shot-${w.slug}`}
+                  />
+                  <div className="flex flex-col gap-[10px]">
+                    <div className="flex items-baseline gap-[14px]">
+                      <span className="font-mono text-[13px] text-accent">{w.no}</span>
+                      <span className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-muted">
+                        {w.kind}
+                      </span>
+                    </div>
+                    <h3 className="m-0 text-[clamp(18px,1.8vw,21px)] font-semibold leading-[1.5] tracking-[-0.015em]">
+                      {w.title}
+                    </h3>
                   </div>
-                  <h3 className="m-0 text-[clamp(18px,1.8vw,21px)] font-semibold leading-[1.5] tracking-[-0.015em]">
-                    {w.title}
-                  </h3>
-                </div>
-                <p className="m-0 text-[14px] leading-[1.85] text-muted">{w.desc}</p>
-                <div className="flex flex-wrap gap-[7px]">
-                  {w.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-md border border-line px-[9px] py-1 font-mono text-[10.5px] text-muted"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                <span className="mt-[2px] inline-flex items-center gap-2 text-[13px] text-accent">
-                  詳細を見る
-                  <span
-                    aria-hidden
-                    className="font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-x-[3px] motion-reduce:transform-none"
+                  <p className="m-0 text-[14px] leading-[1.85] text-muted">{w.desc}</p>
+                  <div className="flex flex-wrap gap-[7px]">
+                    {w.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-md border border-line px-[9px] py-1 font-mono text-[10.5px] text-muted"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </TransitionLink>
+                {/* リンク行: 詳細（内部）と サイトを見る（外部）。アンカーの入れ子を避けるためカード外に置く */}
+                <div className="mt-[2px] flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px]">
+                  <TransitionLink
+                    href={`/works/${w.slug}`}
+                    className="group/detail inline-flex items-center gap-2 text-accent no-underline"
                   >
-                    →
-                  </span>
-                </span>
-              </TransitionLink>
+                    詳細を見る
+                    <span
+                      aria-hidden
+                      className="font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover/detail:translate-x-[3px] motion-reduce:transform-none"
+                    >
+                      →
+                    </span>
+                  </TransitionLink>
+                  {w.href && (
+                    <a
+                      href={w.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/site inline-flex items-center gap-2 text-muted no-underline transition-colors hover:text-accent"
+                    >
+                      サイトを見る
+                      <span
+                        aria-hidden
+                        className="font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover/site:translate-x-[3px] motion-reduce:transform-none"
+                      >
+                        ↗
+                      </span>
+                    </a>
+                  )}
+                </div>
+              </div>
             </Reveal>
           ))}
         </div>

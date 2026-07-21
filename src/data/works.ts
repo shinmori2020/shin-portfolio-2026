@@ -84,7 +84,7 @@ export const works: Work[] = [
     href: "https://nordic-works.vercel.app/",
     tags: ["Headless WP", "Next.js", "Tailwind"],
     delayMs: 0,
-    meta: { client: "B2B SaaS 企業", role: "設計・フロント実装", year: "2025", type: "受託 / 継続" },
+    meta: { client: "B2B SaaS 企業", role: "設計・フロント実装", year: "2026", type: "受託 / 継続" },
     overview:
       "SaaSを提供するB2B企業のオウンドメディアとコーポレートサイトを統合的に再構築しました。記事更新は従来どおりWordPressの管理画面で行いながら表示側をNext.jsに切り替えるヘッドレス構成です。編集者の運用を変えずに表示速度とSEOと拡張性を引き上げました。",
     problems: [
@@ -123,7 +123,7 @@ export const works: Work[] = [
     href: "https://stillne-shop.vercel.app/ja",
     tags: ["Next.js", "i18n", "Vercel"],
     delayMs: 80,
-    meta: { client: "アパレルEC事業者", role: "設計・フロント実装", year: "2024", type: "受託" },
+    meta: { client: "アパレルEC事業者", role: "設計・フロント実装", year: "2026", type: "受託" },
     overview:
       "国と言語ごとにコンテンツを出し分ける多言語ECサイトを構築しました。軽快な商品閲覧体験とルーティングや文言管理のしやすさを両立させています。",
     problems: [
@@ -154,7 +154,7 @@ export const works: Work[] = [
     href: "https://mitsumo-project.vercel.app/",
     tags: ["React", "TypeScript", "Tool"],
     delayMs: 160,
-    meta: { client: "自社 / 制作会社向け", role: "企画・設計・実装", year: "2024", type: "社内ツール" },
+    meta: { client: "自社 / 制作会社向け", role: "企画・設計・実装", year: "2026", type: "社内ツール" },
     overview:
       "条件を入力すると概算金額を即時に算出する見積もりシミュレーターです。制作現場の見積もり業務にかかる手間と属人化を減らすために作りました。",
     problems: [
@@ -184,7 +184,7 @@ export const works: Work[] = [
     href: "https://proposal-builder-flame.vercel.app/",
     tags: ["Next.js", "PDF", "Tool"],
     delayMs: 240,
-    meta: { client: "自社 / 制作会社向け", role: "企画・設計・実装", year: "2025", type: "社内ツール" },
+    meta: { client: "自社 / 制作会社向け", role: "企画・設計・実装", year: "2026", type: "社内ツール" },
     overview:
       "入力した内容から体裁の整った提案書PDFを出力できるツールです。提案業務にかかる時間を大きく短縮するために作りました。",
     problems: [
