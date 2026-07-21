@@ -53,12 +53,21 @@ export function BrowserFrame({
             className="group/addr ml-2.5 inline-flex min-w-0 items-center gap-1 font-mono text-[10.5px] text-faint no-underline transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
           >
             <span className="truncate">{url}</span>
-            <span
+            {/* 外部リンクアイコン（□から矢印が飛び出す。Lucide external-link 相当） */}
+            <svg
               aria-hidden
-              className="flex-none transition-transform duration-200 group-hover/addr:translate-x-[1px] group-hover/addr:-translate-y-[1px] motion-reduce:transform-none"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-[11px] w-[11px] flex-none transition-transform duration-200 group-hover/addr:translate-x-[1px] group-hover/addr:-translate-y-[1px] motion-reduce:transform-none"
             >
-              ↗
-            </span>
+              <path d="M15 3h6v6" />
+              <path d="M10 14 21 3" />
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6" />
+            </svg>
           </a>
         ) : (
           <span className="ml-2.5 truncate font-mono text-[10.5px] text-faint">{url}</span>
