@@ -13,6 +13,7 @@ const hatch =
 
 export function BrowserFrame({
   url,
+  href,
   ratio,
   label = "screenshot",
   image,
@@ -21,6 +22,8 @@ export function BrowserFrame({
   viewTransitionName,
 }: {
   url: string;
+  /** 指定すると URL バーを公開サイトへの外部リンクにする（新しいタブ）。未指定なら素のテキスト表示 */
+  href?: string;
   ratio: string;
   label?: string;
   image?: string;
@@ -41,7 +44,25 @@ export function BrowserFrame({
         {[0, 1, 2].map((i) => (
           <span key={i} aria-hidden className="h-[9px] w-[9px] rounded-full bg-line-strong" />
         ))}
-        <span className="ml-2.5 truncate font-mono text-[10.5px] text-faint">{url}</span>
+        {href ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${url} を新しいタブで開く`}
+            className="group/addr ml-2.5 inline-flex min-w-0 items-center gap-1 font-mono text-[10.5px] text-faint no-underline transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
+          >
+            <span className="truncate">{url}</span>
+            <span
+              aria-hidden
+              className="flex-none transition-transform duration-200 group-hover/addr:translate-x-[1px] group-hover/addr:-translate-y-[1px] motion-reduce:transform-none"
+            >
+              ↗
+            </span>
+          </a>
+        ) : (
+          <span className="ml-2.5 truncate font-mono text-[10.5px] text-faint">{url}</span>
+        )}
       </div>
       {/* スクリーンショット領域（aspect-ratio で高さ確保＝CLSゼロ）*/}
       <div

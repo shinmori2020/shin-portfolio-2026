@@ -42,19 +42,21 @@ export default function WorksPage() {
           {works.map((w) => (
             <Reveal key={w.slug} delayMs={w.delayMs}>
               <div className="group flex flex-col gap-5">
-                {/* カード本体（画像＋テキスト）は詳細ページへのリンク */}
+                {/* ブラウザ枠。URLバーが公開サイトへの外部リンク（詳細リンクの外に置きアンカー入れ子を回避） */}
+                <BrowserFrame
+                  url={w.url}
+                  href={w.href}
+                  ratio="16 / 10"
+                  image={resolveWorkCover(w.slug, w.image)}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
+                  className="transition-colors group-hover:border-line-strong"
+                  viewTransitionName={`work-shot-${w.slug}`}
+                />
+                {/* テキスト全体が詳細ページへのリンク */}
                 <TransitionLink
                   href={`/works/${w.slug}`}
-                  className="flex flex-col gap-5 text-ink no-underline"
+                  className="group/detail flex flex-col gap-5 text-ink no-underline"
                 >
-                  <BrowserFrame
-                    url={w.url}
-                    ratio="16 / 10"
-                    image={resolveWorkCover(w.slug, w.image)}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
-                    className="transition-colors group-hover:border-line-strong"
-                    viewTransitionName={`work-shot-${w.slug}`}
-                  />
                   <div className="flex flex-col gap-[10px]">
                     <div className="flex items-baseline gap-[14px]">
                       <span className="font-mono text-[13px] text-accent">{w.no}</span>
@@ -77,13 +79,7 @@ export default function WorksPage() {
                       </span>
                     ))}
                   </div>
-                </TransitionLink>
-                {/* リンク行: 詳細（内部）と サイトを見る（外部）。アンカーの入れ子を避けるためカード外に置く */}
-                <div className="mt-[2px] flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px]">
-                  <TransitionLink
-                    href={`/works/${w.slug}`}
-                    className="group/detail inline-flex items-center gap-2 text-accent no-underline"
-                  >
+                  <span className="mt-[2px] inline-flex items-center gap-2 text-[13px] text-accent">
                     詳細を見る
                     <span
                       aria-hidden
@@ -91,24 +87,8 @@ export default function WorksPage() {
                     >
                       →
                     </span>
-                  </TransitionLink>
-                  {w.href && (
-                    <a
-                      href={w.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group/site inline-flex items-center gap-2 text-muted no-underline transition-colors hover:text-accent"
-                    >
-                      サイトを見る
-                      <span
-                        aria-hidden
-                        className="font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover/site:translate-x-[3px] motion-reduce:transform-none"
-                      >
-                        ↗
-                      </span>
-                    </a>
-                  )}
-                </div>
+                  </span>
+                </TransitionLink>
               </div>
             </Reveal>
           ))}
