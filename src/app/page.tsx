@@ -72,8 +72,13 @@ function WorkShot({ slug, image }: { slug: string; image?: string }) {
       </div>
       {/* ホバーで「詳細を見る」が浮かぶ（文言は /works の一覧カードと統一）*/}
       <div className="pointer-events-none absolute inset-0 grid place-items-center opacity-0 transition-opacity duration-300 [background:rgba(15,18,14,0.45)] group-hover:opacity-100 motion-reduce:transition-none">
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/60 px-4 py-2 font-mono text-[12px] text-white">
-          詳細を見る →
+        {/* 和文に font-mono を当てない（Geist Mono に和文グリフが無く OS 標準の
+            等幅へ落ちるため）。記号の矢印だけ mono にする。/works の一覧と同じ扱い。 */}
+        <span className="inline-flex items-center gap-2 rounded-full border border-white/60 px-4 py-2 text-[12px] text-white">
+          詳細を見る
+          <span aria-hidden className="font-mono">
+            →
+          </span>
         </span>
       </div>
     </div>

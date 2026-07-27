@@ -110,7 +110,7 @@ export default function WorksPage() {
           </Reveal>
           <Reveal delayMs={80}>
             <Link href="/contact" className={`${btnPrimary} whitespace-nowrap`}>
-              相談する <span className={btnArrow}>→</span>
+              相談する<span className={btnArrow}>→</span>
             </Link>
           </Reveal>
         </div>

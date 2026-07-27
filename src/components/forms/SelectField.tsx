@@ -22,7 +22,8 @@ export function SelectField({
   value,
   onChange,
   required = false,
-  placeholder = "選択（任意）",
+  // ラベル横に「任意」バッジが出るため placeholder では繰り返さない
+  placeholder = "選択",
   className = "",
 }: Props) {
   const id = useId();

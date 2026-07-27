@@ -112,9 +112,14 @@ export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
                   {p.title}
                 </h3>
                 <p className="m-0 mt-2 text-[clamp(14px,1.6vw,16px)] leading-[1.85] text-muted">{p.desc}</p>
-                <span className="mt-3 inline-flex items-center gap-1 font-mono text-[12px] tracking-[0.04em] text-accent">
+                {/* 和文に font-mono を当てない（Geist Mono に和文グリフが無く OS 標準の
+                    等幅へ落ちるため）。記号の矢印だけ mono にする。/works の一覧と同じ扱い。 */}
+                <span className="mt-3 inline-flex items-center gap-1 text-[12px] tracking-[0.04em] text-accent">
                   詳細を見る
-                  <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-[3px]">
+                  <span
+                    aria-hidden
+                    className="font-mono transition-transform duration-300 group-hover:translate-x-[3px]"
+                  >
                     →
                   </span>
                 </span>
