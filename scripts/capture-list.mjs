@@ -9,6 +9,8 @@
 //   hide     任意  撮影前に display:none にする CSS セレクタの配列。クリックすると閉じるどころか
 //                  展開してしまうウィジェット（チャットボット等）は dismiss では消せないためこちらを使う
 //   waitMs   任意  ページ表示後の追加待機ミリ秒（遅延読み込み・背景アニメの頃合い調整）。既定 0
+//   fullHeightUntil 任意  fullPage をこの要素の下端で打ち切る CSS セレクタ。スクロール連動
+//                  スライダーの「スクロール量を稼ぐ背の高い余白」が白紙で写るのを避ける用
 //   fullPage 任意  true でページ全体を縦長撮影（既定 false = ファーストビューのみ）
 //   reducedMotion 任意  既定 'reduce'（登場アニメ途中を写さない）。背景アニメが常時動く案件は
 //                       'no-preference' にしないと崩れた中間状態で凍結する（下の nordic 参照）
@@ -19,7 +21,7 @@
 //   node scripts/capture-works.mjs --skip-existing   （既存 cover/full を残し 無い分だけ撮影）
 //   node scripts/capture-works.mjs --slug=foo         （1案件だけ / --list で対象確認）
 
-/** @typedef {{ slug: string, url: string, out?: string, dismiss?: string, hide?: string[], waitMs?: number, fullPage?: boolean, reducedMotion?: 'reduce' | 'no-preference' }} Target */
+/** @typedef {{ slug: string, url: string, out?: string, dismiss?: string, hide?: string[], fullHeightUntil?: string, waitMs?: number, fullPage?: boolean, reducedMotion?: 'reduce' | 'no-preference' }} Target */
 
 // nordic-works の共通指定（cover / full で同じ条件にする）。
 // - dismiss: Cookie バナーを「拒否する」で閉じる（バナーが出るのはこの案件のみ）
@@ -40,12 +42,19 @@ const PROPOSAL = {
   dismiss: 'text=キャンセル',
 };
 
-// slider-patterns は自動再生スライダーが常時動くため 既定の reduce だと崩れた中間状態で凍結する
-// （nordic と同じ問題）。アニメを動かしたうえで waitMs で頃合いを取る。撮るたび絵が変わる前提。
+// slider-patterns の事情2つ:
+// - reducedMotion: 自動再生スライダーが常時動くため 既定の reduce だと崩れた中間状態で
+//   凍結する（nordic と同じ問題）。アニメを動かしたうえで waitMs で頃合いを取る。
+//   撮るたび絵が変わる前提の案件。
+// - fullHeightUntil: 最後のスライダー07(フルスクリーン縦スクロール)は
+//   「4500px のスクロール余白 + 900px の sticky パネル」で出来ている。余白はスクロール量を
+//   稼ぐためだけのもので 静止画では 3600px が白紙で写る。sticky パネル(.slider-fullscreen)の
+//   下端で打ち切れば 07 の1画面目までを見せて余白を落とせる。
 const SLIDER = {
   url: 'https://slider-project-demo.netlify.app/',
   reducedMotion: /** @type {const} */ ('no-preference'),
   waitMs: 1200,
+  fullHeightUntil: '.slider-fullscreen',
 };
 
 // gradientr は SPA(Vite)。初期描画が JS 完了後になるため 少し待ってから撮る。

@@ -163,21 +163,46 @@ async function hideElements(page, selectors) {
 }
 
 /**
- * ページが横に溢れている時だけ ビューポート幅で切り出す clip を返す（溢れていなければ undefined）。
- * fullPage は scrollWidth 全体を撮るため 溢れた分の余白まで画像に入ってしまう。
+ * fullPage 撮影の切り出し範囲を決める（切る必要が無ければ undefined）。
+ *
+ * 横: ページが横に溢れている時はビューポート幅で切る。fullPage は scrollWidth 全体を撮るため
+ *     溢れた分の余白まで画像に入ってしまう。
+ * 縦: fullHeightUntil が指定された時は その要素の下端で切る。スクロール連動スライダーは
+ *     「スクロール量を稼ぐための背の高い余白 + sticky で貼り付く実画面」で出来ており
+ *     静止画では余白が丸ごと白紙として写る。実画面の下端で切ればその白紙を落とせる。
  */
-async function viewportWidthClip(page) {
-  const { scrollWidth, scrollHeight } = await page.evaluate(() => ({
-    scrollWidth: Math.max(document.body?.scrollWidth ?? 0, document.documentElement?.scrollWidth ?? 0),
-    scrollHeight: Math.max(document.body?.scrollHeight ?? 0, document.documentElement?.scrollHeight ?? 0),
-  }));
-  if (scrollWidth <= VIEWPORT.width + 1) return undefined;
-  return { x: 0, y: 0, width: VIEWPORT.width, height: scrollHeight };
+async function computeFullClip(page, fullHeightUntil) {
+  const m = await page.evaluate((sel) => {
+    const scrollWidth = Math.max(document.body?.scrollWidth ?? 0, document.documentElement?.scrollWidth ?? 0);
+    const scrollHeight = Math.max(document.body?.scrollHeight ?? 0, document.documentElement?.scrollHeight ?? 0);
+    let cutAt = null;
+    if (sel) {
+      const el = document.querySelector(sel);
+      if (el) cutAt = Math.round(el.getBoundingClientRect().bottom + window.scrollY);
+    }
+    return { scrollWidth, scrollHeight, cutAt };
+  }, fullHeightUntil ?? null);
+
+  const overflowing = m.scrollWidth > VIEWPORT.width + 1;
+  if (fullHeightUntil && m.cutAt === null) {
+    console.warn(`    (fullHeightUntil "${fullHeightUntil}" は見つからず・全高で撮影)`);
+  }
+  const height = m.cutAt !== null && m.cutAt < m.scrollHeight ? m.cutAt : m.scrollHeight;
+  if (!overflowing && height === m.scrollHeight) return undefined;
+
+  if (overflowing) console.log(`    (横に溢れているためビューポート幅 ${VIEWPORT.width}px で切り出し)`);
+  if (height < m.scrollHeight) {
+    console.log(`    (${fullHeightUntil} の下端 ${height}px で切り出し・以降の ${m.scrollHeight - height}px は静止画では白紙のため落とす)`);
+  }
+  return { x: 0, y: 0, width: overflowing ? VIEWPORT.width : m.scrollWidth, height };
 }
 
 /** 1件を撮影。成功時は保存パスを返し 失敗時は例外を投げる */
 async function capture(browser, target) {
-  const { slug, url, dismiss, hide, waitMs = 0, fullPage = false, reducedMotion = REDUCED_MOTION } = target;
+  const {
+    slug, url, dismiss, hide, fullHeightUntil,
+    waitMs = 0, fullPage = false, reducedMotion = REDUCED_MOTION,
+  } = target;
   const outDir = path.join(WORKS_DIR, slug);
   const outPath = path.join(outDir, outNameFor(target));
 
@@ -228,10 +253,7 @@ async function capture(browser, target) {
     // ビューポート幅で切り出して 実際の見た目と同じ横幅に揃える。
     // clip は fullPage と併用すること。fullPage を外すと clip がビューポート内へ
     // 切り詰められ 全景のつもりが1画面分しか撮れない。
-    const clip = fullPage ? await viewportWidthClip(page) : undefined;
-    if (clip) {
-      console.log(`    (横に溢れているためビューポート幅 ${VIEWPORT.width}px で切り出し)`);
-    }
+    const clip = fullPage ? await computeFullClip(page, fullHeightUntil) : undefined;
     await page.screenshot({ path: outPath, fullPage, clip, type: 'png' });
 
     return path.relative(PROJECT_ROOT, outPath);
