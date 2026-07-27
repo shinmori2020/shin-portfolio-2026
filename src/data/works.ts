@@ -37,7 +37,7 @@ export interface Outcome {
 }
 
 export interface Work {
-  /** 通し番号（表示用） */
+  /** 通し番号（表示用）。WORK_ORDER の並びから自動採番されるため各作品には書かない */
   no: string;
   /** /works/[slug] のキー */
   slug: string;
@@ -53,7 +53,7 @@ export interface Work {
   href?: string;
   /** 技術タグ */
   tags: string[];
-  /** reveal アニメーションの遅延（ミリ秒, design-reference 準拠） */
+  /** reveal アニメーションの遅延（ミリ秒, design-reference 準拠）。並び順から自動計算される */
   delayMs: number;
   /** スクリーンショット画像パス（未用意なら undefined → 斜線プレースホルダー） */
   image?: string;
@@ -73,9 +73,11 @@ export interface Work {
   outcomes?: Outcome[];
 }
 
-export const works: Work[] = [
+/** 各作品の中身。並び順はここでは決めない（下の WORK_ORDER が正） */
+type WorkSource = Omit<Work, "no" | "delayMs">;
+
+const catalog: WorkSource[] = [
   {
-    no: "01",
     slug: "headless-wp-media",
     kind: "Headless WordPress",
     title: "ヘッドレスWP構成のメディア＋コーポレートサイト",
@@ -83,7 +85,6 @@ export const works: Work[] = [
     url: "nordic-works.vercel.app",
     href: "https://nordic-works.vercel.app/",
     tags: ["Headless WP", "Next.js", "Tailwind"],
-    delayMs: 0,
     meta: { client: "B2B SaaS 企業", role: "設計・フロント実装", year: "2026", type: "受託 / 継続" },
     overview:
       "SaaSを提供するB2B企業のオウンドメディアとコーポレートサイトを統合的に再構築しました。記事更新は従来どおりWordPressの管理画面で行いながら表示側をNext.jsに切り替えるヘッドレス構成です。編集者の運用を変えずに表示速度とSEOと拡張性を引き上げました。",
@@ -114,7 +115,6 @@ export const works: Work[] = [
     // ],
   },
   {
-    no: "02",
     slug: "multilingual-ec",
     kind: "E-Commerce / i18n",
     title: "多言語対応のECサイト",
@@ -122,7 +122,6 @@ export const works: Work[] = [
     url: "stillne-shop.vercel.app/ja",
     href: "https://stillne-shop.vercel.app/ja",
     tags: ["Next.js", "i18n", "Vercel"],
-    delayMs: 80,
     meta: { client: "アパレルEC事業者", role: "設計・フロント実装", year: "2026", type: "受託" },
     overview:
       "国と言語ごとにコンテンツを出し分ける多言語ECサイトを構築しました。軽快な商品閲覧体験とルーティングや文言管理のしやすさを両立させています。",
@@ -145,7 +144,6 @@ export const works: Work[] = [
     ],
   },
   {
-    no: "03",
     slug: "estimate-simulator",
     kind: "Internal Tool",
     title: "コーディング見積もりシミュレーター",
@@ -153,7 +151,6 @@ export const works: Work[] = [
     url: "mitsumo-project.vercel.app",
     href: "https://mitsumo-project.vercel.app/",
     tags: ["React", "TypeScript", "Tool"],
-    delayMs: 160,
     meta: { client: "自社 / 制作会社向け", role: "企画・設計・実装", year: "2026", type: "社内ツール" },
     overview:
       "条件を入力すると概算金額を即時に算出する見積もりシミュレーターです。制作現場の見積もり業務にかかる手間と属人化を減らすために作りました。",
@@ -175,7 +172,6 @@ export const works: Work[] = [
     ],
   },
   {
-    no: "04",
     slug: "proposal-builder",
     kind: "Internal Tool / PDF",
     title: "Web制作提案書ビルダー",
@@ -183,7 +179,6 @@ export const works: Work[] = [
     url: "proposal-builder-flame.vercel.app",
     href: "https://proposal-builder-flame.vercel.app/",
     tags: ["Next.js", "PDF", "Tool"],
-    delayMs: 240,
     meta: { client: "自社 / 制作会社向け", role: "企画・設計・実装", year: "2026", type: "社内ツール" },
     overview:
       "入力した内容から体裁の整った提案書PDFを出力できるツールです。提案業務にかかる時間を大きく短縮するために作りました。",
@@ -208,7 +203,6 @@ export const works: Work[] = [
   // ここから自主制作。delayMs は 0/80/160/240 を繰り返す（通し番号順に増やすと
   // 一覧の後半カードが画面に入ってから動き出すまで待たされるため）。
   {
-    no: "05",
     slug: "gradientr",
     kind: "Design Tool",
     title: "グラデーション生成ツール Gradientr",
@@ -216,7 +210,6 @@ export const works: Work[] = [
     url: "gradientr.netlify.app",
     href: "https://gradientr.netlify.app/",
     tags: ["React", "Vite", "Tool"],
-    delayMs: 0,
     meta: { client: "自主制作", role: "企画・設計・実装", year: "2026", type: "ツール / 自主制作" },
     overview:
       "グラデーションを画面上で組み立ててそのまま実装用のコードにできるツールです。リニア・ラジアル・コニックの3方式に対応し 色の停止点は追加と並べ替えと位置指定ができます。結果は CSS / Tailwind / SCSS / SVG のコードとして また PNG / JPG / SVG の画像として書き出せます。",
@@ -239,7 +232,6 @@ export const works: Work[] = [
     ],
   },
   {
-    no: "06",
     slug: "web-creation-service",
     kind: "Service Site",
     title: "Web制作サービスのサイト（MISSIONS）",
@@ -247,7 +239,6 @@ export const works: Work[] = [
     url: "web-creation-service.netlify.app",
     href: "https://web-creation-service.netlify.app/",
     tags: ["HTML / CSS", "JavaScript", "Swiper"],
-    delayMs: 80,
     meta: { client: "自主制作", role: "設計・実装", year: "2026", type: "サイト制作 / 自主制作" },
     overview:
       "Web制作を請け負う立場のサービスサイトです。制作実績と料金計算とよくある質問と相談予約を独立したページに分け 迷った時点から相談までが最短で進む導線にしました。フレームワークを使わず素のHTMLとCSSとJavaScriptで組んでいます。",
@@ -270,7 +261,6 @@ export const works: Work[] = [
     ],
   },
   {
-    no: "07",
     slug: "slider-patterns",
     kind: "UI Implementation",
     title: "スライダー実装パターン集",
@@ -278,7 +268,6 @@ export const works: Work[] = [
     url: "slider-project-demo.netlify.app",
     href: "https://slider-project-demo.netlify.app/",
     tags: ["JavaScript", "Accessibility", "UI"],
-    delayMs: 160,
     meta: { client: "自主制作", role: "設計・実装", year: "2026", type: "UI検証 / 自主制作" },
     overview:
       "タブ連動やフェードや2カラムやカルーセルなど 用途の違う7種類のスライダーを1ページに並べたデモです。ライブラリに頼らず1つずつ実装し 見た目だけでなくキーボード操作とスクリーンリーダー対応まで揃えました。案件ごとに最適な型を選べるようにするための検証です。",
@@ -301,7 +290,6 @@ export const works: Work[] = [
     ],
   },
   {
-    no: "08",
     slug: "web-parts-reference",
     kind: "Reference / Docs",
     title: "Webデザインパーツ辞典",
@@ -309,7 +297,6 @@ export const works: Work[] = [
     url: "web-parts-reference.netlify.app",
     href: "https://web-parts-reference.netlify.app/",
     tags: ["JavaScript", "Performance", "Docs"],
-    delayMs: 240,
     meta: { client: "自主制作", role: "設計・実装", year: "2026", type: "リファレンス / 自主制作" },
     overview:
       "Webデザインで使うパーツの名称と用途とコード例をまとめたリファレンスです。200パーツを11カテゴリと9タグで分類し サイトタイプ別とカテゴリ別とキーワードで横断的に引けます。制作の現場で「あの部品の呼び名が出てこない」を無くすために作りました。",
@@ -332,6 +319,39 @@ export const works: Work[] = [
     ],
   },
 ];
+
+/**
+ * 表示順。**ここだけ並べ替えれば** 一覧の順序と通し番号と reveal の遅延がすべて追従する。
+ * トップの「Selected works」は先頭4件を出すため 上4つが看板になる。
+ * slug は URL キーなので 並べ替えてもリンクは切れない。
+ */
+const WORK_ORDER = [
+  "headless-wp-media",
+  "web-creation-service",
+  "slider-patterns",
+  "web-parts-reference",
+  "multilingual-ec",
+  "estimate-simulator",
+  "proposal-builder",
+  "gradientr",
+] as const;
+
+// 通し番号(01,02…)と reveal の遅延を並び順から採番する。手で振ると並べ替えのたびに
+// 付け替えが要り 番号の飛びや重複が起きるため 位置から決める。
+// 遅延は 0/80/160/240 の繰り返し（通し番号順に増やし続けると一覧後半のカードが
+// 画面に入ってから動き出すまで待たされるため）。
+export const works: Work[] = WORK_ORDER.map((slug, i) => {
+  const source = catalog.find((w) => w.slug === slug);
+  if (!source) throw new Error(`works.ts: WORK_ORDER の "${slug}" が catalog にありません`);
+  return { ...source, no: String(i + 1).padStart(2, "0"), delayMs: (i % 4) * 80 };
+});
+
+// 並べ替えの取りこぼし（catalog に足したが WORK_ORDER へ入れ忘れた）を早期に気づけるようにする。
+if (works.length !== catalog.length) {
+  throw new Error(
+    `works.ts: WORK_ORDER に載っていない作品があります（catalog ${catalog.length} 件 / 表示 ${works.length} 件）`,
+  );
+}
 
 /** slug から作品を取得（詳細ページ用） */
 export function getWorkBySlug(slug: string): Work | undefined {
