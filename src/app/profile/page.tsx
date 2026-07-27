@@ -195,7 +195,7 @@ export default function ProfilePage() {
           </Reveal>
           <Reveal delayMs={1200} className="mt-[42px] flex flex-wrap justify-center gap-[14px]">
             <Link href="/contact" className={`${btnBase} bg-accent text-white`}>
-              お問い合わせへ <span className={btnArrow}>→</span>
+              相談する<span className={btnArrow}>→</span>
             </Link>
             <Link
               href="/#works"

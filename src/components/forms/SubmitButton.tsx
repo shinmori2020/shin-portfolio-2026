@@ -54,7 +54,7 @@ export function SubmitButton({ status, idleLabel = "送信する", className = "
           {status === "success" && (
             <>
               <CheckIcon animate={!reduce} />
-              送信しました
+              送信を受け付けました
             </>
           )}
           {status === "error" && "送信できませんでした"}

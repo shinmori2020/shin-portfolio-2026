@@ -22,7 +22,7 @@ export function SelectField({
   value,
   onChange,
   required = false,
-  placeholder = "選択してください",
+  placeholder = "選択（任意）",
   className = "",
 }: Props) {
   const id = useId();

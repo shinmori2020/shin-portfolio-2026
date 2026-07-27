@@ -192,7 +192,7 @@ export default function HomePage() {
                     </div>
                     <div className="relative aspect-[16/10] overflow-hidden">
                       {/* view-transition-name はスクリーンショット画像そのものへ付与する。
-                          スクリム(下の View → オーバーレイ)は共有要素の外に置き、
+                          スクリム(下の「詳細を見る」オーバーレイ)は共有要素の外に置き、
                           移動元スナップショットに焼き込まれないようにする。 */}
                       <div
                         className={`grid h-full w-full place-items-center ${hatch} transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.04] motion-reduce:group-hover:scale-100`}
@@ -203,10 +203,10 @@ export default function HomePage() {
                       >
                         <span className="font-mono text-[11px] tracking-[0.08em] text-faint">screenshot</span>
                       </div>
-                      {/* ホバーで View → が浮かぶ */}
+                      {/* ホバーで「詳細を見る」が浮かぶ（文言は /works の一覧カードと統一）*/}
                       <div className="pointer-events-none absolute inset-0 grid place-items-center opacity-0 transition-opacity duration-300 [background:rgba(15,18,14,0.45)] group-hover:opacity-100 motion-reduce:transition-none">
                         <span className="inline-flex items-center gap-2 rounded-full border border-white/60 px-4 py-2 font-mono text-[12px] text-white">
-                          View →
+                          詳細を見る →
                         </span>
                       </div>
                     </div>
@@ -278,7 +278,7 @@ export default function HomePage() {
           {/* お問い合わせページ（フォーム）への誘導 */}
           <Reveal delayMs={1300} className="mt-[44px] flex flex-wrap justify-center gap-[14px]">
             <Link href="/contact" className={`${btnPrimary} px-[30px] py-[15px] text-[14.5px]`}>
-              お問い合わせへ <span className={btnArrow}>→</span>
+              相談する<span className={btnArrow}>→</span>
             </Link>
             <Link href="/profile" className={`${btnSecondary} px-[30px] py-[15px] text-[14.5px]`}>
               プロフィールを見る

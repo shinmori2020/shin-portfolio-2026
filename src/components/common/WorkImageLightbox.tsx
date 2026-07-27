@@ -42,7 +42,7 @@ export function WorkImageLightbox({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label={`${title} の全体スクリーンショットを表示`}
+        aria-label={`${title} の全体を見る`}
         className="group relative block w-full cursor-zoom-in text-left"
       >
         <BrowserFrame

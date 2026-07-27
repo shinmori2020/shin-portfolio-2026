@@ -159,7 +159,7 @@ export function ContactForm() {
             <p className="m-0 font-mono text-[12px] uppercase tracking-[0.2em] text-accent">Thank you</p>
             <p className="m-0 mt-4 text-[18px] text-ink">送信を受け付けました</p>
             <p className="m-0 mt-2 text-[13.5px] leading-[1.9] text-muted">
-              内容を確認のうえ折り返しご連絡します。返信は1〜2営業日を目安にしています。
+              内容を確認のうえ1〜2営業日を目安に折り返します。
             </p>
           </div>
         </motion.div>
@@ -226,7 +226,7 @@ export function ContactForm() {
         name="message"
         required
         rows={6}
-        placeholder="ご依頼の概要やご相談したいことをお書きください。"
+        placeholder="ご依頼の概要やご相談したいこと"
         value={values.message}
         error={errors.message}
         onChange={(e) => changeText("message", e.target.value)}
