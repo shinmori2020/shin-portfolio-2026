@@ -42,10 +42,12 @@ export default function WorksPage() {
           {works.map((w) => (
             <Reveal key={w.slug} delayMs={w.delayMs}>
               <div className="group flex flex-col gap-5">
-                {/* ブラウザ枠。URLバーが公開サイトへの外部リンク（詳細リンクの外に置きアンカー入れ子を回避） */}
+                {/* ブラウザ枠。URLバーが公開サイトへの外部リンク（詳細リンクの外に置きアンカー入れ子を回避）。
+                    スクリーンショット部分は detailHref で詳細ページへのリンクにする。 */}
                 <BrowserFrame
                   url={w.url}
                   href={w.href}
+                  detailHref={`/works/${w.slug}`}
                   ratio="16 / 10"
                   image={resolveWorkCover(w.slug, w.image)}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"

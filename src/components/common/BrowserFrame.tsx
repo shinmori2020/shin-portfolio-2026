@@ -4,6 +4,7 @@
 // 実画像がある場合は next/image で blur-up 表示（タスク3）。
 
 import Image from "next/image";
+import { TransitionLink } from "./TransitionLink";
 import { BLUR_DATA_URL } from "@/lib/blur";
 
 // 斜線パターン＋不透明な下地(surface)。下地が無いと隙間が透けて、共有要素遷移で
@@ -14,6 +15,7 @@ const hatch =
 export function BrowserFrame({
   url,
   href,
+  detailHref,
   ratio,
   label = "screenshot",
   image,
@@ -24,6 +26,10 @@ export function BrowserFrame({
   url: string;
   /** 指定すると URL バーを公開サイトへの外部リンクにする（新しいタブ）。未指定なら素のテキスト表示 */
   href?: string;
+  /** 指定するとスクリーンショット領域だけを詳細ページへのリンクにする。
+   *  URL バー(外部リンク)を含む枠全体をリンクにするとアンカーが入れ子になるため
+   *  リンクは画像の上に敷いたオーバーレイに限定する。 */
+  detailHref?: string;
   ratio: string;
   label?: string;
   image?: string;
@@ -98,6 +104,17 @@ export function BrowserFrame({
           >
             <span className="font-mono text-[11px] tracking-[0.08em] text-faint">{label}</span>
           </div>
+        )}
+        {/* 画像クリックでも詳細へ。カード下の「詳細を見る」と同じ行き先なので
+            タブ順を二重にしないよう フォーカス対象からは外す（キーボードと支援技術は
+            テキストリンク側で辿れる）。URLバーの外部リンクは枠の外なので覆わない。 */}
+        {detailHref && (
+          <TransitionLink
+            href={detailHref}
+            aria-hidden
+            tabIndex={-1}
+            className="absolute inset-0 z-10"
+          />
         )}
       </div>
     </div>
