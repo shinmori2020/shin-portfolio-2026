@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Reveal } from "@/components/common/Reveal";
 import { TransitionLink } from "@/components/common/TransitionLink";
 import { Phrase } from "@/components/common/ContactCTA";
@@ -12,6 +13,7 @@ import { DrawLine } from "@/components/common/DrawLine";
 import { Parallax } from "@/components/common/Parallax";
 import { works } from "@/data/works";
 import { resolveWorkCover } from "@/lib/workImages";
+import { BLUR_DATA_URL } from "@/lib/blur";
 import { defaultCards, serviceTopics } from "@/data/services";
 import { processSteps } from "@/data/process";
 
@@ -34,6 +36,48 @@ const btnSecondary = `${btnBase} border border-line-strong text-ink hover:border
 // 移動元スナップショット(ホバースクリム)が透過して黒い縞になる。docs/view-transitions.md 参照。
 const hatch =
   "[background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2)_12px,transparent_12px,transparent_24px),var(--surface)]";
+
+// 制作物ティーザーのスクリーンショット領域。
+// 画像の解決規約は /works・詳細ヒーローと共通（public/works/{slug}/cover.*）。
+// 共有要素遷移の要点は2つ。どちらも docs/view-transitions.md 参照:
+//   1. view-transition-name は画像(またはプレースホルダー)を包む不透明な箱へ付与する
+//   2. ホバースクリムはその箱の外に置き 移動元スナップショットへ焼き込ませない
+function WorkShot({ slug, image }: { slug: string; image?: string }) {
+  const cover = resolveWorkCover(slug, image);
+  const zoom =
+    "transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.04] motion-reduce:group-hover:scale-100";
+
+  return (
+    <div className="relative aspect-[16/10] overflow-hidden">
+      <div
+        className="relative h-full w-full bg-surface"
+        style={{ viewTransitionName: `work-shot-${slug}`, viewTransitionClass: "work-shot" }}
+      >
+        {cover ? (
+          <Image
+            src={cover}
+            alt=""
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1180px) 50vw, 560px"
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
+            className={`object-cover ${zoom}`}
+          />
+        ) : (
+          <div className={`grid h-full w-full place-items-center ${hatch} ${zoom}`}>
+            <span className="font-mono text-[11px] tracking-[0.08em] text-faint">screenshot</span>
+          </div>
+        )}
+      </div>
+      {/* ホバーで「詳細を見る」が浮かぶ（文言は /works の一覧カードと統一）*/}
+      <div className="pointer-events-none absolute inset-0 grid place-items-center opacity-0 transition-opacity duration-300 [background:rgba(15,18,14,0.45)] group-hover:opacity-100 motion-reduce:transition-none">
+        <span className="inline-flex items-center gap-2 rounded-full border border-white/60 px-4 py-2 font-mono text-[12px] text-white">
+          詳細を見る →
+        </span>
+      </div>
+    </div>
+  );
+}
 
 // セクション見出しラベル（モノスペース番号）
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -190,26 +234,7 @@ export default function HomePage() {
                       <span className="h-[9px] w-[9px] rounded-full bg-line-strong" />
                       <span className="ml-[10px] font-mono text-[10.5px] text-faint">{w.url}</span>
                     </div>
-                    <div className="relative aspect-[16/10] overflow-hidden">
-                      {/* view-transition-name はスクリーンショット画像そのものへ付与する。
-                          スクリム(下の「詳細を見る」オーバーレイ)は共有要素の外に置き、
-                          移動元スナップショットに焼き込まれないようにする。 */}
-                      <div
-                        className={`grid h-full w-full place-items-center ${hatch} transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.04] motion-reduce:group-hover:scale-100`}
-                        style={{
-                          viewTransitionName: `work-shot-${w.slug}`,
-                          viewTransitionClass: "work-shot",
-                        }}
-                      >
-                        <span className="font-mono text-[11px] tracking-[0.08em] text-faint">screenshot</span>
-                      </div>
-                      {/* ホバーで「詳細を見る」が浮かぶ（文言は /works の一覧カードと統一）*/}
-                      <div className="pointer-events-none absolute inset-0 grid place-items-center opacity-0 transition-opacity duration-300 [background:rgba(15,18,14,0.45)] group-hover:opacity-100 motion-reduce:transition-none">
-                        <span className="inline-flex items-center gap-2 rounded-full border border-white/60 px-4 py-2 font-mono text-[12px] text-white">
-                          詳細を見る →
-                        </span>
-                      </div>
-                    </div>
+                    <WorkShot slug={w.slug} image={w.image} />
                   </div>
                   <div className="flex items-baseline gap-3">
                     <span className="font-mono text-[12px] text-accent">{w.no}</span>
