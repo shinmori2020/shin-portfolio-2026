@@ -205,6 +205,132 @@ export const works: Work[] = [
       { t: "差し替えと再出力を簡単に", d: "項目の編集だけで何度でも作り直せるようにしました。" },
     ],
   },
+  // ここから自主制作。delayMs は 0/80/160/240 を繰り返す（通し番号順に増やすと
+  // 一覧の後半カードが画面に入ってから動き出すまで待たされるため）。
+  {
+    no: "05",
+    slug: "gradientr",
+    kind: "Design Tool",
+    title: "グラデーション生成ツール Gradientr",
+    desc: "色と角度を触りながらCSS / Tailwind / SCSS / SVG で書き出せる配色ツール。",
+    url: "gradientr.netlify.app",
+    href: "https://gradientr.netlify.app/",
+    tags: ["React", "Vite", "Tool"],
+    delayMs: 0,
+    meta: { client: "自主制作", role: "企画・設計・実装", year: "2026", type: "ツール / 自主制作" },
+    overview:
+      "グラデーションを画面上で組み立ててそのまま実装用のコードにできるツールです。リニア・ラジアル・コニックの3方式に対応し 色の停止点は追加と並べ替えと位置指定ができます。結果は CSS / Tailwind / SCSS / SVG のコードとして また PNG / JPG / SVG の画像として書き出せます。",
+    problems: [
+      { k: "P1", v: "グラデーションはコードを書いて表示を確かめる往復が多く 感覚的に詰めていくのに向いていませんでした。" },
+      { k: "P2", v: "実装先によって必要な記法が違い CSSとTailwindとSCSSで書き直す手間がありました。" },
+      { k: "P3", v: "配色の検討とアクセシビリティの確認が別のツールに分かれていました。" },
+    ],
+    stack: [
+      { cat: "Framework", name: "React" },
+      { cat: "Build", name: "Vite" },
+      { cat: "Export", name: "CSS / Tailwind / SCSS / SVG" },
+      { cat: "Image", name: "PNG / JPG / SVG 書き出し" },
+      { cat: "Hosting", name: "Netlify" },
+    ],
+    craft: [
+      { t: "触った結果が即座に画面に出る", d: "色と角度の変更を全面プレビューへ即時反映し 数値を読まずに仕上げられるようにしました。" },
+      { t: "書き出しを4形式そろえる", d: "実装先に合わせてCSS / Tailwind / SCSS / SVGを選べるようにし コピー1回で移れる状態にしました。" },
+      { t: "検討の道具を1画面に集める", d: "配色とアニメとA11yをタブで並べ 別ツールへ行き来せずに判断できるようにしました。" },
+    ],
+  },
+  {
+    no: "06",
+    slug: "web-creation-service",
+    kind: "Service Site",
+    title: "Web制作サービスのサイト（MISSIONS）",
+    desc: "料金と制作フローを開示し 料金計算から相談予約まで一本でつなぐ構成。",
+    url: "web-creation-service.netlify.app",
+    href: "https://web-creation-service.netlify.app/",
+    tags: ["HTML / CSS", "JavaScript", "Swiper"],
+    delayMs: 80,
+    meta: { client: "自主制作", role: "設計・実装", year: "2026", type: "サイト制作 / 自主制作" },
+    overview:
+      "Web制作を請け負う立場のサービスサイトです。制作実績と料金計算とよくある質問と相談予約を独立したページに分け 迷った時点から相談までが最短で進む導線にしました。フレームワークを使わず素のHTMLとCSSとJavaScriptで組んでいます。",
+    problems: [
+      { k: "P1", v: "料金が分からないサイトは問い合わせの前に離脱されます。" },
+      { k: "P2", v: "制作の進め方が見えないと発注後の不安が残ります。" },
+      { k: "P3", v: "問い合わせのハードルが高いと相談そのものが起きません。" },
+    ],
+    stack: [
+      { cat: "Markup", name: "HTML" },
+      { cat: "Styling", name: "CSS (destyle.css)" },
+      { cat: "Script", name: "JavaScript" },
+      { cat: "Slider", name: "Swiper" },
+      { cat: "Hosting", name: "Netlify" },
+    ],
+    craft: [
+      { t: "料金を自分で出せるようにする", d: "料金計算のページを設け 問い合わせる前に費用の見当がつく状態にしました。" },
+      { t: "制作の流れを7段階で開示する", d: "何がいつ起きるかを番号順に示し 発注後の見通しを立てられるようにしました。" },
+      { t: "相談の入口を複数用意する", d: "相談予約とお問い合わせを分けて置き 温度感に合う方から入れるようにしました。" },
+    ],
+  },
+  {
+    no: "07",
+    slug: "slider-patterns",
+    kind: "UI Implementation",
+    title: "スライダー実装パターン集",
+    desc: "用途の違う7種類のスライダーをライブラリなしで実装し1ページで比較できるデモ。",
+    url: "slider-project-demo.netlify.app",
+    href: "https://slider-project-demo.netlify.app/",
+    tags: ["JavaScript", "Accessibility", "UI"],
+    delayMs: 160,
+    meta: { client: "自主制作", role: "設計・実装", year: "2026", type: "UI検証 / 自主制作" },
+    overview:
+      "タブ連動やフェードや2カラムやカルーセルなど 用途の違う7種類のスライダーを1ページに並べたデモです。ライブラリに頼らず1つずつ実装し 見た目だけでなくキーボード操作とスクリーンリーダー対応まで揃えました。案件ごとに最適な型を選べるようにするための検証です。",
+    problems: [
+      { k: "P1", v: "スライダーは案件ごとに求められる形が違い ライブラリの既定形では合わないことがあります。" },
+      { k: "P2", v: "見た目だけ整えた実装はキーボード操作やスクリーンリーダーで使えなくなりがちです。" },
+      { k: "P3", v: "毎回ゼロから作ると実装のばらつきと手戻りが生まれます。" },
+    ],
+    stack: [
+      { cat: "Markup", name: "HTML" },
+      { cat: "Styling", name: "CSS（パターンごとに分割）" },
+      { cat: "Script", name: "JavaScript（ライブラリ不使用）" },
+      { cat: "A11y", name: "WAI-ARIA / ライブリージョン" },
+      { cat: "Hosting", name: "Netlify" },
+    ],
+    craft: [
+      { t: "7種類を同じ品質基準で揃える", d: "自動再生とキーボード操作とタッチ操作を全パターンに通し 選ぶ時に機能差を気にせず済むようにしました。" },
+      { t: "支援技術に切り替わりを伝える", d: "ライブリージョンで現在位置を読み上げ 見えていない人にもスライドの移動が伝わるようにしました。" },
+      { t: "パターンごとにCSSを分ける", d: "1つのファイルに混ぜず独立させ 必要な型だけ取り出して案件へ持ち込める形にしました。" },
+    ],
+  },
+  {
+    no: "08",
+    slug: "web-parts-reference",
+    kind: "Reference / Docs",
+    title: "Webデザインパーツ辞典",
+    desc: "200パーツの名称と用途とコード例を横断検索できる実務用リファレンス。",
+    url: "web-parts-reference.netlify.app",
+    href: "https://web-parts-reference.netlify.app/",
+    tags: ["JavaScript", "Performance", "Docs"],
+    delayMs: 240,
+    meta: { client: "自主制作", role: "設計・実装", year: "2026", type: "リファレンス / 自主制作" },
+    overview:
+      "Webデザインで使うパーツの名称と用途とコード例をまとめたリファレンスです。200パーツを11カテゴリと9タグで分類し サイトタイプ別とカテゴリ別とキーワードで横断的に引けます。制作の現場で「あの部品の呼び名が出てこない」を無くすために作りました。",
+    problems: [
+      { k: "P1", v: "パーツの呼び名が人によって違い 打ち合わせで話が噛み合わないことがありました。" },
+      { k: "P2", v: "数が多い資料は探すのに時間がかかり 結局開かれなくなります。" },
+      { k: "P3", v: "毎回開いて引く道具は 表示が遅いだけで使われなくなります。" },
+    ],
+    stack: [
+      { cat: "Markup", name: "HTML" },
+      { cat: "Styling", name: "CSS（クリティカルCSSをインライン化）" },
+      { cat: "Script", name: "JavaScript" },
+      { cat: "Font", name: "IBM Plex Sans / Mono（自己ホスト）" },
+      { cat: "Hosting", name: "Netlify" },
+    ],
+    craft: [
+      { t: "キーボードだけで引き切れる", d: "スラッシュで検索へ移動しShift+E/Cで一括開閉できるようにして 手を止めずに目的のパーツへ辿り着けるようにしました。" },
+      { t: "初回表示を最優先で詰める", d: "フォントを自己ホストして先読みしクリティカルCSSをインライン化することで 描画を止める読み込みを無くしました。" },
+      { t: "文字の入れ替わりで揺らさない", d: "代替フォントの字幅と高さを実フォントに合わせて上書きし 読み込み完了時のレイアウトのずれを防ぎました。" },
+    ],
+  },
 ];
 
 /** slug から作品を取得（詳細ページ用） */

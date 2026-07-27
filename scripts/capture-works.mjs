@@ -109,9 +109,44 @@ async function settleRevealedState(page) {
   await page.waitForTimeout(REVEAL_SETTLE_MS);
 }
 
+/**
+ * 撮影前に消す固定要素を display:none にする。
+ *
+ * dismiss（クリックして閉じる）が使えない相手のための逃げ道。チャットボットのように
+ * 「クリックすると閉じるどころか展開する」ウィジェットは クリックでは除去できない。
+ * 固定配置のため fullPage ではページ中腹に焼き込まれ 一覧サムネと全景で見え方もずれる。
+ */
+async function hideElements(page, selectors) {
+  const removed = await page.evaluate((sels) => {
+    let n = 0;
+    for (const sel of sels) {
+      for (const el of document.querySelectorAll(sel)) {
+        el.style.setProperty('display', 'none', 'important');
+        n++;
+      }
+    }
+    return n;
+  }, selectors);
+  if (removed === 0) console.warn(`    (hide "${selectors.join(', ')}" は見つからず・続行)`);
+  return removed;
+}
+
+/**
+ * ページが横に溢れている時だけ ビューポート幅で切り出す clip を返す（溢れていなければ undefined）。
+ * fullPage は scrollWidth 全体を撮るため 溢れた分の余白まで画像に入ってしまう。
+ */
+async function viewportWidthClip(page) {
+  const { scrollWidth, scrollHeight } = await page.evaluate(() => ({
+    scrollWidth: Math.max(document.body?.scrollWidth ?? 0, document.documentElement?.scrollWidth ?? 0),
+    scrollHeight: Math.max(document.body?.scrollHeight ?? 0, document.documentElement?.scrollHeight ?? 0),
+  }));
+  if (scrollWidth <= VIEWPORT.width + 1) return undefined;
+  return { x: 0, y: 0, width: VIEWPORT.width, height: scrollHeight };
+}
+
 /** 1件を撮影。成功時は保存パスを返し 失敗時は例外を投げる */
 async function capture(browser, target) {
-  const { slug, url, dismiss, waitMs = 0, fullPage = false, reducedMotion = REDUCED_MOTION } = target;
+  const { slug, url, dismiss, hide, waitMs = 0, fullPage = false, reducedMotion = REDUCED_MOTION } = target;
   const outDir = path.join(WORKS_DIR, slug);
   const outPath = path.join(outDir, outNameFor(target));
 
@@ -137,6 +172,9 @@ async function capture(browser, target) {
       }
     }
 
+    // 任意: クリックでは閉じられない固定ウィジェットを消す
+    if (hide?.length) await hideElements(page, hide);
+
     // フォント確定を待つ（失敗しても致命ではない）
     await page.evaluate(() => document.fonts?.ready).catch(() => {});
 
@@ -152,7 +190,17 @@ async function capture(browser, target) {
     await page.waitForTimeout(SAFETY_MARGIN_MS);
 
     fs.mkdirSync(outDir, { recursive: true });
-    await page.screenshot({ path: outPath, fullPage, type: 'png' });
+
+    // fullPage は scrollWidth 全体を撮るため 横に溢れているサイトでは
+    // 画面外の余白まで写り 右側が間延びした絵になる。溢れている時だけ
+    // ビューポート幅で切り出して 実際の見た目と同じ横幅に揃える。
+    const clip = fullPage ? await viewportWidthClip(page) : undefined;
+    if (clip) {
+      console.log(`    (横に溢れているためビューポート幅 ${VIEWPORT.width}px で切り出し)`);
+      await page.screenshot({ path: outPath, clip, type: 'png' });
+    } else {
+      await page.screenshot({ path: outPath, fullPage, type: 'png' });
+    }
 
     return path.relative(PROJECT_ROOT, outPath);
   } finally {

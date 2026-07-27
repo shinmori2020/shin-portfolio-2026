@@ -34,6 +34,9 @@ if (!Number.isFinite(quality) || quality < 1 || quality > 100) {
   process.exit(1);
 }
 
+// WebP の仕様上の上限は 16383px。安全側に丸めた値を長辺の上限とする。
+const MAX_EDGE = 16000;
+
 const fmtKB = (bytes) => `${(bytes / 1024).toLocaleString('en-US', { maximumFractionDigits: 0 })} KB`;
 
 /** public/works 配下の cover.png / full.png を集める */
@@ -74,7 +77,16 @@ async function main() {
     }
 
     // effort:6 は sharp の既定(4)より高圧縮寄り。変換は手動実行なので時間より容量を優先する。
-    await sharp(t.png).webp({ quality, effort: 6 }).toFile(t.webp);
+    // WebP は縦横とも 16383px までしか扱えず 縦長ページの full はこれを超える（実例: 20876px）。
+    // 超えた分だけ長辺を MAX_EDGE へ縮小する。上限内の画像は素通しなので既存の変換結果は変わらない。
+    const meta = await sharp(t.png).metadata();
+    const over = Math.max(meta.width ?? 0, meta.height ?? 0) > MAX_EDGE;
+    const pipeline = sharp(t.png);
+    if (over) {
+      pipeline.resize({ width: MAX_EDGE, height: MAX_EDGE, fit: 'inside', withoutEnlargement: true });
+      console.log(`  ⓘ ${t.slug}/${t.base}: ${meta.width}x${meta.height} は WebP の上限超過のため長辺 ${MAX_EDGE}px へ縮小`);
+    }
+    await pipeline.webp({ quality, effort: 6 }).toFile(t.webp);
     const after = fs.statSync(t.webp).size;
     afterTotal += after;
     rows.push({ name: `${t.slug}/${t.base}`, before, after });

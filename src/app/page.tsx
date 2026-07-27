@@ -10,9 +10,10 @@ import { HeadingChars } from "@/components/common/HeadingChars";
 import { HeroBackdrop } from "@/components/common/HeroBackdrop";
 import { LatestWorkCard } from "@/components/common/LatestWorkCard";
 import { DrawLine } from "@/components/common/DrawLine";
-import { Parallax } from "@/components/common/Parallax";
+import { Portrait } from "@/components/common/Portrait";
 import { works } from "@/data/works";
 import { resolveWorkCover } from "@/lib/workImages";
+import { resolvePortrait } from "@/lib/portraitImage";
 import { BLUR_DATA_URL } from "@/lib/blur";
 import { defaultCards, serviceTopics } from "@/data/services";
 import { processSteps } from "@/data/process";
@@ -168,19 +169,13 @@ export default function HomePage() {
             </p>
           </Reveal>
 
-          {/* ポートレート（任意・未用意なら斜線プレースホルダー）*/}
+          {/* ポートレート（public/profile/portrait.* を置くだけで反映）*/}
           <Reveal delayMs={90} from="right" className="flex flex-[1_1_260px]">
-            <div className="w-full overflow-hidden rounded-2xl border border-line bg-surface shadow-[var(--shadow)]">
-              <div className="relative aspect-[4/5] w-full overflow-hidden">
-                {/* 軽いパララックス。中身を大きめに置いて端の隙間を防ぐ。 */}
-                <Parallax range={16} className="absolute inset-x-0 -top-[8%] h-[116%]">
-                  <div className={`h-full w-full ${hatch}`} />
-                </Parallax>
-                <span className="absolute inset-0 grid place-items-center font-mono text-[11px] tracking-[0.08em] text-faint">
-                  portrait
-                </span>
-              </div>
-            </div>
+            <Portrait
+              ratio="4 / 5"
+              image={resolvePortrait()}
+              sizes="(max-width: 768px) 100vw, 420px"
+            />
           </Reveal>
         </div>
       </section>
@@ -220,8 +215,10 @@ export default function HomePage() {
             </Link>
           </Reveal>
 
+          {/* トップは「選りすぐり」なので先頭4件だけ（2x2）。全件は /works へ誘導する。
+              どれを出すかは works.ts の並び順で決まる = 見せたい順に並べ替えれば入れ替わる。 */}
           <div className="grid grid-cols-1 gap-[clamp(20px,3vw,40px)] md:grid-cols-2">
-            {works.map((w) => (
+            {works.slice(0, 4).map((w) => (
               <Reveal key={w.slug} delayMs={w.delayMs}>
                 <TransitionLink
                   href={`/works/${w.slug}`}

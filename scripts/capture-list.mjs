@@ -6,6 +6,8 @@
 //   url      必須  撮影する公開サイトの URL
 //   out      任意  出力ファイル名（既定 cover.png）。縦長全景は full.png を指定する
 //   dismiss  任意  撮影前にクリックして閉じる要素の CSS セレクタ（Cookie バナー・初期モーダル等）
+//   hide     任意  撮影前に display:none にする CSS セレクタの配列。クリックすると閉じるどころか
+//                  展開してしまうウィジェット（チャットボット等）は dismiss では消せないためこちらを使う
 //   waitMs   任意  ページ表示後の追加待機ミリ秒（遅延読み込み・背景アニメの頃合い調整）。既定 0
 //   fullPage 任意  true でページ全体を縦長撮影（既定 false = ファーストビューのみ）
 //   reducedMotion 任意  既定 'reduce'（登場アニメ途中を写さない）。背景アニメが常時動く案件は
@@ -17,7 +19,7 @@
 //   node scripts/capture-works.mjs --skip-existing   （既存 cover/full を残し 無い分だけ撮影）
 //   node scripts/capture-works.mjs --slug=foo         （1案件だけ / --list で対象確認）
 
-/** @typedef {{ slug: string, url: string, out?: string, dismiss?: string, waitMs?: number, fullPage?: boolean, reducedMotion?: 'reduce' | 'no-preference' }} Target */
+/** @typedef {{ slug: string, url: string, out?: string, dismiss?: string, hide?: string[], waitMs?: number, fullPage?: boolean, reducedMotion?: 'reduce' | 'no-preference' }} Target */
 
 // nordic-works の共通指定（cover / full で同じ条件にする）。
 // - dismiss: Cookie バナーを「拒否する」で閉じる（バナーが出るのはこの案件のみ）
@@ -38,16 +40,49 @@ const PROPOSAL = {
   dismiss: 'text=キャンセル',
 };
 
+// slider-patterns は自動再生スライダーが常時動くため 既定の reduce だと崩れた中間状態で凍結する
+// （nordic と同じ問題）。アニメを動かしたうえで waitMs で頃合いを取る。撮るたび絵が変わる前提。
+const SLIDER = {
+  url: 'https://slider-project-demo.netlify.app/',
+  reducedMotion: /** @type {const} */ ('no-preference'),
+  waitMs: 1200,
+};
+
+// gradientr は SPA(Vite)。初期描画が JS 完了後になるため 少し待ってから撮る。
+const GRADIENTR = {
+  url: 'https://gradientr.netlify.app/',
+  waitMs: 1200,
+};
+
+// web-creation-service の事情2つ:
+// - hide: 右下のチャットボット(#chatbot)は固定配置。クリックすると展開するため dismiss では消せず
+//   fullPage ではヒーローに焼き込まれる。表示ごと落とす。
+// - waitMs: ヒーローの肩書きが1文字ずつ出るタイピング演出。約300ms/文字で
+//   "Frontend Engineer"(17文字)を打ち切るのに5秒強かかる。途中で撮ると "Fronte" のように欠ける。
+const MISSIONS = {
+  url: 'https://web-creation-service.netlify.app/',
+  hide: ['#chatbot'],
+  waitMs: 6000,
+};
+
 /** @type {Target[]} */
 export const targets = [
   // --- ファーストビュー（cover.png） ---
-  { slug: 'headless-wp-media',  ...NORDIC },
-  { slug: 'multilingual-ec',    url: 'https://stillne-shop.vercel.app/ja' },
-  { slug: 'estimate-simulator', url: 'https://mitsumo-project.vercel.app/' },
-  { slug: 'proposal-builder',   ...PROPOSAL },
+  { slug: 'headless-wp-media',    ...NORDIC },
+  { slug: 'multilingual-ec',      url: 'https://stillne-shop.vercel.app/ja' },
+  { slug: 'estimate-simulator',   url: 'https://mitsumo-project.vercel.app/' },
+  { slug: 'proposal-builder',     ...PROPOSAL },
+  { slug: 'gradientr',            ...GRADIENTR },
+  { slug: 'web-creation-service', ...MISSIONS },
+  { slug: 'slider-patterns',      ...SLIDER },
+  { slug: 'web-parts-reference',  url: 'https://web-parts-reference.netlify.app/' },
   // --- 縦長全景（full.png・ライトボックス用） ---
-  { slug: 'headless-wp-media',  ...NORDIC,   out: 'full.png', fullPage: true },
-  { slug: 'multilingual-ec',    url: 'https://stillne-shop.vercel.app/ja', out: 'full.png', fullPage: true },
-  { slug: 'estimate-simulator', url: 'https://mitsumo-project.vercel.app/', out: 'full.png', fullPage: true },
-  { slug: 'proposal-builder',   ...PROPOSAL, out: 'full.png', fullPage: true },
+  { slug: 'headless-wp-media',    ...NORDIC,    out: 'full.png', fullPage: true },
+  { slug: 'multilingual-ec',      url: 'https://stillne-shop.vercel.app/ja', out: 'full.png', fullPage: true },
+  { slug: 'estimate-simulator',   url: 'https://mitsumo-project.vercel.app/', out: 'full.png', fullPage: true },
+  { slug: 'proposal-builder',     ...PROPOSAL,  out: 'full.png', fullPage: true },
+  { slug: 'gradientr',            ...GRADIENTR, out: 'full.png', fullPage: true },
+  { slug: 'web-creation-service', ...MISSIONS,  out: 'full.png', fullPage: true },
+  { slug: 'slider-patterns',      ...SLIDER,    out: 'full.png', fullPage: true },
+  { slug: 'web-parts-reference',  url: 'https://web-parts-reference.netlify.app/', out: 'full.png', fullPage: true },
 ];
