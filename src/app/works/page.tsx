@@ -7,13 +7,14 @@ import { works } from "@/data/works";
 import { resolveWorkCover } from "@/lib/workImages";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/works" },
   title: "制作物",
   description:
     "シンの制作物。制作（WordPress）と開発（モダンフロント）そして業務効率化ツールまで 領域をまたいだ仕事を紹介します。",
 };
 
 const btnPrimary =
-  "group inline-flex items-center gap-[10px] rounded-full bg-accent px-[30px] py-[15px] text-[14.5px] text-white no-underline";
+  "group inline-flex items-center gap-[10px] rounded-full bg-accent px-[30px] py-[15px] text-[14.5px] text-on-accent no-underline";
 const btnArrow =
   "font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-x-[3px] motion-reduce:transform-none";
 
@@ -66,9 +67,12 @@ export default function WorksPage() {
                         {w.kind}
                       </span>
                     </div>
-                    <h3 className="m-0 text-[clamp(18px,1.8vw,21px)] font-semibold leading-[1.5] tracking-[-0.015em]">
+                    {/* 見出しは h2。このページには作品を束ねる中間セクションが無く
+                        各作品が h1「制作物」直下の項目にあたるため h3 では階層が飛ぶ。
+                        Home のティーザーは h2「制作物」の下に来るので向こうは h3 のままでよい。 */}
+                    <h2 className="m-0 text-[clamp(18px,1.8vw,21px)] font-semibold leading-[1.5] tracking-[-0.015em]">
                       {w.title}
-                    </h3>
+                    </h2>
                   </div>
                   <p className="m-0 text-[14px] leading-[1.85] text-muted">{w.desc}</p>
                   <div className="flex flex-wrap gap-[7px]">

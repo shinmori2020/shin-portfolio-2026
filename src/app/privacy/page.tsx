@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/privacy" },
   title: "プライバシーポリシー",
   description: "シンのポートフォリオサイトにおける個人情報の取り扱いについて。",
 };

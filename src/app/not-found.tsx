@@ -13,7 +13,7 @@ const btnBase =
   "group inline-flex items-center gap-[10px] rounded-full no-underline transition-[border-color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none";
 const btnArrow =
   "font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-x-[3px] motion-reduce:transform-none";
-const btnPrimary = `${btnBase} bg-accent text-white`;
+const btnPrimary = `${btnBase} bg-accent text-on-accent`;
 const btnSecondary = `${btnBase} border border-line-strong text-ink hover:border-accent`;
 
 export default function NotFound() {

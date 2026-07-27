@@ -4,8 +4,10 @@ import { notFound } from "next/navigation";
 import { Reveal } from "@/components/common/Reveal";
 import { TransitionLink } from "@/components/common/TransitionLink";
 import { WorkImageLightbox } from "@/components/common/WorkImageLightbox";
+import { JsonLd } from "@/components/common/JsonLd";
 import { works, getWorkBySlug } from "@/data/works";
 import { resolveWorkCover, resolveWorkFull } from "@/lib/workImages";
+import { absoluteUrl } from "@/lib/site";
 
 type Params = { slug: string };
 
@@ -17,7 +19,11 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { slug } = await params;
   const w = getWorkBySlug(slug);
   if (!w) return {};
-  return { title: w.title, description: w.desc };
+  return {
+    title: w.title,
+    description: w.desc,
+    alternates: { canonical: `/works/${w.slug}` },
+  };
 }
 
 // 詳細ページの本文セクション（左にラベル・右に内容の2カラム）
@@ -66,6 +72,19 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
 
   return (
     <>
+      {/* パンくずの構造化データ。検索結果で「制作物 › 作品名」の階層が出るようにする。
+          画面上の「← Works」が実質のパンくずなので 表示は増やさない。 */}
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "ホーム", item: absoluteUrl("/") },
+            { "@type": "ListItem", position: 2, name: "制作物", item: absoluteUrl("/works") },
+            { "@type": "ListItem", position: 3, name: w.title, item: absoluteUrl(`/works/${w.slug}`) },
+          ],
+        }}
+      />
       {/* ===== DETAIL HERO ===== */}
       <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(40px,6vw,72px)] pb-[clamp(32px,4vw,48px)]">
         <Reveal className="mb-[clamp(32px,5vw,52px)]">

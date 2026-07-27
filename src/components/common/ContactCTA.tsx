@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 // メッセージは children で受け取り、フレーズ単位の折り返しは呼び出し側で <Phrase> を使う。
 
 const ctaButton =
-  "inline-flex shrink-0 items-center gap-[10px] whitespace-nowrap rounded-full bg-accent px-[26px] py-[14px] text-[14px] tracking-[0.02em] text-white no-underline";
+  "inline-flex shrink-0 items-center gap-[10px] whitespace-nowrap rounded-full bg-accent px-[26px] py-[14px] text-[14px] tracking-[0.02em] text-on-accent no-underline";
 
 interface ContactCTAProps {
   children: ReactNode;

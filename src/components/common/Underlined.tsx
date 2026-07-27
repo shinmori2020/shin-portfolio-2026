@@ -53,8 +53,11 @@ export function Underlined({
 
   return (
     <span className="relative inline-block text-accent">
+      {/* 読み上げ用の全文。演出側の文字は aria-hidden なのでここだけが読まれる。
+          span への aria-label は ARIA 仕様で禁止（role が無いと効かない）ため使わない。 */}
+      <span className="sr-only">{children}</span>
       <motion.span
-        aria-label={children as string}
+        aria-hidden
         variants={container}
         initial="hidden"
         whileInView="show"

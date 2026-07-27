@@ -19,6 +19,10 @@
   --accent: #214034;
   --accent-2: #2c5446;
   --accent-soft: #e7efe9;
+  /* accent を背景にした時の文字色。ライトの accent は暗い緑なので白で 11.37:1。
+     ダークでは accent が明るい緑になるため白だと 2.42:1 しか出ず AA を大きく割る。
+     テーマごとに反転させる（design-reference には無い a11y 上の追加）。 */
+  --on-accent: #ffffff;
   --shadow: 0 1px 2px rgba(20, 30, 20, 0.04), 0 14px 40px -18px rgba(20, 30, 20, 0.16);
 }
 
@@ -35,6 +39,8 @@
   --accent: #74b491;
   --accent-2: #8cc6a6;
   --accent-soft: #19241e;
+  /* 明るい accent の上は暗い文字。#0d100e で 7.91:1（ホバーの濃い緑でも 6.17:1）*/
+  --on-accent: #0d100e;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 18px 50px -22px rgba(0, 0, 0, 0.7);
 }
 
@@ -51,6 +57,7 @@
   --color-accent: var(--accent);
   --color-accent-2: var(--accent-2);
   --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
 
   /* フォント（next/font が注入する CSS 変数を束ねる） */
   --font-sans: var(--font-geist), var(--font-zen), sans-serif;
@@ -106,6 +113,22 @@ body {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* 視覚的には隠すが支援技術には読ませる。
+   1文字ずつフェードインする見出しで使う: 演出用の文字は aria-hidden にし
+   読み上げ用の全文をこれで併置する。span に aria-label を付ける手は
+   ARIA 仕様で禁止されており（role の無い span には効かない）読まれない恐れがある。 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* 入力欄は各コンポーネント側のフォーカス表現（枠色＋薄いリング）に任せ、

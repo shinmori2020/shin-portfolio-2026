@@ -10,6 +10,7 @@ import { profile, skillGroups, timeline, values } from "@/data/profile";
 import { resolvePortrait } from "@/lib/portraitImage";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/profile" },
   title: "プロフィール",
   description:
     "シン｜フロントエンドエンジニアのプロフィール。WordPress制作の実務から Next.js によるモダンフロント開発まで。使用技術・得意領域とこれまでの歩み。",
@@ -187,7 +188,7 @@ export default function ProfilePage() {
             制作会社や事業者からのご相談を歓迎します。モダン技術での開発や機能実装などお気軽にご連絡ください。
           </Reveal>
           <Reveal delayMs={1200} className="mt-[42px] flex flex-wrap justify-center gap-[14px]">
-            <Link href="/contact" className={`${btnBase} bg-accent text-white`}>
+            <Link href="/contact" className={`${btnBase} bg-accent text-on-accent`}>
               相談する<span className={btnArrow}>→</span>
             </Link>
             <Link

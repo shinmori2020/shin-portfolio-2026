@@ -41,7 +41,10 @@ export function HeadingChars({
 
   let idx = 0;
   return (
-    <span className={className} aria-label={full}>
+    <span className={className}>
+      {/* 読み上げ用の全文。演出側の文字は aria-hidden なのでここだけが読まれる。
+          span への aria-label は ARIA 仕様で禁止（role が無いと効かない）ため使わない。 */}
+      <span className="sr-only">{full}</span>
       {phrases.map((phrase, pi) => (
         <span key={pi} aria-hidden className="block sm:inline">
           {Array.from(phrase).map((ch, ci) => {

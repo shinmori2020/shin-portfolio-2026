@@ -5,11 +5,7 @@ import { ThemeProvider } from "@/components/common/ThemeProvider";
 import { ViewTransitions } from "@/components/common/ViewTransitions";
 import { Header } from "@/components/common/Header";
 import { Footer } from "@/components/common/Footer";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://shin-portfolio-2026.vercel.app";
-const SITE_NAME = "シン — WEB制作・コーディング";
-const SITE_DESC =
-  "制作と開発の“あいだ”をつなぐフロントエンドエンジニア。WordPressの制作現場からNext.jsのモダン実装まで一貫して対応します。";
+import { SITE_URL, SITE_NAME, SITE_DESC } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -18,6 +14,9 @@ export const metadata: Metadata = {
     template: "%s | シン — WEB制作・コーディング",
   },
   description: SITE_DESC,
+  // 自己参照 canonical。各ページで alternates.canonical を指定して上書きする
+  // （ここに固定値を置くと全ページが同じURLを指してしまうため "/" は Home 専用ではない）。
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,

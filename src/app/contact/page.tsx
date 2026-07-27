@@ -4,6 +4,7 @@ import { Reveal } from "@/components/common/Reveal";
 import { ContactForm } from "@/components/forms/ContactForm";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/contact" },
   title: "お問い合わせ",
   description:
     "Web制作・開発・機能実装のご依頼やご相談はこちらから。お見積もりは無料。簡単な内容でもお気軽にお送りください。",

@@ -11,7 +11,10 @@ import { HeroBackdrop } from "@/components/common/HeroBackdrop";
 import { LatestWorkCard } from "@/components/common/LatestWorkCard";
 import { DrawLine } from "@/components/common/DrawLine";
 import { Portrait } from "@/components/common/Portrait";
+import { JsonLd } from "@/components/common/JsonLd";
 import { works } from "@/data/works";
+import { profile } from "@/data/profile";
+import { SITE_URL, SITE_NAME, AUTHOR_NAME, AUTHOR_ROLE } from "@/lib/site";
 import { resolveWorkCover } from "@/lib/workImages";
 import { resolvePortrait } from "@/lib/portraitImage";
 import { BLUR_DATA_URL } from "@/lib/blur";
@@ -29,7 +32,7 @@ const btnBase =
 // ボタン内の矢印（ホバーで右に滑る）
 const btnArrow =
   "font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-x-[3px] motion-reduce:transform-none";
-const btnPrimary = `${btnBase} bg-accent text-white`;
+const btnPrimary = `${btnBase} bg-accent text-on-accent`;
 const btnSecondary = `${btnBase} border border-line-strong text-ink hover:border-accent`;
 
 // 斜線プレースホルダー背景（実画像未用意の箇所で使用）
@@ -108,6 +111,29 @@ function SectionHeading({ label, children }: { label: React.ReactNode; children:
 export default function HomePage() {
   return (
     <>
+      {/* 構造化データ。ポートフォリオの主体は個人なので Person を軸にし
+          サイト自体を WebSite として関連づける。表示には影響しない。 */}
+      <JsonLd
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: AUTHOR_NAME,
+            url: SITE_URL,
+            jobTitle: AUTHOR_ROLE,
+            description: profile.bio,
+            knowsAbout: ["Next.js", "React", "TypeScript", "WordPress", "Web アクセシビリティ", "表示速度改善"],
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: SITE_NAME,
+            url: SITE_URL,
+            inLanguage: "ja",
+            author: { "@type": "Person", name: AUTHOR_NAME, url: SITE_URL },
+          },
+        ]}
+      />
       {/* ===== HERO ===== */}
       {/* 背景「木漏れ日×組版方眼」を最初の子に。振り付けはアイドル後(data-armed)で発火し LCP を遅らせない。
           コンテンツは relative z-10 で前面。見出し(LCP)は即描画のまま、説明文/CTA/下線をタイムテーブルへ再調整。 */}
