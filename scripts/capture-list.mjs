@@ -81,7 +81,9 @@ export const targets = [
   { slug: 'multilingual-ec',      url: 'https://stillne-shop.vercel.app/ja', out: 'full.png', fullPage: true },
   { slug: 'estimate-simulator',   url: 'https://mitsumo-project.vercel.app/', out: 'full.png', fullPage: true },
   { slug: 'proposal-builder',     ...PROPOSAL,  out: 'full.png', fullPage: true },
-  { slug: 'gradientr',            ...GRADIENTR, out: 'full.png', fullPage: true },
+  // gradientr は full を撮らない。scrollHeight がビューポートと同値(1440x900)の1画面完結UIで
+  // 全景を撮っても cover と同じ絵になる。full が無ければ「全体を見る」導線ごと消えるため
+  // 開いてファーストビューが出るだけという期待外れを避けられる（docs/works-capture.md 参照）。
   { slug: 'web-creation-service', ...MISSIONS,  out: 'full.png', fullPage: true },
   { slug: 'slider-patterns',      ...SLIDER,    out: 'full.png', fullPage: true },
   { slug: 'web-parts-reference',  url: 'https://web-parts-reference.netlify.app/', out: 'full.png', fullPage: true },

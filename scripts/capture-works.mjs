@@ -56,6 +56,37 @@ function hasExisting(target) {
 }
 
 /**
+ * fullPage 撮影の前処理その0: content-visibility による描画スキップを解除する。
+ *
+ * content-visibility:auto は画面外の要素の描画を丸ごと省く高速化手法で 実寸の代わりに
+ * contain-intrinsic-size の箱だけが確保される。fullPage はビューポート外まで一度に撮るため
+ * この箱が「枠だけあって中身が無いカード」として写る（実例: web-parts-reference の200要素）。
+ *
+ * スクロールで一度描画させても 画面外に戻ると再びスキップされるため reveal と同じく
+ * スクロールだけでは解決しない。撮影中は無効化してしまうのが確実。
+ * 高さが実寸に変わるので clip の計測より先に実行すること。
+ */
+async function disableContentVisibility(page) {
+  const n = await page.evaluate(() => {
+    let count = 0;
+    for (const el of document.querySelectorAll('body *')) {
+      const cv = getComputedStyle(el).contentVisibility;
+      if (cv && cv !== 'visible') count++;
+    }
+    if (count > 0) {
+      const style = document.createElement('style');
+      style.textContent = '*,*::before,*::after{content-visibility:visible !important}';
+      document.head.appendChild(style);
+    }
+    return count;
+  });
+  if (n > 0) {
+    console.log(`    (content-visibility で描画をスキップしていた ${n} 要素を描画対象へ戻す)`);
+    await page.waitForTimeout(REVEAL_SETTLE_MS);
+  }
+}
+
+/**
  * fullPage 撮影の前処理その1: ページ全体をゆっくりスクロールする。
  * 遅延読み込み(loading=lazy / クライアント取得)を誘発し 一度きりの reveal を発火させるのが狙い。
  */
@@ -180,6 +211,7 @@ async function capture(browser, target) {
 
     // 全景撮影のみ: reveal を発火させた状態を作ってから撮る（ファーストビューは表示済みのため不要）
     if (fullPage) {
+      await disableContentVisibility(page);
       await scrollThroughPage(page);
       // スクロールで誘発した遅延読み込みの取得完了を待つ（失敗しても致命ではない）
       await page.waitForLoadState('networkidle').catch(() => {});
@@ -194,13 +226,13 @@ async function capture(browser, target) {
     // fullPage は scrollWidth 全体を撮るため 横に溢れているサイトでは
     // 画面外の余白まで写り 右側が間延びした絵になる。溢れている時だけ
     // ビューポート幅で切り出して 実際の見た目と同じ横幅に揃える。
+    // clip は fullPage と併用すること。fullPage を外すと clip がビューポート内へ
+    // 切り詰められ 全景のつもりが1画面分しか撮れない。
     const clip = fullPage ? await viewportWidthClip(page) : undefined;
     if (clip) {
       console.log(`    (横に溢れているためビューポート幅 ${VIEWPORT.width}px で切り出し)`);
-      await page.screenshot({ path: outPath, clip, type: 'png' });
-    } else {
-      await page.screenshot({ path: outPath, fullPage, type: 'png' });
     }
+    await page.screenshot({ path: outPath, fullPage, clip, type: 'png' });
 
     return path.relative(PROJECT_ROOT, outPath);
   } finally {
