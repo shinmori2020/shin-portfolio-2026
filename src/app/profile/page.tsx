@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
 import { DrawLine } from "@/components/common/DrawLine";
-import { Parallax } from "@/components/common/Parallax";
+import { Portrait } from "@/components/common/Portrait";
 import { HeadingChars } from "@/components/common/HeadingChars";
 import { ServiceIcon } from "@/components/common/ServiceIcon";
 import { ExperienceTimeline } from "@/components/common/ExperienceTimeline";
 import { profile, skillGroups, timeline, values } from "@/data/profile";
+import { resolvePortrait } from "@/lib/portraitImage";
 
 export const metadata: Metadata = {
   title: "プロフィール",
@@ -18,9 +19,6 @@ const btnBase =
   "group inline-flex items-center gap-[10px] rounded-full px-[30px] py-[15px] text-[14.5px] no-underline transition-[border-color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none";
 const btnArrow =
   "font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-x-[3px] motion-reduce:transform-none";
-
-const hatch =
-  "[background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2)_12px,transparent_12px,transparent_24px)]";
 
 // セクション見出し（ラベルを上・タイトルを下に縦積み）。Home と同じ構成・サイズで統一。
 function SectionHeading({ label, children }: { label: string; children: React.ReactNode }) {
@@ -44,18 +42,13 @@ export default function ProfilePage() {
           Profile
         </Reveal>
         <div className="flex flex-wrap gap-[clamp(32px,6vw,80px)]">
-          {/* ポートレート（左配置・正方形。未用意なら斜線プレースホルダー）*/}
+          {/* ポートレート（左配置・正方形。public/profile/portrait.* を置くだけで反映）*/}
           <Reveal className="flex flex-[1_1_260px]">
-            <div className="w-full overflow-hidden rounded-2xl border border-line bg-surface shadow-[var(--shadow)]">
-              <div className="relative aspect-square w-full overflow-hidden">
-                <Parallax range={16} className="absolute inset-x-0 -top-[8%] h-[116%]">
-                  <div className={`h-full w-full ${hatch}`} />
-                </Parallax>
-                <span className="absolute inset-0 grid place-items-center font-mono text-[11px] tracking-[0.08em] text-faint">
-                  portrait
-                </span>
-              </div>
-            </div>
+            <Portrait
+              ratio="1 / 1"
+              image={resolvePortrait()}
+              sizes="(max-width: 768px) 100vw, 440px"
+            />
           </Reveal>
 
           <Reveal delayMs={90} className="flex flex-[1.4_1_360px] flex-col">
