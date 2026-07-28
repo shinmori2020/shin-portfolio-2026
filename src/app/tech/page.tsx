@@ -174,7 +174,13 @@ export default function TechPage() {
               <ul className="m-0 flex list-none flex-col gap-[9px] p-0">
                 {c.points.map((p) => (
                   <li key={p} className="flex gap-[10px] text-[14px] leading-[1.9] text-muted">
-                    <span aria-hidden className="mt-[9px] h-px w-3 flex-none bg-line-strong" />
+                    {/* 箇条書きの罫。1行目の上下中央に来るよう行高から算出する。
+                        行高は leading-[1.9] なので中央は (1.9em - 罫の高さ1px) / 2。
+                        固定px だと文字サイズを変えた時にずれるため em で持つ。 */}
+                    <span
+                      aria-hidden
+                      className="mt-[calc((1.9em-1px)/2)] h-px w-3 flex-none bg-line-strong"
+                    />
                     <span>{p}</span>
                   </li>
                 ))}
