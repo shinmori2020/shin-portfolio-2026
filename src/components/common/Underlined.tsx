@@ -52,10 +52,10 @@ export function Underlined({
   }
 
   return (
-    <span className="relative inline-block text-accent">
-      {/* 読み上げ用の全文。演出側の文字は aria-hidden なのでここだけが読まれる。
-          span への aria-label は ARIA 仕様で禁止（role が無いと効かない）ため使わない。 */}
-      <span className="sr-only">{children}</span>
+    // role="img" + aria-label で全文を1回だけ読ませる。1文字ずつの span をそのまま
+    // 読ませると分割して読まれ role の無い span への aria-label は仕様上効かない。
+    // 詳細は HeadingChars のコメント参照。
+    <span className="relative inline-block text-accent" role="img" aria-label={children as string}>
       <motion.span
         aria-hidden
         variants={container}

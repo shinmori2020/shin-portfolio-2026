@@ -41,10 +41,12 @@ export function HeadingChars({
 
   let idx = 0;
   return (
-    <span className={className}>
-      {/* 読み上げ用の全文。演出側の文字は aria-hidden なのでここだけが読まれる。
-          span への aria-label は ARIA 仕様で禁止（role が無いと効かない）ため使わない。 */}
-      <span className="sr-only">{full}</span>
+    // 1文字ずつに割った span をそのまま読ませると「あ い だ」と分割して読まれる。
+    // role を持たない span への aria-label は ARIA 仕様で禁止されており効かない。
+    // role="img" なら aria-label が有効で 中身は presentational 扱いになり全文が1回だけ読まれる。
+    // 読み上げ用の全文を視覚的に隠して併置する手もあるが 見出しの textContent が
+    // 二重になり検索エンジンとコピペに影響するため採らない。
+    <span className={className} role="img" aria-label={full}>
       {phrases.map((phrase, pi) => (
         <span key={pi} aria-hidden className="block sm:inline">
           {Array.from(phrase).map((ch, ci) => {
