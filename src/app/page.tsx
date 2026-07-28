@@ -202,10 +202,15 @@ export default function HomePage() {
 
           {/* ポートレート（public/profile/portrait.* を置くだけで反映）*/}
           <Reveal delayMs={90} from="right" className="flex flex-[1_1_260px]">
+            {/* sizes は「枠の幅」ではなく「実際に描かれる画像の幅」を渡すこと。
+                正方形画像を縦長(4:5)の枠へ object-cover で入れると高さ基準で拡大され
+                横幅は枠からはみ出して切られる。さらにパララックスで枠より16%高く描くため
+                実寸は 425x531 の枠に対して約620px幅になる。枠の幅を渡すと
+                ブラウザが小さい候補を選び 高解像度ディスプレイで眠くなる。 */}
             <Portrait
               ratio="4 / 5"
               image={resolvePortrait()}
-              sizes="(max-width: 768px) 100vw, 420px"
+              sizes="(max-width: 480px) 130vw, (max-width: 768px) 55vw, 600px"
             />
           </Reveal>
         </div>

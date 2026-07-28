@@ -45,10 +45,12 @@ export default function ProfilePage() {
         <div className="flex flex-wrap gap-[clamp(32px,6vw,80px)]">
           {/* ポートレート（左配置・正方形。public/profile/portrait.* を置くだけで反映）*/}
           <Reveal className="flex flex-[1_1_260px]">
+            {/* sizes は実際に描かれる画像の幅を渡す（Home 側のコメント参照）。
+                正方形どうしでも パララックスで枠より16%高く描くため約500px幅になる。 */}
             <Portrait
               ratio="1 / 1"
               image={resolvePortrait()}
-              sizes="(max-width: 768px) 100vw, 440px"
+              sizes="(max-width: 480px) 110vw, (max-width: 768px) 45vw, 500px"
             />
           </Reveal>
 
