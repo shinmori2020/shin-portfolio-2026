@@ -139,10 +139,11 @@ export default function HomePage() {
       <section className="relative overflow-hidden">
         <HeroBackdrop />
         <div className="relative z-10 mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(64px,11vw,148px)] pb-[clamp(48px,7vw,96px)]">
-          <Reveal className="mb-[clamp(28px,5vw,52px)] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
+          <Reveal priority className="mb-[clamp(28px,5vw,52px)] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
             Frontend Engineer — 2026
           </Reveal>
           <Reveal
+            priority
             as="h1"
             className="m-0 max-w-[18em] text-[clamp(30px,5.2vw,60px)] font-medium leading-[1.22] tracking-[-0.025em]"
           >
@@ -157,6 +158,7 @@ export default function HomePage() {
             をつなぐ。
           </Reveal>
           <Reveal
+            priority
             as="p"
             delayMs={880}
             className="mt-[clamp(28px,4vw,42px)] max-w-[44em] text-[clamp(14px,1.4vw,18px)] leading-[1.9] text-muted [text-wrap:pretty]"
@@ -169,7 +171,7 @@ export default function HomePage() {
             <wbr />
             <Phrase>表示の速さや公開後の運用のしやすさまで考えて作ります。</Phrase>
           </Reveal>
-          <Reveal delayMs={1020} className="mt-[clamp(36px,5vw,52px)] flex flex-wrap gap-[14px]">
+          <Reveal priority delayMs={1020} className="mt-[clamp(36px,5vw,52px)] flex flex-wrap gap-[14px]">
             <Link href="/#contact" className={`${btnPrimary} px-[26px] py-[14px] text-[14px] tracking-[0.02em]`}>
               相談する<span className={btnArrow}>→</span>
             </Link>
@@ -183,7 +185,7 @@ export default function HomePage() {
       {/* ===== 01 / ABOUT ===== */}
       <section className="border-t border-line bg-surface-2">
         <div className="mx-auto flex max-w-[1180px] flex-wrap gap-[clamp(32px,6vw,80px)] px-[clamp(20px,4vw,40px)] py-[clamp(56px,8vw,104px)]">
-          <Reveal className="flex flex-[1.4_1_360px] flex-col">
+          <Reveal priority className="flex flex-[1.4_1_360px] flex-col">
             <SectionLabel>01 / About</SectionLabel>
             <h2 className="mb-0 mt-[18px] text-[clamp(22px,3vw,34px)] font-medium leading-[1.4] tracking-[-0.02em]">
               制作と開発の<Underlined>“あいだ”</Underlined>に立つ。
@@ -197,7 +199,7 @@ export default function HomePage() {
           </Reveal>
 
           {/* ポートレート（public/profile/portrait.* を置くだけで反映）*/}
-          <Reveal delayMs={90} from="right" className="flex flex-[1_1_260px]">
+          <Reveal priority delayMs={90} from="right" className="flex flex-[1_1_260px]">
             {/* sizes は「枠の幅」ではなく「実際に描かれる画像の幅」を渡すこと。
                 正方形画像を縦長(4:5)の枠へ object-cover で入れると高さ基準で拡大され
                 横幅は枠からはみ出して切られる。さらにパララックスで枠より16%高く描くため

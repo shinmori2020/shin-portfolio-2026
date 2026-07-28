@@ -17,23 +17,23 @@ export default function ContactPage() {
     <section className="border-t border-line bg-surface-2">
       {/* 他セクションと同じ最大幅（1180px）に合わせる */}
       <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(60px,9vw,120px)]">
-        <Reveal className="mb-[20px] font-mono text-[12px] uppercase tracking-[0.14em] text-accent">
+        <Reveal priority className="mb-[20px] font-mono text-[12px] uppercase tracking-[0.14em] text-accent">
           Contact
         </Reveal>
-        <Reveal
+        <Reveal priority
           as="h1"
           className="m-0 text-[clamp(28px,5vw,42px)] font-medium leading-[1.3] tracking-[-0.025em]"
         >
           お問い合わせ
         </Reveal>
-        <Reveal
+        <Reveal priority
           as="p"
           delayMs={80}
           className="mt-[20px] text-[15px] leading-[1.95] text-muted"
         >
           ご依頼やご相談はこちらのフォームからお送りください。Web制作・開発・機能実装まで対応します。
         </Reveal>
-        <Reveal
+        <Reveal priority
           delayMs={120}
           className="mt-[18px] flex flex-wrap items-center gap-x-5 gap-y-2 text-[12.5px] text-muted"
         >

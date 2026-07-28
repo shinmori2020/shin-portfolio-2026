@@ -87,7 +87,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
       />
       {/* ===== DETAIL HERO ===== */}
       <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(40px,6vw,72px)] pb-[clamp(32px,4vw,48px)]">
-        <Reveal className="mb-[clamp(32px,5vw,52px)]">
+        <Reveal priority className="mb-[clamp(32px,5vw,52px)]">
           <TransitionLink
             href="/works"
             className="link-underline group inline-flex items-center gap-2 text-[13px] text-muted no-underline transition-colors hover:text-accent"
@@ -98,17 +98,17 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
             Works
           </TransitionLink>
         </Reveal>
-        <Reveal className="mb-[22px] font-mono text-[12px] uppercase tracking-[0.12em] text-accent">
+        <Reveal priority className="mb-[22px] font-mono text-[12px] uppercase tracking-[0.12em] text-accent">
           {w.no} — {w.kind}
         </Reveal>
-        <Reveal
+        <Reveal priority
           as="h1"
           className="m-0 text-[clamp(28px,4.6vw,52px)] font-medium leading-[1.28] tracking-[-0.025em]"
         >
           {w.title}
         </Reveal>
         {w.href && (
-          <Reveal delayMs={60} className="mt-[clamp(18px,2.4vw,26px)]">
+          <Reveal priority delayMs={60} className="mt-[clamp(18px,2.4vw,26px)]">
             <a
               href={w.href}
               target="_blank"
@@ -125,7 +125,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
             </a>
           </Reveal>
         )}
-        <Reveal
+        <Reveal priority
           delayMs={80}
           className="mt-[clamp(28px,4vw,44px)] flex flex-wrap gap-[clamp(24px,4vw,56px)] border-t border-line pt-[clamp(24px,3vw,32px)]"
         >

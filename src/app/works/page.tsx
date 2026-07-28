@@ -23,16 +23,16 @@ export default function WorksPage() {
     <>
       {/* ===== PAGE HEADER ===== */}
       <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(56px,9vw,120px)] pb-[clamp(40px,6vw,72px)]">
-        <Reveal className="mb-[24px] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
+        <Reveal priority className="mb-[24px] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
           Selected works — {String(works.length).padStart(2, "0")}
         </Reveal>
-        <Reveal
+        <Reveal priority
           as="h1"
           className="m-0 text-[clamp(32px,5.4vw,64px)] font-medium leading-[1.2] tracking-[-0.025em]"
         >
           制作物
         </Reveal>
-        <Reveal as="p" delayMs={80} className="mt-6 text-[clamp(14px,1.4vw,17px)] leading-[1.9] text-muted">
+        <Reveal priority as="p" delayMs={80} className="mt-6 text-[clamp(14px,1.4vw,17px)] leading-[1.9] text-muted">
           制作（WordPress）と開発（モダンフロント）そして業務効率化ツールまで 領域をまたいだ仕事を紹介します。
         </Reveal>
       </section>

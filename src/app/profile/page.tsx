@@ -39,12 +39,12 @@ export default function ProfilePage() {
     <>
       {/* ===== INTRO（Home の About と同じ二段組）===== */}
       <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(64px,11vw,148px)] pb-[clamp(48px,7vw,96px)]">
-        <Reveal className="mb-[clamp(28px,5vw,52px)] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
+        <Reveal priority className="mb-[clamp(28px,5vw,52px)] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
           Profile
         </Reveal>
         <div className="flex flex-wrap gap-[clamp(32px,6vw,80px)]">
           {/* ポートレート（左配置・正方形。public/profile/portrait.* を置くだけで反映）*/}
-          <Reveal className="flex flex-[1_1_260px]">
+          <Reveal priority className="flex flex-[1_1_260px]">
             {/* sizes は実際に描かれる画像の幅を渡す（Home 側のコメント参照）。
                 正方形どうしでも パララックスで枠より16%高く描くため約500px幅になる。 */}
             <Portrait
@@ -54,7 +54,7 @@ export default function ProfilePage() {
             />
           </Reveal>
 
-          <Reveal delayMs={90} className="flex flex-[1.4_1_360px] flex-col">
+          <Reveal priority delayMs={90} className="flex flex-[1.4_1_360px] flex-col">
             <h1 className="m-0 text-[clamp(30px,5vw,56px)] font-medium leading-[1.2] tracking-[-0.025em]">
               {profile.name}
             </h1>

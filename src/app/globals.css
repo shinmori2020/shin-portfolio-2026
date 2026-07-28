@@ -153,6 +153,35 @@ select:focus-visible {
 }
 
 /* =============================================================
+   初期表示領域の reveal（Reveal.tsx の priority と対）
+
+   Motion の whileInView は初期状態 opacity:0 をサーバー出力のHTMLへ焼き込むため、
+   JS のハイドレートが終わるまで本文が描画されない。低速回線＋非力な端末では
+   その待ち時間が LCP をそのまま押し上げる（実測: 本番の Render Delay 17.3秒）。
+
+   ファーストビューに入る要素はこの CSS アニメで出す。CSS は HTML/CSS の解析だけで
+   動き始めるので JS を待たない。見た目の値（0.75s / translateY(20px) / イージング）は
+   Reveal と同一なので、初期表示領域と以降でアニメの印象は変わらない。
+   ============================================================= */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+.reveal-priority {
+  /* both: 遅延中は開始値で待ち 終了後は終了値で留まる（JS 不在でも必ず表示される） */
+  animation: reveal-up 0.75s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+/* 動きを嫌うユーザーには演出を出さず 最初から表示する */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-priority {
+    animation: none;
+  }
+}
+
+/* =============================================================
    ヒーロー背景「木漏れ日 × 組版方眼」（HeroBackdrop.tsx とペア）
    振り付けは親の [data-armed] 付与（requestIdleCallback後）で開始。
    reduced-motion では JS に依存せず CSS だけで完成形を即表示する。
