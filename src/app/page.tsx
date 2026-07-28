@@ -11,6 +11,7 @@ import { HeroBackdrop } from "@/components/common/HeroBackdrop";
 import { DrawLine } from "@/components/common/DrawLine";
 import { Portrait } from "@/components/common/Portrait";
 import { JsonLd } from "@/components/common/JsonLd";
+import { SectionHeading, SectionLabel } from "@/components/common/SectionHeading";
 import { works } from "@/data/works";
 import { profile } from "@/data/profile";
 import { SITE_URL, SITE_NAME, AUTHOR_NAME, AUTHOR_ROLE } from "@/lib/site";
@@ -83,26 +84,6 @@ function WorkShot({ slug, image }: { slug: string; image?: string }) {
           </span>
         </span>
       </div>
-    </div>
-  );
-}
-
-// セクション見出しラベル（モノスペース番号）
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="font-mono text-[12px] tracking-[0.1em] text-faint">{children}</span>
-  );
-}
-
-// セクション見出し（ラベルを上、タイトルを下に縦積み）。全セクション共通の構成。
-function SectionHeading({ label, children }: { label: React.ReactNode; children: React.ReactNode }) {
-  return (
-    <div>
-      <SectionLabel>{label}</SectionLabel>
-      <DrawLine className="mt-[14px] w-10" />
-      <h2 className="mt-[14px] text-[clamp(22px,3vw,34px)] font-medium leading-[1.4] tracking-[-0.02em]">
-        {children}
-      </h2>
     </div>
   );
 }

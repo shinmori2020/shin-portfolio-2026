@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
-import { DrawLine } from "@/components/common/DrawLine";
+import { SectionHeading } from "@/components/common/SectionHeading";
 import { Portrait } from "@/components/common/Portrait";
 import { HeadingChars } from "@/components/common/HeadingChars";
 import { ServiceIcon } from "@/components/common/ServiceIcon";
@@ -20,19 +20,6 @@ const btnBase =
   "group inline-flex items-center gap-[10px] rounded-full px-[30px] py-[15px] text-[14.5px] no-underline transition-[border-color] duration-300 ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none";
 const btnArrow =
   "font-mono transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:translate-x-[3px] motion-reduce:transform-none";
-
-// セクション見出し（ラベルを上・タイトルを下に縦積み）。Home と同じ構成・サイズで統一。
-function SectionHeading({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <span className="font-mono text-[12px] tracking-[0.1em] text-faint">{label}</span>
-      <DrawLine className="mt-[14px] w-10" />
-      <h2 className="mt-[14px] text-[clamp(22px,3vw,34px)] font-medium leading-[1.4] tracking-[-0.02em]">
-        {children}
-      </h2>
-    </div>
-  );
-}
 
 export default function ProfilePage() {
   return (

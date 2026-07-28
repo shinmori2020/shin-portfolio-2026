@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/common/Reveal";
-import { NumberedSection } from "@/components/common/NumberedSection";
+import { SectionHeading } from "@/components/common/SectionHeading";
 import { summary, techStack, decisions, cares, metrics, troubles, skipped } from "@/data/tech";
 
 export const metadata: Metadata = {
@@ -12,6 +12,36 @@ export const metadata: Metadata = {
 };
 
 const REPO = "https://github.com/shinmori2020/shin-portfolio-2026";
+
+// レイアウトは Home / Profile と同じ「見出しを上に積み 内容は全幅」の型。
+// 左に見出し・右に内容の2カラム（作品詳細の型）は内容が短い前提のため
+// 長文が続くこのページでは左が縦に間延びする。
+//
+// 単調さは中身の見せ方で変える（定義リスト / 2カラムカード / 大きな数字 / 3段組）。
+// 背景は Home と同じく1セクションおきに surface-2 を敷いてリズムを作る。
+
+function Section({
+  label,
+  title,
+  tinted = false,
+  children,
+}: {
+  label: string;
+  title: string;
+  tinted?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className={`border-t border-line${tinted ? " bg-surface-2" : ""}`}>
+      <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(52px,7vw,96px)]">
+        <Reveal className="mb-[clamp(28px,4vw,48px)]">
+          <SectionHeading label={label}>{title}</SectionHeading>
+        </Reveal>
+        {children}
+      </div>
+    </section>
+  );
+}
 
 // 外部リンク（GitHub の記録へ飛ばす）。矢印だけ等幅にする流儀はサイト共通。
 function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
@@ -45,7 +75,7 @@ export default function TechPage() {
   return (
     <>
       {/* ===== PAGE HEADER ===== */}
-      <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(56px,9vw,120px)] pb-[clamp(32px,4vw,48px)]">
+      <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pt-[clamp(56px,9vw,120px)] pb-[clamp(40px,6vw,72px)]">
         <Reveal priority className="mb-[24px] font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
           Tech &amp; Decisions
         </Reveal>
@@ -87,137 +117,135 @@ export default function TechPage() {
         </Reveal>
       </section>
 
-      {/* ===== BODY ===== */}
-      <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pb-[clamp(48px,7vw,96px)]">
-        {/* 01 技術構成 */}
-        <NumberedSection no="01" title="技術構成">
-          <dl className="m-0 flex flex-col gap-[clamp(16px,2vw,22px)]">
-            {techStack.map((t) => (
-              <div key={t.cat} className="flex flex-col gap-[6px] sm:flex-row sm:gap-6">
-                <dt className="flex-none sm:w-[110px]">
-                  <span className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-faint">{t.cat}</span>
-                </dt>
-                <dd className="m-0 flex flex-col gap-[5px]">
-                  <span className="text-[15px] font-medium tracking-[-0.005em]">{t.name}</span>
-                  <span className="text-[13.5px] leading-[1.85] text-muted">{t.why}</span>
-                </dd>
-              </div>
-            ))}
-          </dl>
-          <p className="mt-[clamp(20px,2.6vw,28px)] mb-0 text-[13.5px] leading-[1.9] text-muted">
-            データは管理画面（CMS）を使わず コード内に型付きで直接書いています。理由は次の 02 に書きます。
-          </p>
-        </NumberedSection>
+      {/* 01 技術構成 — 2カラムの定義リスト */}
+      <Section label="01 / Stack" title="技術構成">
+        <dl className="m-0 grid gap-x-[clamp(24px,4vw,64px)] gap-y-[clamp(18px,2.4vw,26px)] md:grid-cols-2">
+          {/* dl の直下に置けるのは dt / dd / div だけ。領域ラベルは dt の中に入れる
+              （span を直に置くと HTML として不正になる） */}
+          {techStack.map((t) => (
+            <div key={t.cat} className="flex flex-col gap-[6px]">
+              <dt className="flex flex-col gap-[6px]">
+                <span className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-faint">{t.cat}</span>
+                <span className="text-[15px] font-medium tracking-[-0.005em]">{t.name}</span>
+              </dt>
+              <dd className="m-0 text-[13.5px] leading-[1.85] text-muted">{t.why}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="mt-[clamp(24px,3vw,32px)] mb-0 max-w-[46em] text-[13.5px] leading-[1.9] text-muted">
+          データは管理画面（CMS）を使わず コード内に型付きで直接書いています。理由は次の 02 に書きます。
+        </p>
+      </Section>
 
-        {/* 02 設計の判断 */}
-        <NumberedSection no="02" title="設計の判断">
-          <div className="flex flex-col gap-[clamp(24px,3vw,32px)]">
-            {decisions.map((d) => (
-              <div key={d.title} className="flex flex-col gap-2">
-                <h3 className="m-0 text-[16px] font-semibold tracking-[-0.01em]">{d.title}</h3>
-                <p className="m-0 text-[14.5px] leading-[1.95] text-muted">{d.body}</p>
-              </div>
-            ))}
-          </div>
-        </NumberedSection>
+      {/* 02 設計の判断 — 2カラムのカード */}
+      <Section label="02 / Decisions" title="設計の判断" tinted>
+        <div className="grid gap-[clamp(16px,2vw,20px)] md:grid-cols-2">
+          {decisions.map((d) => (
+            <Reveal
+              key={d.title}
+              className="flex flex-col gap-[10px] rounded-2xl border border-line bg-surface p-[clamp(20px,2.6vw,28px)] transition-colors duration-300 hover:border-line-strong"
+            >
+              <h3 className="m-0 text-[16px] font-semibold leading-[1.6] tracking-[-0.01em]">{d.title}</h3>
+              <p className="m-0 text-[14px] leading-[1.95] text-muted">{d.body}</p>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
 
-        {/* 03 気を配ったこと */}
-        <NumberedSection no="03" title="特に気を配ったこと">
-          <div className="flex flex-col gap-[clamp(22px,2.8vw,30px)]">
-            {cares.map((c) => (
-              <div key={c.label} className="flex flex-col gap-[10px]">
-                <h3 className="m-0 text-[15px] font-semibold tracking-[-0.01em] text-accent">{c.label}</h3>
-                <ul className="m-0 flex list-none flex-col gap-[9px] p-0">
-                  {c.points.map((p) => (
-                    <li key={p} className="flex gap-[10px] text-[14px] leading-[1.9] text-muted">
-                      <span aria-hidden className="mt-[9px] h-px w-3 flex-none bg-line-strong" />
-                      <span>{p}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </NumberedSection>
+      {/* 03 気を配ったこと — 2カラムの箇条書き */}
+      <Section label="03 / Care" title="特に気を配ったこと">
+        <div className="grid gap-x-[clamp(24px,4vw,64px)] gap-y-[clamp(26px,3.2vw,36px)] md:grid-cols-2">
+          {cares.map((c) => (
+            <Reveal key={c.label} className="flex flex-col gap-[12px]">
+              <h3 className="m-0 text-[15px] font-semibold tracking-[-0.01em] text-accent">{c.label}</h3>
+              <ul className="m-0 flex list-none flex-col gap-[9px] p-0">
+                {c.points.map((p) => (
+                  <li key={p} className="flex gap-[10px] text-[14px] leading-[1.9] text-muted">
+                    <span aria-hidden className="mt-[9px] h-px w-3 flex-none bg-line-strong" />
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
 
-        {/* 04 数字 */}
-        <NumberedSection no="04" title="計測した数字">
-          <div className="flex flex-col gap-[clamp(18px,2.4vw,26px)]">
-            {metrics.map((m) => (
-              <div key={m.label} className="flex flex-col gap-[7px]">
-                <span className="text-[14px] font-medium tracking-[-0.005em] text-ink">{m.label}</span>
-                <span className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  {m.before && (
-                    <>
-                      <span className="font-mono text-[clamp(15px,1.8vw,18px)] text-faint line-through decoration-1">
-                        {m.before}
-                      </span>
-                      <span aria-hidden className="font-mono text-[13px] text-faint">
-                        →
-                      </span>
-                    </>
-                  )}
-                  <span className="font-mono text-[clamp(18px,2.4vw,26px)] font-medium tracking-[-0.01em] text-accent">
-                    {m.after}
-                  </span>
-                </span>
-                {m.note && <span className="text-[12.5px] leading-[1.8] text-muted">{m.note}</span>}
-              </div>
-            ))}
-          </div>
-        </NumberedSection>
-
-        {/* 05 詰まった点 */}
-        <NumberedSection no="05" title="詰まった点と解決">
-          <div className="flex flex-col gap-[clamp(26px,3.2vw,36px)]">
-            {troubles.map((t) => (
-              <div key={t.title} className="flex flex-col gap-[10px]">
-                <h3 className="m-0 text-[16px] font-semibold tracking-[-0.01em]">{t.title}</h3>
-                <dl className="m-0 flex flex-col gap-[9px]">
-                  {(
-                    [
-                      ["症状", t.symptom],
-                      ["原因", t.cause],
-                      ["対処", t.fix],
-                    ] as const
-                  ).map(([k, v]) => (
-                    <div key={k} className="flex gap-[12px]">
-                      <dt className="flex-none pt-[3px]">
-                        <span className="font-mono text-[10.5px] tracking-[0.06em] text-accent">{k}</span>
-                      </dt>
-                      <dd className="m-0 text-[14px] leading-[1.9] text-muted">{v}</dd>
-                    </div>
-                  ))}
-                </dl>
-                {t.docHref && t.docLabel && (
-                  <div className="mt-[2px] pl-[42px]">
-                    <ExternalLink href={t.docHref}>検証の記録: {t.docLabel}</ExternalLink>
-                  </div>
+      {/* 04 数字 — 3カラムで大きく見せる（このページで最も目を引かせる場所） */}
+      <Section label="04 / Metrics" title="計測した数字" tinted>
+        <div className="grid gap-x-[clamp(24px,4vw,56px)] gap-y-[clamp(26px,3.4vw,40px)] sm:grid-cols-2 lg:grid-cols-3">
+          {metrics.map((m) => (
+            <Reveal key={m.label} className="flex flex-col gap-[8px]">
+              <span className="text-[13.5px] font-medium tracking-[-0.005em] text-ink">{m.label}</span>
+              <span className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+                {m.before && (
+                  <>
+                    <span className="font-mono text-[13px] text-faint line-through decoration-1">{m.before}</span>
+                    <span aria-hidden className="font-mono text-[12px] text-faint">
+                      →
+                    </span>
+                  </>
                 )}
-              </div>
-            ))}
-          </div>
-        </NumberedSection>
+                <span className="font-mono text-[clamp(19px,2.2vw,25px)] font-medium leading-[1.35] tracking-[-0.01em] text-accent">
+                  {m.after}
+                </span>
+              </span>
+              {m.note && <span className="text-[12.5px] leading-[1.8] text-muted">{m.note}</span>}
+            </Reveal>
+          ))}
+        </div>
+      </Section>
 
-        {/* 06 やらなかったこと */}
-        <NumberedSection no="06" title="やらなかったこと" last>
-          <p className="m-0 mb-[clamp(20px,2.6vw,26px)] text-[14px] leading-[1.9] text-muted">
-            対応していない箇所と その理由です。気づいていないのではなく 判断した結果として残しています。
-          </p>
-          <div className="flex flex-col gap-[clamp(20px,2.6vw,28px)]">
-            {skipped.map((s) => (
-              <div key={s.title} className="flex flex-col gap-2">
-                <h3 className="m-0 text-[15px] font-semibold tracking-[-0.01em]">{s.title}</h3>
-                <p className="m-0 text-[14px] leading-[1.9] text-muted">{s.body}</p>
-              </div>
-            ))}
-          </div>
-        </NumberedSection>
-      </section>
+      {/* 05 詰まった点 — 症状/原因/対処の3段。文章が長いため1カラムで読ませる */}
+      <Section label="05 / Troubles" title="詰まった点と解決">
+        <div className="flex max-w-[62em] flex-col gap-[clamp(28px,3.4vw,40px)]">
+          {troubles.map((t) => (
+            <Reveal key={t.title} className="flex flex-col gap-[12px] border-t border-line pt-[clamp(20px,2.4vw,26px)]">
+              <h3 className="m-0 text-[16px] font-semibold tracking-[-0.01em]">{t.title}</h3>
+              <dl className="m-0 flex flex-col gap-[9px]">
+                {(
+                  [
+                    ["症状", t.symptom],
+                    ["原因", t.cause],
+                    ["対処", t.fix],
+                  ] as const
+                ).map(([k, v]) => (
+                  <div key={k} className="flex gap-[12px]">
+                    <dt className="flex-none pt-[3px]">
+                      <span className="font-mono text-[10.5px] tracking-[0.06em] text-accent">{k}</span>
+                    </dt>
+                    <dd className="m-0 text-[14px] leading-[1.9] text-muted">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+              {t.docHref && t.docLabel && (
+                <div className="pl-[42px]">
+                  <ExternalLink href={t.docHref}>検証の記録: {t.docLabel}</ExternalLink>
+                </div>
+              )}
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* 06 やらなかったこと — 3カラム。短めなので横に並べる */}
+      <Section label="06 / Skipped" title="やらなかったこと" tinted>
+        <p className="m-0 mb-[clamp(22px,2.8vw,30px)] max-w-[46em] text-[14px] leading-[1.9] text-muted">
+          対応していない箇所と その理由です。気づいていないのではなく 判断した結果として残しています。
+        </p>
+        <div className="grid gap-x-[clamp(24px,4vw,56px)] gap-y-[clamp(22px,2.8vw,30px)] md:grid-cols-3">
+          {skipped.map((s) => (
+            <Reveal key={s.title} className="flex flex-col gap-2">
+              <h3 className="m-0 text-[15px] font-semibold leading-[1.6] tracking-[-0.01em]">{s.title}</h3>
+              <p className="m-0 text-[13.5px] leading-[1.9] text-muted">{s.body}</p>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
 
       {/* ===== 記録への導線 ===== */}
-      <section className="border-t border-line bg-surface-2">
-        <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(48px,7vw,88px)]">
+      <section className="border-t border-line">
+        <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(52px,7vw,96px)]">
           <Reveal>
             <h2 className="m-0 text-[clamp(20px,2.6vw,28px)] font-medium leading-[1.4] tracking-[-0.02em]">
               判断の過程も残しています。
