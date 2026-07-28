@@ -5,6 +5,7 @@ import { Reveal } from "@/components/common/Reveal";
 import { TransitionLink } from "@/components/common/TransitionLink";
 import { WorkImageLightbox } from "@/components/common/WorkImageLightbox";
 import { JsonLd } from "@/components/common/JsonLd";
+import { NumberedSection } from "@/components/common/NumberedSection";
 import { works, getWorkBySlug } from "@/data/works";
 import { resolveWorkCover, resolveWorkFull } from "@/lib/workImages";
 import { absoluteUrl } from "@/lib/site";
@@ -24,31 +25,6 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     description: w.desc,
     alternates: { canonical: `/works/${w.slug}` },
   };
-}
-
-// 詳細ページの本文セクション（左にラベル・右に内容の2カラム）
-function DetailSection({
-  no,
-  title,
-  last = false,
-  children,
-}: {
-  no: string;
-  title: React.ReactNode;
-  last?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <Reveal className={`border-t border-line py-[clamp(36px,5vw,56px)] ${last ? "border-b" : ""}`}>
-      <div className="grid gap-[clamp(16px,3vw,48px)] md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
-        <div className="flex flex-col gap-2">
-          <span className="font-mono text-[11px] tracking-[0.08em] text-accent">{no}</span>
-          <h2 className="m-0 text-[clamp(18px,2vw,23px)] font-semibold tracking-[-0.015em]">{title}</h2>
-        </div>
-        <div>{children}</div>
-      </div>
-    </Reveal>
-  );
 }
 
 export default async function WorkDetailPage({ params }: { params: Promise<Params> }) {
@@ -151,11 +127,11 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
 
       {/* ===== BODY ===== */}
       <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pb-[clamp(40px,6vw,72px)]">
-        <DetailSection no="01" title="制作物の概要">
+        <NumberedSection no="01" title="制作物の概要">
           <p className="m-0 text-[15px] leading-[2.05] text-muted">{w.overview}</p>
-        </DetailSection>
+        </NumberedSection>
 
-        <DetailSection no="02" title="解決した課題">
+        <NumberedSection no="02" title="解決した課題">
           <div className="flex flex-col gap-[18px]">
             {w.problems.map((p) => (
               <div key={p.k} className="flex items-start gap-4">
@@ -164,9 +140,9 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
               </div>
             ))}
           </div>
-        </DetailSection>
+        </NumberedSection>
 
-        <DetailSection no="03" title="使用技術スタック">
+        <NumberedSection no="03" title="使用技術スタック">
           <ul className="m-0 flex list-none flex-wrap gap-2.5 p-0">
             {w.stack.map((s) => (
               <li
@@ -177,9 +153,9 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
               </li>
             ))}
           </ul>
-        </DetailSection>
+        </NumberedSection>
 
-        <DetailSection no="04" title="工夫した点・こだわり" last={!hasOutcomes}>
+        <NumberedSection no="04" title="工夫した点・こだわり" last={!hasOutcomes}>
           <div className="flex flex-col gap-6">
             {w.craft.map((c) => (
               <div key={c.t} className="flex flex-col gap-2">
@@ -188,10 +164,10 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
               </div>
             ))}
           </div>
-        </DetailSection>
+        </NumberedSection>
 
         {hasOutcomes && (
-          <DetailSection no="05" title="成果" last>
+          <NumberedSection no="05" title="成果" last>
             <div className="flex flex-col gap-[clamp(20px,2.6vw,30px)]">
               {w.outcomes!.map((o, i) => (
                 <div key={`${o.label}-${i}`} className="flex flex-col gap-[7px]">
@@ -215,7 +191,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
                 </div>
               ))}
             </div>
-          </DetailSection>
+          </NumberedSection>
         )}
       </section>
 

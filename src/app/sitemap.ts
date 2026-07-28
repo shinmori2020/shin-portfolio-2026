@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/works`, lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${SITE_URL}/profile`, lastModified, changeFrequency: "yearly", priority: 0.8 },
     { url: `${SITE_URL}/contact`, lastModified, changeFrequency: "yearly", priority: 0.8 },
+    { url: `${SITE_URL}/tech`, lastModified, changeFrequency: "yearly", priority: 0.6 },
     // プライバシーポリシーは検索流入を狙う対象ではないため優先度を下げる（除外はしない）
     { url: `${SITE_URL}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.3 },
   ];
