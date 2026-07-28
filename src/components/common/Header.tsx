@@ -34,9 +34,9 @@ export function Header() {
           <span className="text-[16px] font-semibold tracking-[0.04em]">SHIN</span>
           {/* 狭い画面では肩書きを畳む。ロゴ＋ナビが1行に収まらないとヘッダーが2段になり
               高さが 67px → 115px へ跳ねる（この文言に限らず 変更前から 390px 以下で起きていた）。
-              480px を境にするのは 480px では収まり 430px では溢れる実測に基づく。
-              肩書きはヒーローで即座に名乗るため 畳んでも情報は失われない。 */}
-          <span className="hidden font-mono text-[10.5px] uppercase tracking-[0.06em] text-muted min-[480px]:inline">
+              境界の 520px は「510px で収まり 505px で溢れる」実測にフォント読み込み時の
+              揺れ分の余裕を足した値。肩書きはヒーローで即座に名乗るため 畳んでも情報は失われない。 */}
+          <span className="hidden font-mono text-[16px] uppercase tracking-[0.06em] text-muted min-[520px]:inline">
             Frontend Engineer
           </span>
         </Link>
