@@ -13,17 +13,16 @@ export const metadata: Metadata = {
 
 const REPO = "https://github.com/shinmori2020/shin-portfolio-2026";
 
-// 本文の読み幅。1カラムでも1行が長くなりすぎないよう上限を設ける。
-// 和文は1行あたり40〜50字が読みやすいとされるため 14px 前後で 46em を目安にする。
-const READ_WIDTH = "max-w-[52em]";
-
 // レイアウトは Home / Profile と同じ「見出しを上に積み 内容は全幅」の型。
 // 左に見出し・右に内容の2カラム（作品詳細の型）は内容が短い前提のため
 // 長文が続くこのページでは左が縦に間延びする。
 //
 // 内容は全セクション1カラムで縦に積む。項目ごとの文字数にばらつきがあり
 // 多カラムだと段の高さが揃わず かえって空きが目立つため。
-// 読みやすさのため本文の幅は READ_WIDTH で制限する（全幅だと1行が長くなりすぎる）。
+//
+// 本文の幅は制限せずコンテナ（1180px）いっぱいに広げる。読み幅を絞ると
+// 右側に一定の空きが残り 行長が短くなる利点より見た目の違和感が上回るため。
+// 行が長くなる箇所は許容する。
 // 単調さは背景の濃淡（1セクションおきに surface-2）と区切り罫線で補う。
 
 function Section({
@@ -96,7 +95,7 @@ export default function TechPage() {
           priority
           as="p"
           delayMs={80}
-          className={`mt-6 ${READ_WIDTH} text-[clamp(14px,1.4vw,17px)] leading-[1.95] text-muted [text-wrap:pretty]`}
+          className={"mt-6 text-[clamp(14px,1.4vw,17px)] leading-[1.95] text-muted [text-wrap:pretty]"}
         >
           このポートフォリオ自体も制作物です。企画・設計・実装・スクリーンショット撮影・文章まで
           すべて一人で担当しました。何を選び なぜそうしたか どこで詰まったかを記録しています。
@@ -125,7 +124,7 @@ export default function TechPage() {
 
       {/* 01 技術構成 — 領域ラベルを左に固定幅で置き 右に内容（1行1項目） */}
       <Section label="01 / Stack" title="技術構成">
-        <dl className={`m-0 flex flex-col ${READ_WIDTH}`}>
+        <dl className={"m-0 flex flex-col"}>
           {/* dl の直下に置けるのは dt / dd / div だけ。領域ラベルは dt の中に入れる
               （span を直に置くと HTML として不正になる） */}
           {techStack.map((t) => (
@@ -143,14 +142,14 @@ export default function TechPage() {
             </div>
           ))}
         </dl>
-        <p className={`mt-[clamp(22px,2.8vw,30px)] mb-0 ${READ_WIDTH} text-[13.5px] leading-[1.9] text-muted`}>
+        <p className={"mt-[clamp(22px,2.8vw,30px)] mb-0 text-[13.5px] leading-[1.9] text-muted"}>
           データは管理画面（CMS）を使わず コード内に型付きで直接書いています。理由は次の 02 に書きます。
         </p>
       </Section>
 
       {/* 02 設計の判断 — 見出し＋本文を縦に積む */}
       <Section label="02 / Decisions" title="設計の判断" tinted>
-        <div className={`flex flex-col ${READ_WIDTH}`}>
+        <div className={"flex flex-col"}>
           {decisions.map((d) => (
             <Reveal
               key={d.title}
@@ -165,7 +164,7 @@ export default function TechPage() {
 
       {/* 03 気を配ったこと — 観点ごとに縦に積む */}
       <Section label="03 / Care" title="特に気を配ったこと">
-        <div className={`flex flex-col ${READ_WIDTH}`}>
+        <div className={"flex flex-col"}>
           {cares.map((c) => (
             <Reveal
               key={c.label}
@@ -187,7 +186,7 @@ export default function TechPage() {
 
       {/* 04 数字 — 縦に積む。左に指標名 右に値（このページで最も目を引かせる場所） */}
       <Section label="04 / Metrics" title="計測した数字" tinted>
-        <div className={`flex flex-col ${READ_WIDTH}`}>
+        <div className={"flex flex-col"}>
           {metrics.map((m) => (
             <Reveal
               key={m.label}
@@ -215,7 +214,7 @@ export default function TechPage() {
 
       {/* 05 詰まった点 — 症状/原因/対処の3段。文章が長いため1カラムで読ませる */}
       <Section label="05 / Troubles" title="詰まった点と解決">
-        <div className={`flex flex-col ${READ_WIDTH}`}>
+        <div className={"flex flex-col"}>
           {troubles.map((t) => (
             <Reveal
               key={t.title}
@@ -230,9 +229,13 @@ export default function TechPage() {
                     ["対処", t.fix],
                   ] as const
                 ).map(([k, v]) => (
-                  <div key={k} className="flex gap-[12px]">
-                    <dt className="flex-none pt-[3px]">
-                      <span className="font-mono text-[10.5px] tracking-[0.06em] text-accent">{k}</span>
+                  // ラベルと本文は上揃え。ラベルは 10.5px 本文は 14px と行高が違うため
+                  // 中央寄せや微調整を入れると1行目の頭がずれて見える。
+                  <div key={k} className="flex items-start gap-[12px]">
+                    <dt className="flex-none">
+                      <span className="font-mono text-[10.5px] leading-[1.9] tracking-[0.06em] text-accent">
+                        {k}
+                      </span>
                     </dt>
                     <dd className="m-0 text-[14px] leading-[1.9] text-muted">{v}</dd>
                   </div>
@@ -250,10 +253,10 @@ export default function TechPage() {
 
       {/* 06 やらなかったこと — 縦に積む */}
       <Section label="06 / Skipped" title="やらなかったこと" tinted>
-        <p className={`m-0 mb-[clamp(18px,2.2vw,24px)] ${READ_WIDTH} text-[14px] leading-[1.9] text-muted`}>
+        <p className={"m-0 mb-[clamp(18px,2.2vw,24px)] text-[14px] leading-[1.9] text-muted"}>
           対応していない箇所と その理由です。気づいていないのではなく 判断した結果として残しています。
         </p>
-        <div className={`flex flex-col ${READ_WIDTH}`}>
+        <div className={"flex flex-col"}>
           {skipped.map((s) => (
             <Reveal
               key={s.title}
@@ -273,7 +276,7 @@ export default function TechPage() {
             <h2 className="m-0 text-[clamp(20px,2.6vw,28px)] font-medium leading-[1.4] tracking-[-0.02em]">
               判断の過程も残しています。
             </h2>
-            <p className={`m-0 mt-4 ${READ_WIDTH} text-[14px] leading-[1.9] text-muted`}>
+            <p className={"m-0 mt-4 text-[14px] leading-[1.9] text-muted"}>
               約1か月の制作を10フェーズに整理した記録と 撮影や画面遷移で踏んだ落とし穴の検証メモを
               リポジトリに置いています。コミットは160件で いずれも何をなぜ変えたかを日本語で残しています。
             </p>
