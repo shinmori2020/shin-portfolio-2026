@@ -13,12 +13,18 @@ export const metadata: Metadata = {
 
 const REPO = "https://github.com/shinmori2020/shin-portfolio-2026";
 
+// 本文の読み幅。1カラムでも1行が長くなりすぎないよう上限を設ける。
+// 和文は1行あたり40〜50字が読みやすいとされるため 14px 前後で 46em を目安にする。
+const READ_WIDTH = "max-w-[52em]";
+
 // レイアウトは Home / Profile と同じ「見出しを上に積み 内容は全幅」の型。
 // 左に見出し・右に内容の2カラム（作品詳細の型）は内容が短い前提のため
 // 長文が続くこのページでは左が縦に間延びする。
 //
-// 単調さは中身の見せ方で変える（定義リスト / 2カラムカード / 大きな数字 / 3段組）。
-// 背景は Home と同じく1セクションおきに surface-2 を敷いてリズムを作る。
+// 内容は全セクション1カラムで縦に積む。項目ごとの文字数にばらつきがあり
+// 多カラムだと段の高さが揃わず かえって空きが目立つため。
+// 読みやすさのため本文の幅は READ_WIDTH で制限する（全幅だと1行が長くなりすぎる）。
+// 単調さは背景の濃淡（1セクションおきに surface-2）と区切り罫線で補う。
 
 function Section({
   label,
@@ -90,7 +96,7 @@ export default function TechPage() {
           priority
           as="p"
           delayMs={80}
-          className="mt-6 max-w-[46em] text-[clamp(14px,1.4vw,17px)] leading-[1.95] text-muted [text-wrap:pretty]"
+          className={`mt-6 ${READ_WIDTH} text-[clamp(14px,1.4vw,17px)] leading-[1.95] text-muted [text-wrap:pretty]`}
         >
           このポートフォリオ自体も制作物です。企画・設計・実装・スクリーンショット撮影・文章まで
           すべて一人で担当しました。何を選び なぜそうしたか どこで詰まったかを記録しています。
@@ -117,33 +123,38 @@ export default function TechPage() {
         </Reveal>
       </section>
 
-      {/* 01 技術構成 — 2カラムの定義リスト */}
+      {/* 01 技術構成 — 領域ラベルを左に固定幅で置き 右に内容（1行1項目） */}
       <Section label="01 / Stack" title="技術構成">
-        <dl className="m-0 grid gap-x-[clamp(24px,4vw,64px)] gap-y-[clamp(18px,2.4vw,26px)] md:grid-cols-2">
+        <dl className={`m-0 flex flex-col ${READ_WIDTH}`}>
           {/* dl の直下に置けるのは dt / dd / div だけ。領域ラベルは dt の中に入れる
               （span を直に置くと HTML として不正になる） */}
           {techStack.map((t) => (
-            <div key={t.cat} className="flex flex-col gap-[6px]">
-              <dt className="flex flex-col gap-[6px]">
+            <div
+              key={t.cat}
+              className="flex flex-col gap-[4px] border-t border-line py-[clamp(14px,1.8vw,18px)] sm:flex-row sm:gap-6"
+            >
+              <dt className="flex-none pt-[3px] sm:w-[104px]">
                 <span className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-faint">{t.cat}</span>
-                <span className="text-[15px] font-medium tracking-[-0.005em]">{t.name}</span>
               </dt>
-              <dd className="m-0 text-[13.5px] leading-[1.85] text-muted">{t.why}</dd>
+              <dd className="m-0 flex flex-col gap-[5px]">
+                <span className="text-[15px] font-medium tracking-[-0.005em]">{t.name}</span>
+                <span className="text-[13.5px] leading-[1.85] text-muted">{t.why}</span>
+              </dd>
             </div>
           ))}
         </dl>
-        <p className="mt-[clamp(24px,3vw,32px)] mb-0 max-w-[46em] text-[13.5px] leading-[1.9] text-muted">
+        <p className={`mt-[clamp(22px,2.8vw,30px)] mb-0 ${READ_WIDTH} text-[13.5px] leading-[1.9] text-muted`}>
           データは管理画面（CMS）を使わず コード内に型付きで直接書いています。理由は次の 02 に書きます。
         </p>
       </Section>
 
-      {/* 02 設計の判断 — 2カラムのカード */}
+      {/* 02 設計の判断 — 見出し＋本文を縦に積む */}
       <Section label="02 / Decisions" title="設計の判断" tinted>
-        <div className="grid gap-[clamp(16px,2vw,20px)] md:grid-cols-2">
+        <div className={`flex flex-col ${READ_WIDTH}`}>
           {decisions.map((d) => (
             <Reveal
               key={d.title}
-              className="flex flex-col gap-[10px] rounded-2xl border border-line bg-surface p-[clamp(20px,2.6vw,28px)] transition-colors duration-300 hover:border-line-strong"
+              className="flex flex-col gap-[10px] border-t border-line py-[clamp(20px,2.6vw,28px)]"
             >
               <h3 className="m-0 text-[16px] font-semibold leading-[1.6] tracking-[-0.01em]">{d.title}</h3>
               <p className="m-0 text-[14px] leading-[1.95] text-muted">{d.body}</p>
@@ -152,11 +163,14 @@ export default function TechPage() {
         </div>
       </Section>
 
-      {/* 03 気を配ったこと — 2カラムの箇条書き */}
+      {/* 03 気を配ったこと — 観点ごとに縦に積む */}
       <Section label="03 / Care" title="特に気を配ったこと">
-        <div className="grid gap-x-[clamp(24px,4vw,64px)] gap-y-[clamp(26px,3.2vw,36px)] md:grid-cols-2">
+        <div className={`flex flex-col ${READ_WIDTH}`}>
           {cares.map((c) => (
-            <Reveal key={c.label} className="flex flex-col gap-[12px]">
+            <Reveal
+              key={c.label}
+              className="flex flex-col gap-[12px] border-t border-line py-[clamp(20px,2.6vw,28px)]"
+            >
               <h3 className="m-0 text-[15px] font-semibold tracking-[-0.01em] text-accent">{c.label}</h3>
               <ul className="m-0 flex list-none flex-col gap-[9px] p-0">
                 {c.points.map((p) => (
@@ -171,11 +185,14 @@ export default function TechPage() {
         </div>
       </Section>
 
-      {/* 04 数字 — 3カラムで大きく見せる（このページで最も目を引かせる場所） */}
+      {/* 04 数字 — 縦に積む。左に指標名 右に値（このページで最も目を引かせる場所） */}
       <Section label="04 / Metrics" title="計測した数字" tinted>
-        <div className="grid gap-x-[clamp(24px,4vw,56px)] gap-y-[clamp(26px,3.4vw,40px)] sm:grid-cols-2 lg:grid-cols-3">
+        <div className={`flex flex-col ${READ_WIDTH}`}>
           {metrics.map((m) => (
-            <Reveal key={m.label} className="flex flex-col gap-[8px]">
+            <Reveal
+              key={m.label}
+              className="flex flex-col gap-[8px] border-t border-line py-[clamp(18px,2.4vw,24px)]"
+            >
               <span className="text-[13.5px] font-medium tracking-[-0.005em] text-ink">{m.label}</span>
               <span className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
                 {m.before && (
@@ -198,9 +215,12 @@ export default function TechPage() {
 
       {/* 05 詰まった点 — 症状/原因/対処の3段。文章が長いため1カラムで読ませる */}
       <Section label="05 / Troubles" title="詰まった点と解決">
-        <div className="flex max-w-[62em] flex-col gap-[clamp(28px,3.4vw,40px)]">
+        <div className={`flex flex-col ${READ_WIDTH}`}>
           {troubles.map((t) => (
-            <Reveal key={t.title} className="flex flex-col gap-[12px] border-t border-line pt-[clamp(20px,2.4vw,26px)]">
+            <Reveal
+              key={t.title}
+              className="flex flex-col gap-[12px] border-t border-line py-[clamp(20px,2.6vw,28px)]"
+            >
               <h3 className="m-0 text-[16px] font-semibold tracking-[-0.01em]">{t.title}</h3>
               <dl className="m-0 flex flex-col gap-[9px]">
                 {(
@@ -228,16 +248,19 @@ export default function TechPage() {
         </div>
       </Section>
 
-      {/* 06 やらなかったこと — 3カラム。短めなので横に並べる */}
+      {/* 06 やらなかったこと — 縦に積む */}
       <Section label="06 / Skipped" title="やらなかったこと" tinted>
-        <p className="m-0 mb-[clamp(22px,2.8vw,30px)] max-w-[46em] text-[14px] leading-[1.9] text-muted">
+        <p className={`m-0 mb-[clamp(18px,2.2vw,24px)] ${READ_WIDTH} text-[14px] leading-[1.9] text-muted`}>
           対応していない箇所と その理由です。気づいていないのではなく 判断した結果として残しています。
         </p>
-        <div className="grid gap-x-[clamp(24px,4vw,56px)] gap-y-[clamp(22px,2.8vw,30px)] md:grid-cols-3">
+        <div className={`flex flex-col ${READ_WIDTH}`}>
           {skipped.map((s) => (
-            <Reveal key={s.title} className="flex flex-col gap-2">
+            <Reveal
+              key={s.title}
+              className="flex flex-col gap-2 border-t border-line py-[clamp(20px,2.6vw,28px)]"
+            >
               <h3 className="m-0 text-[15px] font-semibold leading-[1.6] tracking-[-0.01em]">{s.title}</h3>
-              <p className="m-0 text-[13.5px] leading-[1.9] text-muted">{s.body}</p>
+              <p className="m-0 text-[14px] leading-[1.9] text-muted">{s.body}</p>
             </Reveal>
           ))}
         </div>
@@ -250,7 +273,7 @@ export default function TechPage() {
             <h2 className="m-0 text-[clamp(20px,2.6vw,28px)] font-medium leading-[1.4] tracking-[-0.02em]">
               判断の過程も残しています。
             </h2>
-            <p className="m-0 mt-4 max-w-[46em] text-[14px] leading-[1.9] text-muted">
+            <p className={`m-0 mt-4 ${READ_WIDTH} text-[14px] leading-[1.9] text-muted`}>
               約1か月の制作を10フェーズに整理した記録と 撮影や画面遷移で踏んだ落とし穴の検証メモを
               リポジトリに置いています。コミットは160件で いずれも何をなぜ変えたかを日本語で残しています。
             </p>
