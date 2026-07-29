@@ -18,8 +18,12 @@ export function ConsentCheckbox({ checked, onChange, error, name, children }: Pr
   return (
     <div>
       <label className="flex cursor-pointer items-start gap-3 text-sm">
-        <span className="relative mt-0.5 inline-flex">
+        <span className="relative inline-flex">
           {/* ネイティブinputを残す: キーボード操作とフォーム送信値を無料で獲得 */}
+          {/* size-6 は WCAG 2.2 の 2.5.8 Target Size (Minimum) の 24x24。
+              label が箱と文言をまとめて包んでいるため文言側を押しても切り替わるが
+              その label 自体が PC で 23px しかなく 1px 足りていなかった。
+              箱を 24px にすると行の高さも 24px 以上になり どちらの数え方でも満たす。 */}
           <input
             type="checkbox"
             name={name}
@@ -27,7 +31,7 @@ export function ConsentCheckbox({ checked, onChange, error, name, children }: Pr
             onChange={(e) => onChange(e.target.checked)}
             aria-invalid={!!error}
             className={`
-              size-5 cursor-pointer appearance-none rounded-[5px] border-[1.5px]
+              size-6 cursor-pointer appearance-none rounded-md border-[1.5px]
               bg-surface transition-colors duration-200
               checked:border-accent checked:bg-accent
               focus-visible:outline-none focus-visible:ring-[3px]
@@ -37,8 +41,8 @@ export function ConsentCheckbox({ checked, onChange, error, name, children }: Pr
           />
           <svg
             className="pointer-events-none absolute inset-0 m-auto"
-            width="12"
-            height="12"
+            width="14"
+            height="14"
             viewBox="0 0 12 12"
             fill="none"
             aria-hidden="true"
