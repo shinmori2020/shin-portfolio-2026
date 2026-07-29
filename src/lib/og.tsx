@@ -93,7 +93,14 @@ export async function renderOgImage({
             fontSize: 24,
           }}
         >
-          <div style={{ display: "flex" }}>シン｜フロントエンド・WEB制作</div>
+          {/* 画像内の署名。役割はヘッダーのロゴと同じなので表記も揃える
+              （SiteLogo = SHIN + FRONTEND ENGINEER）。
+              ページタイトル側（site.ts の SITE_NAME）は検索結果とタブに出る文字なので
+              和文のままにしてある。ここを英字にしても そちらは追従しなくてよい。 */}
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <div style={{ display: "flex", fontWeight: 700, color: MUTED, letterSpacing: 1 }}>SHIN</div>
+            <div style={{ display: "flex", letterSpacing: 3 }}>FRONTEND ENGINEER</div>
+          </div>
           <div style={{ display: "flex", letterSpacing: 1 }}>shin-portfolio-2026.vercel.app</div>
         </div>
       </div>
