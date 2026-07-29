@@ -137,7 +137,8 @@ export default function TechPage() {
               </dt>
               <dd className="m-0 flex flex-col gap-[5px]">
                 <span className="text-[15px] font-medium tracking-[-0.005em]">{t.name}</span>
-                <span className="text-[13.5px] leading-[1.85] text-muted">{t.why}</span>
+                {/* 1〜2行で終わる短文。文節で折り返して「…速くす / る」のような分断を防ぐ */}
+                <span className="wrap-phrase text-[13.5px] leading-[1.85] text-muted">{t.why}</span>
               </dd>
             </div>
           ))}
@@ -208,8 +209,20 @@ export default function TechPage() {
                     </span>
                   </>
                 )}
-                <span className="font-mono text-[clamp(19px,2.2vw,25px)] font-medium leading-[1.35] tracking-[-0.01em] text-accent">
-                  {m.after}
+                {/* Lighthouse のように「名前 数値 / 名前 数値」が並ぶ値は
+                    狭い画面で途中改行すると数値だけが行頭に取り残される。
+                    値ごとに nowrap で包み 区切りの位置でだけ折り返す。 */}
+                <span className="flex flex-wrap items-baseline font-mono text-[clamp(19px,2.2vw,25px)] font-medium leading-[1.35] tracking-[-0.01em] text-accent">
+                  {m.after.split(" / ").map((part, i, all) => (
+                    <span key={part} className="whitespace-nowrap">
+                      {part}
+                      {i < all.length - 1 && (
+                        <span aria-hidden className="mx-2 text-faint">
+                          /
+                        </span>
+                      )}
+                    </span>
+                  ))}
                 </span>
               </span>
               {m.note && <span className="text-[12.5px] leading-[1.8] text-muted">{m.note}</span>}

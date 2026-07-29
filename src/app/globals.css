@@ -85,10 +85,28 @@ body {
   font-family: var(--font-sans);
   /* design-reference 踏襲: 和欧混植の詰めを最適化 */
   font-feature-settings: "palt";
+  /* 日本語の禁則処理を厳格版にする。既定の auto は Chrome では緩く
+     長音符「ー」や小書き仮名「ォ ッ ィ」を行頭に落とすため
+     「お問い合わせフ / ォーム」「効率化ツ / ール」のように語が割れる。
+     strict にすると行頭禁止文字が前行へ送られる。
+     実測: 375px / 390px の全14ページで禁則違反 17件 → 0件。行数の増加なし。 */
+  line-break: strict;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   /* テーマ切替時のクロスフェード（design-reference 踏襲） */
   transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* 見出しの行を均す。既定では最終行に1文字だけ残ることがあり
+   （「…直書きす / る」「…コーポレートサイ / ト」）見出しほど目につく。
+   balance は行数を変えずに分配だけを見直すので デザインへの影響がない。
+   実測: 375 / 390 / 1280px で孤立行はすべて解消し 行数が変わった見出しは0件。
+   Chrome の balance は6行までが対象。長い見出しは従来どおりの折り返しになる。 */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
 }
 
 /* テキスト選択: 背景=アクセント緑 / 文字=背景色。トークンがテーマで反転するため

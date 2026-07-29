@@ -252,7 +252,7 @@ export default function HomePage() {
                     <span className="font-mono text-[12px] text-accent">{w.no}</span>
                     <h3 className="m-0 text-[17px] font-semibold leading-[1.5] tracking-[-0.01em]">{w.title}</h3>
                   </div>
-                  <p className="m-0 text-[13.5px] leading-[1.8] text-muted">{w.desc}</p>
+                  <p className="wrap-phrase m-0 text-[13.5px] leading-[1.8] text-muted">{w.desc}</p>
                   <div className="flex flex-wrap gap-[7px]">
                     {w.tags.map((t) => (
                       <span
@@ -286,10 +286,12 @@ export default function HomePage() {
         className="border-t border-line bg-surface-2"
       >
         <div className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] py-[clamp(72px,11vw,150px)] text-center">
-          {/* PC（sm 以上）は inline で1行。狭い画面では block で2行に折り返す。
+          {/* PC（sm 以上）は inline で1行。狭い画面では block で phrases ごとに改行する。
+              2つ目を「技術で頼れる人を / 探していますか。」へ分けているのは
+              1つにまとめると狭い画面で溢れて折り返し「か。」だけが行に残るため。
               1文字ずつ下からフェードイン。下の文章はこれが出終わってから出現させる。 */}
           <h2 className="mx-auto m-0 max-w-[22em] text-[clamp(24px,4vw,44px)] font-medium leading-[1.35] tracking-[-0.025em] sm:max-w-none">
-            <HeadingChars phrases={["WEBのこと", "技術で頼れる人を探していますか。"]} />
+            <HeadingChars phrases={["WEBのこと", "技術で頼れる人を", "探していますか。"]} />
           </h2>
           {/* 本文は区切らず1文で流す。狭い画面では中央揃えだと折り返しごとに行頭がずれ
               最終行の「ます。」だけが中央に浮くので ここだけ左揃えにする。

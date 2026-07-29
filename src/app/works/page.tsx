@@ -77,7 +77,8 @@ export default function WorksPage() {
                       {w.title}
                     </h2>
                   </div>
-                  <p className="m-0 text-[14px] leading-[1.85] text-muted">{w.desc}</p>
+                  {/* 1〜2行で終わる短文。文節で折り返して「…を実 / 装。」のような分断を防ぐ */}
+                  <p className="wrap-phrase m-0 text-[14px] leading-[1.85] text-muted">{w.desc}</p>
                   <div className="flex flex-wrap gap-[7px]">
                     {w.tags.map((t) => (
                       <span
