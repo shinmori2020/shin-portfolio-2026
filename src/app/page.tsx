@@ -291,15 +291,15 @@ export default function HomePage() {
           <h2 className="mx-auto m-0 max-w-[22em] text-[clamp(24px,4vw,44px)] font-medium leading-[1.35] tracking-[-0.025em] sm:max-w-none">
             <HeadingChars phrases={["WEBのこと", "技術で頼れる人を探していますか。"]} />
           </h2>
-          {/* 本文はフレーズ単位で折り返す（区切りを入れて語の途中で切れないように）。 */}
+          {/* 本文は区切らず1文で流す。狭い画面では中央揃えだと折り返しごとに行頭がずれ
+              最終行の「ます。」だけが中央に浮くので ここだけ左揃えにする。
+              PC では1行に収まりきるため 左揃えでも見た目は中央のまま変わらない。 */}
           <Reveal
             as="p"
             delayMs={1000}
-            className="mx-auto mt-[28px] max-w-[42em] text-[15px] leading-[1.9] text-muted [text-wrap:pretty]"
+            className="wrap-phrase mx-auto mt-[28px] max-w-[44em] text-left text-[15px] leading-[1.9] text-muted [text-wrap:pretty]"
           >
-            <Phrase>制作会社や事業者の方からのご相談を歓迎します。</Phrase>
-            <wbr />
-            <Phrase>Web制作・開発・機能実装まで対応します。</Phrase>
+            制作会社や事業者の方からのご相談を歓迎します。Web制作・開発・機能実装まで対応します。
           </Reveal>
           {/* 安心材料：相談のハードルを下げる一言 */}
           <Reveal
