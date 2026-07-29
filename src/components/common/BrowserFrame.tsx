@@ -19,6 +19,7 @@ export function BrowserFrame({
   ratio,
   label = "screenshot",
   image,
+  priority = false,
   sizes = "(max-width: 640px) 100vw, (max-width: 1180px) 50vw, 560px",
   className = "",
   viewTransitionName,
@@ -33,6 +34,17 @@ export function BrowserFrame({
   ratio: string;
   label?: string;
   image?: string;
+  /**
+   * ファーストビューに入る画像（＝LCP候補）に付ける。preload と fetchpriority=high が入り
+   * 遅延読み込みをやめる。
+   *
+   * 既定の遅延読み込みだと ブラウザが「この画像が要る」と気づくまでに
+   * HTML解析 → CSS読込 → レイアウト の順を踏むため 読み込み開始が遅れる。
+   * 実測では /works の1枚目で Load Delay 2.47秒（ダウンロード自体は 57ms）だった。
+   *
+   * 付けるのは1ページにつき1枚だけ。複数に付けると先読みどうしが帯域を奪い合い逆効果になる。
+   */
+  priority?: boolean;
   /** next/image の sizes。呼び出し側の実レイアウト幅に合わせて指定する */
   sizes?: string;
   className?: string;
@@ -93,6 +105,7 @@ export function BrowserFrame({
             src={image}
             alt=""
             fill
+            priority={priority}
             sizes={sizes}
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}

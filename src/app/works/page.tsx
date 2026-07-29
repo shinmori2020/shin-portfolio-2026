@@ -40,8 +40,10 @@ export default function WorksPage() {
       {/* ===== WORKS GRID ===== */}
       <section className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pb-[clamp(72px,10vw,140px)]">
         <div className="grid gap-[clamp(24px,3.4vw,52px)] [grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))]">
-          {works.map((w) => (
-            <Reveal key={w.slug} delayMs={w.delayMs}>
+          {/* 1枚目はファーストビューに入り LCP になるため 演出も画像も優先で出す。
+              2枚目以降は従来どおりスクロールに応じて出す（先読みを増やすと帯域を奪い合う）。 */}
+          {works.map((w, i) => (
+            <Reveal key={w.slug} priority={i === 0} delayMs={w.delayMs}>
               <div className="group flex flex-col gap-5">
                 {/* ブラウザ枠。URLバーが公開サイトへの外部リンク（詳細リンクの外に置きアンカー入れ子を回避）。
                     スクリーンショット部分は detailHref で詳細ページへのリンクにする。 */}
@@ -51,6 +53,7 @@ export default function WorksPage() {
                   detailHref={`/works/${w.slug}`}
                   ratio="16 / 10"
                   image={resolveWorkCover(w.slug, w.image)}
+                  priority={i === 0}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
                   className="transition-colors group-hover:border-line-strong"
                   viewTransitionName={`work-shot-${w.slug}`}

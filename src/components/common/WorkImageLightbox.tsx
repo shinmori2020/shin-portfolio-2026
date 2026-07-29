@@ -6,6 +6,10 @@ import { Modal } from "./Modal";
 
 // 詳細ページのヒーロー画像。全景(full)がある時だけクリックで全体スクリーンショットをモーダル表示する。
 // full が無い案件では「全体を見る」導線を出さず 静的なブラウザ枠のみ表示する（フォールバック思想）。
+//
+// この画像は必ずファーストビューに入る＝LCP候補なので priority で先読みする。
+// 遅延読み込みのままだと読み込み開始が 2.67秒 遅れ そのまま LCP になっていた
+// （ダウンロード自体は 184ms）。
 export function WorkImageLightbox({
   url,
   title,
@@ -31,6 +35,7 @@ export function WorkImageLightbox({
         ratio="16 / 8.5"
         label="hero screenshot"
         image={image}
+        priority
         sizes="(max-width: 1180px) 100vw, 1100px"
         viewTransitionName={viewTransitionName}
       />
@@ -50,6 +55,7 @@ export function WorkImageLightbox({
           ratio="16 / 8.5"
           label="hero screenshot"
           image={image}
+          priority
           sizes="(max-width: 1180px) 100vw, 1100px"
           viewTransitionName={viewTransitionName}
         />

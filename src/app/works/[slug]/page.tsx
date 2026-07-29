@@ -115,7 +115,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
       </section>
 
       {/* ===== HERO IMAGE（クリックで全体をモーダル表示）===== */}
-      <Reveal className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pb-[clamp(48px,7vw,88px)]">
+      {/* ファーストビューに入り LCP になるため 演出も JS を待たない CSS 側で出す */}
+      <Reveal priority className="mx-auto max-w-[1180px] px-[clamp(20px,4vw,40px)] pb-[clamp(48px,7vw,88px)]">
         <WorkImageLightbox
           url={w.url}
           title={w.title}
