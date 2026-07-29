@@ -29,7 +29,7 @@ export default function ContactPage() {
         <Reveal priority
           as="p"
           delayMs={80}
-          className="mt-[20px] text-[15px] leading-[1.95] text-muted"
+          className="wrap-phrase mt-[20px] text-[15px] leading-[1.95] text-muted"
         >
           ご依頼やご相談はこちらのフォームからお送りください。Web制作・開発・機能実装まで対応します。
         </Reveal>

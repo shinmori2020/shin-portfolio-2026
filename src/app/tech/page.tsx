@@ -95,7 +95,7 @@ export default function TechPage() {
           priority
           as="p"
           delayMs={80}
-          className={"mt-6 text-[clamp(14px,1.4vw,17px)] leading-[1.95] text-muted [text-wrap:pretty]"}
+          className="wrap-phrase mt-6 text-[clamp(14px,1.4vw,17px)] leading-[1.95] text-muted [text-wrap:pretty]"
         >
           このポートフォリオ自体も制作物です。企画・設計・実装・スクリーンショット撮影・文章まで
           すべて一人で担当しました。何を選び なぜそうしたか どこで詰まったかを記録しています。

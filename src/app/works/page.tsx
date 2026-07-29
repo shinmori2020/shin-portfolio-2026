@@ -32,7 +32,7 @@ export default function WorksPage() {
         >
           制作物
         </Reveal>
-        <Reveal priority as="p" delayMs={80} className="mt-6 text-[clamp(14px,1.4vw,17px)] leading-[1.9] text-muted">
+        <Reveal priority as="p" delayMs={80} className="wrap-phrase mt-6 text-[clamp(14px,1.4vw,17px)] leading-[1.9] text-muted">
           制作（WordPress）と開発（モダンフロント）そして業務効率化ツールまで 領域をまたいだ仕事を紹介します。
         </Reveal>
       </section>

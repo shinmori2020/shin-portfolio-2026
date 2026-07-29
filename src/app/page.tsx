@@ -142,7 +142,7 @@ export default function HomePage() {
             priority
             as="p"
             delayMs={880}
-            className="mt-[clamp(28px,4vw,42px)] max-w-[44em] text-[clamp(14px,1.4vw,18px)] leading-[1.9] text-muted [text-wrap:pretty]"
+            className="wrap-phrase mt-[clamp(28px,4vw,42px)] max-w-[44em] text-[clamp(14px,1.4vw,18px)] leading-[1.9] text-muted [text-wrap:pretty]"
           >
             <Phrase>制作と開発の両方がわかります。</Phrase>
             <wbr />
