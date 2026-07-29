@@ -68,8 +68,12 @@ export default function ProfilePage() {
                 delayMs={i * 90}
                 className="flex flex-col gap-5 rounded-2xl border border-line bg-surface p-[clamp(22px,3vw,32px)] transition-colors duration-300 hover:border-line-strong"
               >
-                {/* 上：アイコン＋見出し＋説明 */}
-                <div className="flex items-start gap-4">
+                {/* 上：アイコン＋見出し＋説明。
+                    狭い画面はアイコンを上に積み アイコン / 見出し / 説明 / タグ の縦一列にする。
+                    横並びのままだと説明文がアイコン幅ぶん狭い右カラムに押し込まれ
+                    タグだけがカード幅いっぱいに広がって左端が揃わない。
+                    sm 以上は従来どおりアイコンを左に置く。 */}
+                <div className="flex flex-col items-start gap-3 sm:flex-row sm:gap-4">
                   <span
                     aria-hidden
                     className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-line bg-surface-2 text-accent"
@@ -78,7 +82,10 @@ export default function ProfilePage() {
                   </span>
                   <div>
                     <h3 className="m-0 text-[17px] font-semibold tracking-[-0.01em]">{g.cat}</h3>
-                    <p className="m-0 mt-2 text-[13.5px] leading-[1.8] text-muted">{g.desc}</p>
+                    {/* 1〜2行で終わる短文。文節で折り返して「…ヘッドレス構 / 成」の分断を防ぐ */}
+                    <p className="wrap-phrase m-0 mt-2 text-[13.5px] leading-[1.8] text-muted">
+                      {g.desc}
+                    </p>
                   </div>
                 </div>
                 {/* 下：スキルタグ */}
