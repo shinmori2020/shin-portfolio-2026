@@ -19,7 +19,10 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { slug } = await params;
   const w = getWorkBySlug(slug);
-  if (!w) return {};
+  // 存在しない slug はページ側で notFound() を呼び 404 になる。
+  // ただしメタ情報はこの関数の戻り値が優先され not-found.tsx の metadata は使われない。
+  // ここで {} を返すとルートの既定タイトルが出て 他の404ページと表示が食い違うため揃える。
+  if (!w) return { title: "ページが見つかりません", robots: { index: false, follow: false } };
   return {
     title: w.title,
     description: w.desc,

@@ -25,14 +25,17 @@ export default function NotFound() {
       <Reveal
         as="h1"
         delayMs={80}
-        className="m-0 max-w-[16em] text-[clamp(28px,4.6vw,52px)] font-medium leading-[1.28] tracking-[-0.025em]"
+        // どちらも2行で終わる短文なので文節で折り返す。
+        // 既定だと「お探しのページは見 / つかりませんでした。」
+        // 「…可能性がありま / す。」と語が割れる（行数は変わらない）。
+        className="wrap-phrase m-0 max-w-[16em] text-[clamp(28px,4.6vw,52px)] font-medium leading-[1.28] tracking-[-0.025em]"
       >
         お探しのページは見つかりませんでした。
       </Reveal>
       <Reveal
         as="p"
         delayMs={160}
-        className="mt-[clamp(20px,3vw,32px)] max-w-[40em] text-[clamp(14px,1.4vw,17px)] leading-[1.9] text-muted"
+        className="wrap-phrase mt-[clamp(20px,3vw,32px)] max-w-[40em] text-[clamp(14px,1.4vw,17px)] leading-[1.9] text-muted"
       >
         URLが変わったか ページが移動した可能性があります。
       </Reveal>
