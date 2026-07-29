@@ -8,15 +8,16 @@ import type { ServiceCard, ServiceTopic } from "@/data/services";
 function Card({ card }: { card: ServiceCard }) {
   return (
     <div className="group flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-[clamp(28px,3vw,40px)] transition-[border-color] duration-[400ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:border-accent">
-      {/* PC: アイコン左＋タイトル右。スマホ: 左右中央の縦並び。 */}
-      <div className="flex flex-col items-center gap-3 text-center md:flex-row md:gap-4 md:text-left">
+      {/* アイコン左＋タイトル右で横並び。カード内の他の要素（説明文・箇条書き）が
+          すべて左揃えなので 幅を問わず左揃えで通す。 */}
+      <div className="flex items-center gap-4">
         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-110 motion-reduce:transform-none">
           <ServiceIcon id={card.icon} />
         </span>
         <h3 className="m-0 text-[clamp(19px,2.2vw,22px)] font-semibold tracking-[-0.01em]">{card.title}</h3>
       </div>
       {/* 2行分の高さを確保し、1行/2行でカード高さが変わらないようにする */}
-      <p className="m-0 min-h-[3.7em] text-center text-[clamp(14px,1.5vw,15px)] leading-[1.85] text-muted md:text-left">
+      <p className="m-0 min-h-[3.7em] text-[clamp(14px,1.5vw,15px)] leading-[1.85] text-muted">
         {card.desc}
       </p>
       <ul className="m-0 mt-1 flex list-none flex-col gap-[10px] p-0 text-left">
