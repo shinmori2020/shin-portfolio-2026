@@ -25,10 +25,13 @@ export default function NotFound() {
       <Reveal
         as="h1"
         delayMs={80}
-        // どちらも2行で終わる短文なので文節で折り返す。
-        // 既定だと「お探しのページは見 / つかりませんでした。」
-        // 「…可能性がありま / す。」と語が割れる（行数は変わらない）。
-        className="wrap-phrase m-0 max-w-[16em] text-[clamp(28px,4.6vw,52px)] font-medium leading-[1.28] tracking-[-0.025em]"
+        // 読み幅の上限は置かない。max-w-[16em] を掛けていたため
+        // 本文が19文字で余裕がある広い画面でも 折り返して2行になっていた。
+        // 外側の section が 1180px で抑えているので これ以上絞る必要はない。
+        //
+        // 狭い画面では自然に2行になる。その時に語が割れないよう wrap-phrase を掛ける
+        // （既定だと「お探しのページは見 / つかりませんでした。」と分断される）。
+        className="wrap-phrase m-0 text-[clamp(28px,4.6vw,52px)] font-medium leading-[1.28] tracking-[-0.025em]"
       >
         お探しのページは見つかりませんでした。
       </Reveal>
