@@ -85,6 +85,13 @@ body {
   font-family: var(--font-sans);
   /* design-reference 踏襲: 和欧混植の詰めを最適化 */
   font-feature-settings: "palt";
+  /* 和文の折り返しを文節単位にする。
+     既定では任意の位置で折り返すため 狭い画面で「〜します。」の末尾2〜4文字だけが
+     次の行へ落ちる泣き別れが多発していた（実測: 375px で全6ページ15件）。
+     auto-phrase は文節の切れ目を優先するので これが3件まで減る。
+     未対応のブラウザ（Safari / Firefox）は従来どおりの折り返しになるだけで
+     レイアウトが壊れることはない。 */
+  word-break: auto-phrase;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   /* テーマ切替時のクロスフェード（design-reference 踏襲） */
