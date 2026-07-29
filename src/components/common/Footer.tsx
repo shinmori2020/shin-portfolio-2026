@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { SiteLogo } from "./SiteLogo";
 
+// py-[6px] は指で押せる高さの確保（19px → 31px / WCAG 2.2 の基準は24px）。
+// 下線は絶対配置なのでパディングぶん下がる。--underline-gap に 6px - 2px = 4px を渡し
+// 文字の下端からの距離を元に戻す（既定は -2px）。
 const footerLink =
-  "link-underline text-[12.5px] text-muted no-underline transition-colors hover:text-ink";
+  "link-underline [--underline-gap:4px] py-[6px] text-[12.5px] text-muted no-underline transition-colors hover:text-ink";
 
 export function Footer() {
   return (

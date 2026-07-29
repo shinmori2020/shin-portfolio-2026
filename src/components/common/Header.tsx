@@ -36,7 +36,10 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="relative text-[13.5px] tracking-[0.02em] text-muted no-underline transition-colors duration-[250ms] after:absolute after:-bottom-[3px] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-300 after:ease-[cubic-bezier(.22,.61,.36,1)] hover:text-ink hover:after:scale-x-100 motion-reduce:after:transition-none"
+              // py-[6px] は指で押せる高さの確保（20px → 32px / WCAG 2.2 の基準は24px）。
+              // 最も背の高いテーマ切替ボタン（34px）を超えないためヘッダーの高さは変わらない。
+              // 下線は絶対配置なのでパディングぶん下がる。6px - 3px = 3px を指定して元の位置に戻す。
+              className="relative py-[6px] text-[13.5px] tracking-[0.02em] text-muted no-underline transition-colors duration-[250ms] after:absolute after:bottom-[3px] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-300 after:ease-[cubic-bezier(.22,.61,.36,1)] hover:text-ink hover:after:scale-x-100 motion-reduce:after:transition-none"
             >
               {link.label}
             </Link>

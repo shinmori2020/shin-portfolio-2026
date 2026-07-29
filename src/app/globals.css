@@ -167,7 +167,13 @@ select:focus-visible {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -2px;
+  /* 下線の位置。既定は文字の下端から 2px 下。
+     タップ領域を広げるため縦パディングを足したリンクでは
+     呼び出し側で (パディング - 2px) を渡し 見た目の位置を元に戻す。
+     既定値は var() のフォールバックで持つ。.link-underline 側で宣言すると
+     この規則がレイヤー外にあるぶん Tailwind のユーティリティより強くなり
+     呼び出し側の指定が効かない。 */
+  bottom: var(--underline-gap, -2px);
   width: 100%;
   height: 1px;
   background: currentColor;
