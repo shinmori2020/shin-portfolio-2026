@@ -57,8 +57,18 @@ export default function RootLayout({
           storageKey="shin-theme"
         >
           <ViewTransitions>
+            {/* キーボードだけで操作する人が ヘッダーのナビを毎回タブで抜けずに
+                本文へ飛べるようにする（WCAG 2.4.1 Bypass Blocks / Level A）。
+                通常は画面外に置き Tab でフォーカスが来た時だけ現れるので見た目は変わらない。
+                main の tabIndex={-1} は 飛んだ先へ実際にフォーカスを移すために必要
+                （付けないとブラウザによってはスクロールするだけで読み上げ位置が動かない）。 */}
+            <a href="#main" className="skip-link">
+              本文へスキップ
+            </a>
             <Header />
-            <main>{children}</main>
+            <main id="main" tabIndex={-1}>
+              {children}
+            </main>
             <Footer />
           </ViewTransitions>
         </ThemeProvider>

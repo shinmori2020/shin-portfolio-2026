@@ -109,6 +109,41 @@ h4 {
   text-wrap: balance;
 }
 
+/* 本文へのスキップリンク（WCAG 2.4.1 Bypass Blocks / Level A）。
+   通常は画面外へ逃がし Tab でフォーカスが来た時だけ降りてくる。
+   display:none や visibility:hidden はフォーカスを受けられなくなるため使わない。
+   ヘッダーが sticky z-50 なので それより上（z-100）に出す。 */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  margin: 10px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 14px;
+  text-decoration: none;
+  transform: translateY(-140%);
+  transition: transform 0.2s ease;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .skip-link {
+    transition: none;
+  }
+}
+
+/* スキップリンクの着地点。tabIndex="-1" のため Tab では到達できず
+   プログラム的にフォーカスされる時だけなので 輪郭は出さない
+   （出すと本文全体が囲まれて かえって何が選択されたか分かりにくい）。 */
+main:focus {
+  outline: none;
+}
+
 /* テキスト選択: 背景=アクセント緑 / 文字=背景色。トークンがテーマで反転するため
    ライトは深緑×オフホワイト ダークは明るい緑×ダーク背景色になる。 */
 ::selection {
