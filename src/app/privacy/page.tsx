@@ -118,7 +118,8 @@ export default function PrivacyPage() {
             </p>
           </Section>
 
-          {/* TODO（シン）: 制定日と運営者情報を確定する */}
+          {/* 個人事業のため運営者は屋号ではなく「シン」表記で確定（2026-07-29 判断）。
+              住所と氏名は掲載しない。特定商取引法の表示義務が生じる取引形態ではないため。 */}
           <p className="mt-12 text-[13px] leading-[1.9] text-faint">
             制定日: 2026年6月29日
             <br />
