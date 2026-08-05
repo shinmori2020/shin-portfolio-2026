@@ -49,10 +49,20 @@ export interface Metric {
 }
 
 /** ページ冒頭のサマリー。専門知識なしで規模が伝わる数字を並べる */
+// 数え方と再計測の方法（数字が古びるので直す時はこの手順で出す）
+//   制作期間  git log --reverse --format=%ad --date=short | head -1  から最新コミットまで
+//   コミット  git rev-list --count HEAD
+//   ページ数  sitemap.xml の件数に合わせる（トップ / 制作物 / プロフィール / 技術 /
+//             お問い合わせ / プライバシー の6つ ＋ 作品詳細8件 = 14）。
+//             404 とエラー画面は数えない。訪問者が目的を持って開くページではないため。
+//             ビルドの出力は31と出るが これは OG画像9枚 / アイコン2種 /
+//             sitemap・robots・manifest まで含んだ生成物の数であってページ数ではない。
+//             読み手が sitemap.xml を開けば数えられるので 一致する数字を書く。
+//   コード    find src -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.css" \)
 export const summary: { label: string; value: string; sub?: string }[] = [
-  { label: "制作期間", value: "約1か月", sub: "160コミット" },
-  { label: "ページ数", value: "29", sub: "すべて静的生成" },
-  { label: "コード", value: "約5,000行", sub: "60ファイル" },
+  { label: "制作期間", value: "約6週間", sub: "185コミット" },
+  { label: "ページ数", value: "14", sub: "すべて静的生成" },
+  { label: "コード", value: "約6,500行", sub: "src の69ファイル" },
   { label: "担当範囲", value: "すべて一人", sub: "企画から文章まで" },
 ];
 
