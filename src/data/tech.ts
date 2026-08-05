@@ -51,6 +51,8 @@ export interface Metric {
 /** ページ冒頭のサマリー。専門知識なしで規模が伝わる数字を並べる */
 // 数え方と再計測の方法（数字が古びるので直す時はこの手順で出す）
 //   制作期間  git log --reverse --format=%ad --date=short | head -1  から最新コミットまで
+//             実日数は 2026-06-23 から約39日だが 表記は「約1か月」で確定（シンの判断）。
+//             ここだけは丸めた値なので 実日数へ直さないこと。
 //   コミット  git rev-list --count HEAD
 //   ページ数  sitemap.xml の件数に合わせる（トップ / 制作物 / プロフィール / 技術 /
 //             お問い合わせ / プライバシー の6つ ＋ 作品詳細8件 = 14）。
@@ -60,7 +62,7 @@ export interface Metric {
 //             読み手が sitemap.xml を開けば数えられるので 一致する数字を書く。
 //   コード    find src -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.css" \)
 export const summary: { label: string; value: string; sub?: string }[] = [
-  { label: "制作期間", value: "約6週間", sub: "185コミット" },
+  { label: "制作期間", value: "約1か月", sub: "185コミット" },
   { label: "ページ数", value: "14", sub: "すべて静的生成" },
   { label: "コード", value: "約6,500行", sub: "src の69ファイル" },
   { label: "担当範囲", value: "すべて一人", sub: "企画から文章まで" },
